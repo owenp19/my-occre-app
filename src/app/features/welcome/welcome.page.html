@@ -1,0 +1,61 @@
+<ion-content [fullscreen]="true" class="welcome-page">
+  <main class="welcome-screen">
+    <figure class="welcome-background" aria-hidden="true">
+      <img
+        *ngFor="let slide of slides; let index = index"
+        [src]="slide.image"
+        [alt]="slide.alt"
+        class="welcome-background__image"
+        [class.is-first]="index === 0"
+        [class.is-second]="index === 1"
+        [class.is-third]="index === 2"
+      />
+    </figure>
+
+    <div class="welcome-overlay"></div>
+
+    <header class="welcome-header">
+      <img
+        src="assets/images/logo-occre.png"
+        alt="Logo OCCRE"
+        class="welcome-logo"
+      />
+    </header>
+
+    <section class="welcome-content" aria-labelledby="welcome-title">
+      <h1 id="welcome-title">
+        <span class="welcome-title-line">Trámite Digital</span>
+        <span class="welcome-title-line">OCCRE</span>
+      </h1>
+
+      <p>
+        Consulta requisitos, registra solicitudes y revisa el estado de tus
+        trámites de circulación y residencia para San Andrés, Providencia y
+        Santa Catalina.
+      </p>
+    </section>
+
+    <button
+      type="button"
+      class="welcome-button"
+      aria-label="Iniciar aplicación OCCRE"
+      [disabled]="isStarting"
+      [class.is-loading]="isStarting"
+      (click)="startJourney()"
+    >
+      Iniciar
+    </button>
+
+    <section
+  class="start-loader"
+  [class.is-visible]="isStarting"
+  aria-live="polite"
+  aria-label="Cargando acceso"
+>
+  <div class="start-loader__content">
+    <div class="start-loader__spinner"></div>
+    <p>Cargando...</p>
+  </div>
+</section>
+  </main>
+</ion-content>

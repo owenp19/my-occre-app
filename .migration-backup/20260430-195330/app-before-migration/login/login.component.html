@@ -1,0 +1,104 @@
+<ion-content [fullscreen]="true" class="login-page">
+  <main class="login-screen">
+    <header class="login-top" aria-labelledby="login-title">
+      <div class="login-brand">
+        <img
+          src="assets/images/logo-occre.png"
+          alt="Logo OCCRE"
+          class="login-logo"
+        />
+
+        <div class="login-brand-text">
+          <span>Plataforma digital</span>
+          <strong>San Andrés Islas</strong>
+        </div>
+      </div>
+
+      <div class="login-avatar" aria-hidden="true">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+
+      <h1 id="login-title">Iniciar sesión</h1>
+
+      <p>Accede a tus trámites de manera digital.</p>
+    </header>
+
+    <form class="login-form" (submit)="$event.preventDefault(); login()">
+      <div class="field-group">
+        <div class="input-wrapper">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+
+          <ion-input
+            id="email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="Correo electrónico"
+            [value]="email"
+            (ionInput)="onEmailInput($event)"
+          ></ion-input>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="input-wrapper">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+
+          <ion-input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
+            placeholder="Contraseña"
+            [value]="password"
+            (ionInput)="onPasswordInput($event)"
+          ></ion-input>
+
+          <button
+            type="button"
+            class="password-toggle"
+            aria-label="Mostrar u ocultar contraseña"
+            (click)="togglePasswordVisibility()"
+          >
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+            ></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="forgot-button"
+        [disabled]="isRecoveringPassword"
+        (click)="recoverPassword()"
+      >
+        <span *ngIf="!isRecoveringPassword">¿Olvidaste tu contraseña?</span>
+        <span *ngIf="isRecoveringPassword">Cargando...</span>
+      </button>
+
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="!isFormValid || isSubmitting"
+        [class.is-loading]="isSubmitting"
+      >
+        <span *ngIf="!isSubmitting">Ingresar</span>
+        <span *ngIf="isSubmitting">Validando acceso...</span>
+      </button>
+    </form>
+
+    <footer class="login-footer">
+      <p>¿Aún no tienes cuenta?</p>
+
+      <button
+        type="button"
+        [disabled]="isGoingToRegister"
+        (click)="goToRegister()"
+      >
+        <span *ngIf="!isGoingToRegister">Crear cuenta</span>
+        <span *ngIf="isGoingToRegister">Cargando...</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </footer>
+  </main>
+</ion-content>

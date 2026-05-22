@@ -1,0 +1,671 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+ion-content.login-page {
+  --background: var(--app-color-background);
+}
+
+/* =========================================================
+   CONTENEDOR GENERAL
+   Pantalla completa, sin espacios laterales sobrantes
+   ========================================================= */
+
+.login-screen {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--app-color-background);
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   CONTENEDOR DEL LOGIN
+   Pantalla completa, sin tarjeta flotante
+   ========================================================= */
+
+.login-card {
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--app-color-background);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* =========================================================
+   CABECERA SUPERIOR
+   Degradado azul + negro usando paleta global
+   ========================================================= */
+
+.login-top {
+  width: 100%;
+  margin: 0;
+  padding: calc(env(safe-area-inset-top) + 28px) 22px 34px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--app-color-primary) 0%,
+      var(--app-color-primary) 46%,
+      var(--app-color-dark) 100%
+    );
+
+  color: var(--occre-white);
+  text-align: center;
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* =========================================================
+   MARCA
+   ========================================================= */
+
+.login-brand {
+  width: 100%;
+  margin: 0 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.login-logo {
+  width: 104px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+
+  padding: 7px 9px;
+  border-radius: 14px;
+
+  background: var(--occre-white);
+}
+
+.login-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  text-align: right;
+}
+
+.login-brand-text span {
+  font-family: var(--app-font-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.1;
+
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.login-brand-text strong {
+  margin-top: 4px;
+
+  font-family: var(--app-font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+
+  color: var(--occre-white);
+}
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.login-avatar {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.26);
+}
+
+.login-avatar ion-icon {
+  font-size: 38px;
+  color: var(--occre-white);
+}
+
+/* =========================================================
+   TÍTULOS
+   ========================================================= */
+
+.login-top h1 {
+  margin: 0 0 10px;
+
+  font-family: var(--app-font-title);
+  font-size: clamp(2rem, 9vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+
+  color: var(--occre-white);
+}
+
+.login-top p {
+  max-width: 310px;
+  margin: 0 auto;
+
+  font-family: var(--app-font-text);
+  font-size: 0.94rem;
+  font-weight: 400;
+  line-height: 1.45;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================================
+   FORMULARIO
+   ========================================================= */
+
+.login-form {
+  width: 100%;
+  margin: 0;
+  padding: 28px 22px 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  background: var(--app-color-background);
+}
+
+.field-group {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 1px solid rgba(var(--occre-primary-rgb), 0.14);
+  border-radius: 999px;
+
+  background: var(--occre-white);
+
+  box-shadow:
+    0 10px 24px rgba(7, 26, 47, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: rgba(var(--occre-primary-rgb), 0.45);
+
+  box-shadow:
+    0 12px 28px rgba(var(--occre-primary-rgb), 0.12),
+    0 0 0 4px rgba(var(--occre-primary-rgb), 0.08);
+
+  transform: translateY(-1px);
+}
+
+.input-icon {
+  flex: 0 0 auto;
+
+  font-size: 22px;
+  color: var(--app-color-text-soft);
+}
+
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+
+  --placeholder-color: var(--app-color-text-soft);
+  --placeholder-opacity: 0.82;
+
+  --color: var(--app-color-text);
+
+  --highlight-height: 0;
+  --highlight-color: transparent;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  --border-color: transparent;
+
+  flex: 1;
+
+  font-family: var(--app-font-text);
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+/* =========================================================
+   BOTÓN MOSTRAR CONTRASEÑA
+   ========================================================= */
+
+.password-toggle {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(var(--occre-primary-rgb), 0.08);
+  color: var(--app-color-primary);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease,
+    color 180ms ease;
+}
+
+.password-toggle ion-icon {
+  font-size: 21px;
+}
+
+.password-toggle:active {
+  transform: scale(0.94);
+}
+
+.password-toggle:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* =========================================================
+   ACCIONES SECUNDARIAS
+   ========================================================= */
+
+.login-actions {
+  width: 100%;
+  margin: -2px 0 0;
+  padding: 0;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forgot-button {
+  padding: 4px 0;
+  border: 0;
+
+  background: transparent;
+  color: var(--app-color-primary);
+
+  font-family: var(--app-font-text);
+  font-size: 0.84rem;
+  font-weight: 800;
+  line-height: 1.2;
+
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.forgot-button:active {
+  transform: translateY(1px);
+}
+
+.forgot-button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* =========================================================
+   BOTÓN PRINCIPAL
+   ========================================================= */
+
+.login-button {
+  position: relative;
+
+  width: 100%;
+  min-height: 58px;
+  margin: 18px 0 0;
+  padding: 0 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: var(--app-color-secondary);
+  color: var(--occre-white);
+
+  font-family: var(--app-font-text);
+  font-size: 1.03rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+
+  box-shadow:
+    0 16px 32px rgba(7, 26, 47, 0.24),
+    0 0 0 4px rgba(7, 26, 47, 0.06);
+
+  cursor: pointer;
+  overflow: hidden;
+
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    transform 180ms ease,
+    opacity 180ms ease,
+    box-shadow 220ms ease,
+    filter 180ms ease;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 255, 255, 0)
+    );
+
+  opacity: 1;
+  pointer-events: none;
+}
+
+.login-button__wave {
+  display: none;
+}
+
+.login-button__content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .login-button:hover:not(:disabled) {
+    background: var(--app-color-secondary);
+    color: var(--app-color-dark);
+
+    box-shadow:
+      0 18px 34px rgba(var(--occre-secondary-rgb), 0.28),
+      0 0 0 5px rgba(var(--occre-secondary-rgb), 0.14);
+
+    transform: translateY(-1px);
+  }
+}
+
+.login-button:active:not(:disabled) {
+  background: var(--app-color-secondary);
+  color: var(--app-color-dark);
+
+  transform: scale(0.97);
+  filter: brightness(0.98);
+
+  box-shadow:
+    0 12px 24px rgba(var(--occre-secondary-rgb), 0.24),
+    0 0 0 4px rgba(var(--occre-secondary-rgb), 0.12);
+}
+
+.login-button:disabled {
+  opacity: 0.58;
+  cursor: default;
+
+  background: var(--app-color-dark);
+  color: var(--occre-white);
+
+  box-shadow:
+    0 10px 22px rgba(7, 26, 47, 0.12),
+    0 0 0 0 transparent;
+}
+
+.login-button.is-loading {
+  pointer-events: none;
+}
+
+.login-button.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.24),
+      transparent
+    );
+
+  transform: translateX(-110%);
+  animation: loadingSweep 1s ease-in-out infinite;
+}
+
+/* =========================================================
+   PIE DE PÁGINA
+   ========================================================= */
+
+.login-footer {
+  width: 100%;
+  margin: 0;
+  padding: 28px 22px calc(env(safe-area-inset-bottom) + 28px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  background: var(--app-color-background);
+  text-align: center;
+}
+
+.login-footer p {
+  margin: 0;
+
+  font-family: var(--app-font-text);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.2;
+
+  color: var(--app-color-text-soft);
+}
+
+.register-link {
+  padding: 0;
+  border: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  background: transparent;
+  color: var(--app-color-primary);
+
+  font-family: var(--app-font-text);
+  font-size: 0.94rem;
+  font-weight: 900;
+  line-height: 1.2;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    color 180ms ease;
+}
+
+@media (hover: hover) {
+  .register-link:hover:not(:disabled) {
+    color: var(--app-color-secondary);
+  }
+}
+
+.register-link ion-icon {
+  font-size: 18px;
+}
+
+.register-link:active {
+  color: var(--app-color-secondary);
+  transform: translateX(2px);
+}
+
+.register-link:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* =========================================================
+   ANIMACIÓN DE CARGA
+   ========================================================= */
+
+@keyframes loadingSweep {
+  to {
+    transform: translateX(110%);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (min-width: 768px) {
+  .login-screen {
+    max-width: 480px;
+    margin: 0 auto;
+
+    background: var(--app-color-background);
+  }
+
+  .login-card {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-top {
+    padding-inline: 18px;
+    padding-bottom: 30px;
+  }
+
+  .login-brand {
+    gap: 10px;
+  }
+
+  .login-logo {
+    width: 96px;
+  }
+
+  .login-brand-text strong {
+    font-size: 0.92rem;
+  }
+
+  .login-brand-text span {
+    font-size: 0.7rem;
+  }
+
+  .login-avatar {
+    width: 66px;
+    height: 66px;
+  }
+
+  .login-avatar ion-icon {
+    font-size: 34px;
+  }
+
+  .login-form,
+  .login-footer {
+    padding-inline: 18px;
+  }
+
+  .input-wrapper {
+    min-height: 56px;
+  }
+
+  .login-button {
+    min-height: 56px;
+  }
+}
+
+@media (max-height: 700px) {
+  .login-top {
+    padding-top: calc(env(safe-area-inset-top) + 22px);
+    padding-bottom: 26px;
+  }
+
+  .login-brand {
+    margin-bottom: 18px;
+  }
+
+  .login-avatar {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 12px;
+  }
+
+  .login-top p {
+    font-size: 0.88rem;
+  }
+
+  .login-form {
+    padding-top: 22px;
+  }
+
+  .login-footer {
+    padding-top: 24px;
+  }
+}

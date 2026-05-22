@@ -1,0 +1,225 @@
+<ion-content [fullscreen]="true" class="register-page">
+  <main class="register-screen">
+    <section class="register-card" aria-labelledby="register-title">
+      <header class="register-top">
+        <div class="register-brand">
+          <button
+            type="button"
+            class="back-button"
+            aria-label="Volver al inicio de sesión"
+            (click)="goBack()"
+          >
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+
+          <div class="register-brand-text">
+            <span>Plataforma digital</span>
+            <strong>San Andrés Islas</strong>
+          </div>
+        </div>
+
+        <div class="register-avatar" aria-hidden="true">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+
+        <h1 id="register-title">Crear cuenta</h1>
+
+        <p>Registra tus datos para acceder a los trámites OCCRE.</p>
+      </header>
+
+      <form
+        class="register-form"
+        (submit)="$event.preventDefault(); register()"
+      >
+        <div class="form-grid">
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                type="text"
+                autocomplete="given-name"
+                placeholder="Nombres"
+                [value]="form.firstName"
+                (ionInput)="onInput('firstName', $event)"
+              ></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                type="text"
+                autocomplete="family-name"
+                placeholder="Apellidos"
+                [value]="form.lastName"
+                (ionInput)="onInput('lastName', $event)"
+              ></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="card-outline" class="input-icon"></ion-icon>
+
+              <ion-select
+                interface="popover"
+                placeholder="Tipo de documento"
+                [value]="form.documentType"
+                (ionChange)="onDocumentTypeChange($event)"
+              >
+                <ion-select-option
+                  *ngFor="let item of documentTypes"
+                  [value]="item.value"
+                >
+                  {{ item.label }}
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="card-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="Número de documento"
+                [value]="form.documentNumber"
+                (ionInput)="onInput('documentNumber', $event)"
+              ></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="call-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="Celular"
+                [value]="form.phone"
+                (ionInput)="onInput('phone', $event)"
+              ></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="Correo electrónico"
+                [value]="form.email"
+                (ionInput)="onInput('email', $event)"
+              ></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                [type]="showPassword ? 'text' : 'password'"
+                autocomplete="new-password"
+                placeholder="Contraseña"
+                [value]="form.password"
+                (ionInput)="onInput('password', $event)"
+              ></ion-input>
+
+              <button
+                type="button"
+                class="password-toggle"
+                aria-label="Mostrar u ocultar contraseña"
+                (click)="togglePasswordVisibility()"
+              >
+                <ion-icon
+                  [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                ></ion-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="input-wrapper">
+              <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+
+              <ion-input
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                autocomplete="new-password"
+                placeholder="Confirmar contraseña"
+                [value]="form.confirmPassword"
+                (ionInput)="onInput('confirmPassword', $event)"
+              ></ion-input>
+
+              <button
+                type="button"
+                class="password-toggle"
+                aria-label="Mostrar u ocultar confirmación de contraseña"
+                (click)="toggleConfirmPasswordVisibility()"
+              >
+                <ion-icon
+                  [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+                ></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p
+          class="form-error"
+          *ngIf="wasSubmitted && form.confirmPassword && !passwordsMatch"
+        >
+          Las contraseñas no coinciden.
+        </p>
+
+        <label class="terms-box">
+          <ion-checkbox
+            [checked]="form.acceptTerms"
+            (ionChange)="onTermsChange($event)"
+          ></ion-checkbox>
+
+          <span>
+            Acepto el tratamiento de datos personales y las condiciones de uso
+            de la plataforma OCCRE.
+          </span>
+        </label>
+
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="!isFormValid || isSubmitting"
+          [class.is-loading]="isSubmitting"
+        >
+          <span class="register-button__content">
+            <span *ngIf="!isSubmitting">Crear cuenta</span>
+            <span *ngIf="isSubmitting">Registrando...</span>
+          </span>
+        </button>
+      </form>
+
+      <footer class="register-footer">
+        <p>¿Ya tienes cuenta?</p>
+
+        <button
+          type="button"
+          class="login-link"
+          (click)="goToLogin()"
+        >
+          Iniciar sesión
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </footer>
+    </section>
+  </main>
+</ion-content>

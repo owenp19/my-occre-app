@@ -1,0 +1,112 @@
+<div class="chatbot-widget">
+  <section
+    class="chatbot-panel"
+    *ngIf="isOpen"
+    aria-label="Chat de orientación OCCRE"
+  >
+    <header class="chatbot-header">
+      <div class="chatbot-avatar">
+        <img
+          [src]="botAvatarUrl"
+          alt="Avatar de Miss Lorna"
+        />
+      </div>
+
+      <div class="chatbot-title">
+        <h2>{{ botName }}</h2>
+        <p>{{ botSubtitle }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="chatbot-close"
+        aria-label="Cerrar chat"
+        (click)="closeChat()"
+      >
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </header>
+
+    <div
+      #messagesContainer
+      class="chatbot-body"
+    >
+      <div class="chatbot-disclaimer">
+        Orientación básica. Para decisiones oficiales, verifica con la OCCRE.
+      </div>
+
+      <div class="chatbot-messages">
+        <article
+          class="chatbot-message"
+          *ngFor="let message of messages; let last = last"
+          [class.user-message]="message.author === 'user'"
+          [class.bot-message]="message.author === 'bot'"
+        >
+          <p>{{ message.text }}</p>
+
+          <button
+            *ngIf="message.sourceUrl"
+            type="button"
+            class="source-button"
+            (click)="openSource(message.sourceUrl)"
+          >
+            {{ message.sourceLabel || 'Ver fuente oficial' }}
+            <ion-icon name="open-outline"></ion-icon>
+          </button>
+
+          <div
+            class="message-suggestions"
+            *ngIf="last && message.author === 'bot' && message.suggestions?.length"
+          >
+            <button
+              type="button"
+              *ngFor="let suggestion of message.suggestions"
+              (click)="askSuggestion(suggestion.value)"
+            >
+              {{ suggestion.label }}
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <form
+      class="chatbot-input"
+      (ngSubmit)="sendMessage()"
+    >
+      <input
+        type="text"
+        name="userQuestion"
+        [(ngModel)]="userQuestion"
+        placeholder="Escribe tu pregunta..."
+        aria-label="Escribe tu pregunta para Miss Lorna"
+        autocomplete="off"
+      />
+
+      <button
+        type="submit"
+        aria-label="Enviar pregunta"
+      >
+        <ion-icon name="send-outline"></ion-icon>
+      </button>
+    </form>
+  </section>
+
+  <button
+    type="button"
+    class="chatbot-toggle"
+    aria-label="Abrir chat OCCRE"
+    (click)="toggleChat()"
+  >
+    <span class="chatbot-toggle-avatar">
+      <img
+        [src]="botAvatarUrl"
+        alt="Miss Lorna"
+      />
+    </span>
+
+    <span class="chatbot-toggle-text">
+      Ayuda
+    </span>
+  </button>
+</div>

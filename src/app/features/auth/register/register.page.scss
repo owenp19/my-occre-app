@@ -1,0 +1,758 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+ion-content.register-page {
+  --background: var(--app-color-background);
+}
+
+/* =========================================================
+   CONTENEDOR GENERAL
+   ========================================================= */
+
+.register-screen {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--app-color-background);
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   CONTENEDOR DEL REGISTRO
+   ========================================================= */
+
+.register-card {
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--app-color-background);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* =========================================================
+   CABECERA SUPERIOR
+   ========================================================= */
+
+.register-top {
+  width: 100%;
+  margin: 0;
+  padding: calc(env(safe-area-inset-top) + 28px) 22px 34px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--app-color-primary) 0%,
+      var(--app-color-primary) 46%,
+      var(--app-color-dark) 100%
+    );
+
+  color: var(--occre-white);
+  text-align: center;
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* =========================================================
+   MARCA Y BOTÓN VOLVER
+   ========================================================= */
+
+.register-brand {
+  width: 100%;
+  margin: 0 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.back-button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--occre-white);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.back-button ion-icon {
+  font-size: 24px;
+}
+
+@media (hover: hover) {
+  .back-button:hover:not(:disabled) {
+    background: var(--app-color-secondary);
+    color: var(--app-color-dark);
+  }
+}
+
+.back-button:active {
+  background: var(--app-color-secondary);
+  color: var(--app-color-dark);
+  transform: scale(0.94);
+}
+
+.register-logo {
+  width: 104px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+
+  padding: 7px 9px;
+  border-radius: 14px;
+
+  background: var(--occre-white);
+}
+
+.register-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  text-align: right;
+}
+
+.register-brand-text span {
+  font-family: var(--app-font-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.1;
+
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.register-brand-text strong {
+  margin-top: 4px;
+
+  font-family: var(--app-font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+
+  color: var(--occre-white);
+}
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.register-avatar {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.26);
+}
+
+.register-avatar ion-icon {
+  font-size: 38px;
+  color: var(--occre-white);
+}
+
+/* =========================================================
+   TÍTULOS
+   ========================================================= */
+
+.register-top h1 {
+  margin: 0 0 10px;
+
+  font-family: var(--app-font-title);
+  font-size: clamp(2rem, 9vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+
+  color: var(--occre-white);
+}
+
+.register-top p {
+  max-width: 310px;
+  margin: 0 auto;
+
+  font-family: var(--app-font-text);
+  font-size: 0.94rem;
+  font-weight: 400;
+  line-height: 1.45;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================================
+   FORMULARIO
+   ========================================================= */
+
+.register-form {
+  width: 100%;
+  margin: 0;
+  padding: 28px 22px 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  background: var(--app-color-background);
+}
+
+.form-grid {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field-group {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 1px solid rgba(var(--occre-primary-rgb), 0.14);
+  border-radius: 999px;
+
+  background: var(--occre-white);
+
+  box-shadow:
+    0 10px 24px rgba(7, 26, 47, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: rgba(var(--occre-primary-rgb), 0.45);
+
+  box-shadow:
+    0 12px 28px rgba(var(--occre-primary-rgb), 0.12),
+    0 0 0 4px rgba(var(--occre-primary-rgb), 0.08);
+
+  transform: translateY(-1px);
+}
+
+.input-icon {
+  flex: 0 0 auto;
+
+  font-size: 22px;
+  color: var(--app-color-text-soft);
+}
+
+ion-input,
+ion-select {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+
+  --placeholder-color: var(--app-color-text-soft);
+  --placeholder-opacity: 0.82;
+
+  --color: var(--app-color-text);
+
+  --highlight-height: 0;
+  --highlight-color: transparent;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  --border-color: transparent;
+
+  flex: 1;
+
+  font-family: var(--app-font-text);
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+/* =========================================================
+   BOTONES DE VISIBILIDAD DE CONTRASEÑA
+   ========================================================= */
+
+.password-toggle {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(var(--occre-primary-rgb), 0.08);
+  color: var(--app-color-primary);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease,
+    color 180ms ease;
+}
+
+.password-toggle ion-icon {
+  font-size: 21px;
+}
+
+@media (hover: hover) {
+  .password-toggle:hover:not(:disabled) {
+    background: rgba(var(--occre-secondary-rgb), 0.14);
+    color: var(--app-color-secondary);
+  }
+}
+
+.password-toggle:active {
+  transform: scale(0.94);
+}
+
+.password-toggle:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* =========================================================
+   ERROR DE FORMULARIO
+   Se mantiene dentro de la paleta OCCRE
+   ========================================================= */
+
+.form-error {
+  margin: -4px 2px 0;
+
+  font-family: var(--app-font-text);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.3;
+
+  color: var(--app-color-secondary);
+}
+
+/* =========================================================
+   TÉRMINOS Y CONDICIONES
+   ========================================================= */
+
+.terms-box {
+  width: 100%;
+  margin-top: 2px;
+  padding: 14px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  border: 1px solid rgba(var(--occre-primary-rgb), 0.1);
+  border-radius: 18px;
+
+  background: rgba(var(--occre-primary-rgb), 0.05);
+}
+
+.terms-box ion-checkbox {
+  --size: 20px;
+  --checkbox-background: var(--occre-white);
+  --checkbox-background-checked: var(--app-color-secondary);
+  --border-color: rgba(var(--occre-primary-rgb), 0.28);
+  --border-color-checked: var(--app-color-secondary);
+  --checkmark-color: var(--app-color-dark);
+
+  margin-top: 1px;
+  flex: 0 0 auto;
+}
+
+.terms-box span {
+  font-family: var(--app-font-text);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.35;
+
+  color: var(--app-color-text-soft);
+}
+
+/* =========================================================
+   BOTÓN PRINCIPAL
+   Negro institucional con hover amarillo/naranja global
+   ========================================================= */
+
+.register-button {
+  position: relative;
+
+  width: 100%;
+  min-height: 58px;
+  margin: 18px 0 0;
+  padding: 0 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: var(--app-color-dark);
+  color: var(--occre-white);
+
+  font-family: var(--app-font-text);
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+
+  box-shadow:
+    0 16px 32px rgba(7, 26, 47, 0.24),
+    0 0 0 4px rgba(7, 26, 47, 0.06);
+
+  cursor: pointer;
+  overflow: hidden;
+
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    transform 180ms ease,
+    opacity 180ms ease,
+    box-shadow 220ms ease,
+    filter 180ms ease;
+}
+
+.register-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 255, 255, 0)
+    );
+
+  opacity: 1;
+  pointer-events: none;
+}
+
+.register-button__content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .register-button:hover:not(:disabled) {
+    background: var(--app-color-secondary);
+    color: var(--app-color-dark);
+
+    box-shadow:
+      0 18px 34px rgba(var(--occre-secondary-rgb), 0.28),
+      0 0 0 5px rgba(var(--occre-secondary-rgb), 0.14);
+
+    transform: translateY(-1px);
+  }
+}
+
+.register-button:active:not(:disabled) {
+  background: var(--app-color-secondary);
+  color: var(--app-color-dark);
+
+  transform: scale(0.97);
+  filter: brightness(0.98);
+
+  box-shadow:
+    0 12px 24px rgba(var(--occre-secondary-rgb), 0.24),
+    0 0 0 4px rgba(var(--occre-secondary-rgb), 0.12);
+}
+
+.register-button:disabled {
+  opacity: 0.58;
+  cursor: default;
+
+  background: var(--app-color-dark);
+  color: var(--occre-white);
+
+  box-shadow:
+    0 10px 22px rgba(7, 26, 47, 0.12),
+    0 0 0 0 transparent;
+}
+
+.register-button.is-loading {
+  pointer-events: none;
+}
+
+.register-button.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.24),
+      transparent
+    );
+
+  transform: translateX(-110%);
+  animation: loadingSweep 1s ease-in-out infinite;
+}
+
+/* =========================================================
+   PIE DE PÁGINA
+   ========================================================= */
+
+.register-footer {
+  width: 100%;
+  margin: 0;
+  padding: 28px 22px calc(env(safe-area-inset-bottom) + 28px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  background: var(--app-color-background);
+  text-align: center;
+}
+
+.register-footer p {
+  margin: 0;
+
+  font-family: var(--app-font-text);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.2;
+
+  color: var(--app-color-text-soft);
+}
+
+.login-link {
+  padding: 0;
+  border: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  background: transparent;
+  color: var(--app-color-primary);
+
+  font-family: var(--app-font-text);
+  font-size: 0.94rem;
+  font-weight: 900;
+  line-height: 1.2;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    color 180ms ease;
+}
+
+.login-link ion-icon {
+  font-size: 18px;
+}
+
+@media (hover: hover) {
+  .login-link:hover:not(:disabled) {
+    color: var(--app-color-secondary);
+  }
+}
+
+.login-link:active {
+  color: var(--app-color-secondary);
+  transform: translateX(2px);
+}
+
+.login-link:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* =========================================================
+   ANIMACIÓN DE CARGA
+   ========================================================= */
+
+@keyframes loadingSweep {
+  to {
+    transform: translateX(110%);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   Mantiene pantalla completa y estilo app
+   ========================================================= */
+
+@media (min-width: 768px) {
+  .register-screen {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+
+    background: var(--app-color-background);
+  }
+
+  .register-card {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .terms-box,
+  .form-error,
+  .register-button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 380px) {
+  .register-top {
+    padding-inline: 18px;
+    padding-bottom: 30px;
+  }
+
+  .register-brand {
+    gap: 10px;
+  }
+
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .register-logo {
+    width: 96px;
+  }
+
+  .register-brand-text strong {
+    font-size: 0.92rem;
+  }
+
+  .register-brand-text span {
+    font-size: 0.7rem;
+  }
+
+  .register-avatar {
+    width: 66px;
+    height: 66px;
+  }
+
+  .register-avatar ion-icon {
+    font-size: 34px;
+  }
+
+  .register-form,
+  .register-footer {
+    padding-inline: 18px;
+  }
+
+  .input-wrapper {
+    min-height: 56px;
+  }
+
+  .register-button {
+    min-height: 56px;
+  }
+}
+
+@media (max-height: 760px) {
+  .register-top {
+    padding-top: calc(env(safe-area-inset-top) + 22px);
+    padding-bottom: 26px;
+  }
+
+  .register-brand {
+    margin-bottom: 18px;
+  }
+
+  .register-avatar {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 12px;
+  }
+
+  .register-top p {
+    font-size: 0.88rem;
+  }
+
+  .register-form {
+    padding-top: 22px;
+  }
+
+  .register-footer {
+    padding-top: 24px;
+  }
+}

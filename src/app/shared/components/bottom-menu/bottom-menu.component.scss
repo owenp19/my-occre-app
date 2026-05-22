@@ -1,0 +1,141 @@
+:host {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.bottom-menu {
+  width: 100%;
+  min-height: 74px;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 8px;
+
+  margin: 0;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
+  border-radius: 24px 24px 0 0;
+  background: var(--occre-white, #ffffff);
+  border: 1px solid rgba(var(--occre-primary-rgb, 15, 76, 154), 0.1);
+  box-shadow: 0 -10px 30px rgba(7, 26, 47, 0.1);
+}
+
+.bottom-menu-item {
+  position: relative;
+
+  min-height: 58px;
+  padding: 8px 4px;
+
+  display: grid;
+  place-items: center;
+  gap: 4px;
+
+  border: 0;
+  outline: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--app-color-text-soft, #64748b);
+
+  font-family: var(--app-font-text, inherit);
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.bottom-menu-item::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+
+  width: 54px;
+  height: 4px;
+
+  border-radius: 0 0 999px 999px;
+  background: var(--app-color-primary, #0f4c9a);
+
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.6);
+
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.bottom-menu-item ion-icon {
+  font-size: 25px;
+  color: currentColor;
+}
+
+.bottom-menu-item span {
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: currentColor;
+  white-space: nowrap;
+}
+
+.bottom-menu-item.active {
+  color: var(--app-color-primary, #0f4c9a);
+}
+
+.bottom-menu-item.active::before {
+  opacity: 1;
+  transform: translateX(-50%) scaleX(1);
+}
+
+.bottom-menu-item:active {
+  transform: scale(0.96);
+  background: rgba(var(--occre-primary-rgb, 15, 76, 154), 0.08);
+}
+
+.bottom-menu-item:focus-visible {
+  outline: 3px solid var(--app-color-secondary, #f59e0b);
+  outline-offset: 3px;
+}
+
+@media (max-width: 360px) {
+  .bottom-menu {
+    min-height: 70px;
+    padding-inline: 8px;
+    gap: 6px;
+  }
+
+  .bottom-menu-item {
+    min-height: 54px;
+  }
+
+  .bottom-menu-item ion-icon {
+    font-size: 23px;
+  }
+
+  .bottom-menu-item span {
+    font-size: 0.72rem;
+  }
+
+  .bottom-menu-item::before {
+    width: 46px;
+  }
+}
+
+@media (min-width: 700px) {
+  .bottom-menu {
+    width: min(100%, 820px);
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-menu-item,
+  .bottom-menu-item::before {
+    transition: none;
+  }
+}

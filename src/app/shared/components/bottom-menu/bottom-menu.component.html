@@ -1,0 +1,13 @@
+<nav class="bottom-menu" aria-label="Navegación principal">
+  <button
+    type="button"
+    class="bottom-menu-item"
+    *ngFor="let option of menuOptions"
+    [class.active]="isActive(option)"
+    [attr.aria-label]="'Ir a ' + option.label"
+    (click)="goTo(option.route)"
+  >
+    <ion-icon [name]="option.icon"></ion-icon>
+    <span>{{ option.label }}</span>
+  </button>
+</nav>
