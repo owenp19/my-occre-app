@@ -1,13 +1,219 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="profile-page">
+  <main class="profile-screen">
+    <header class="profile-header">
+      <button
+        type="button"
+        class="profile-back-btn"
+        aria-label="{{ 'common.back' | translate }}"
+        (click)="goBack()"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+      <div class="profile-avatar" aria-hidden="true">
+        {{ userInitials }}
+      </div>
+
+      <h1 class="profile-name">{{ profile.firstName }} {{ profile.lastName }}</h1>
+      <p class="profile-email">{{ profile.email }}</p>
+    </header>
+
+    <section class="profile-body" aria-label="{{ 'profile.personal' | translate }}">
+      <ng-container *ngIf="!isLoading; else loadingTemplate">
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <h2 class="profile-section-title">{{ 'profile.personal' | translate }}</h2>
+            <button
+              *ngIf="!isEditing"
+              type="button"
+              class="profile-edit-btn"
+              (click)="startEditing()"
+            >
+              <ion-icon name="create-outline"></ion-icon>
+              <span>{{ 'profile.edit' | translate }}</span>
+            </button>
+          </div>
+
+          <!-- View mode -->
+          <ng-container *ngIf="!isEditing">
+            <div class="profile-info-item">
+              <ion-icon name="person-outline"></ion-icon>
+              <div class="profile-info-content">
+                <span class="profile-info-label">{{ 'profile.fullname' | translate }}</span>
+                <span class="profile-info-value">{{ profile.firstName }} {{ profile.lastName }}</span>
+              </div>
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-info-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <div class="profile-info-content">
+                <span class="profile-info-label">{{ 'profile.email' | translate }}</span>
+                <span class="profile-info-value">{{ profile.email }}</span>
+              </div>
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-info-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <div class="profile-info-content">
+                <span class="profile-info-label">{{ 'profile.phone' | translate }}</span>
+                <span class="profile-info-value">{{ profile.phone || '—' }}</span>
+              </div>
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-info-item">
+              <ion-icon name="card-outline"></ion-icon>
+              <div class="profile-info-content">
+                <span class="profile-info-label">{{ 'profile.doctype' | translate }}</span>
+                <span class="profile-info-value">{{ profile.documentType || '—' }}</span>
+              </div>
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-info-item">
+              <ion-icon name="id-card-outline"></ion-icon>
+              <div class="profile-info-content">
+                <span class="profile-info-label">{{ 'profile.docnumber' | translate }}</span>
+                <span class="profile-info-value">{{ profile.documentNumber || '—' }}</span>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Edit mode -->
+          <ng-container *ngIf="isEditing">
+            <div class="profile-edit-card">
+              <div class="profile-edit-field">
+                <label class="profile-edit-label">{{ 'profile.firstname' | translate }}</label>
+                <ion-input
+                  class="profile-edit-input"
+                  [value]="editForm.firstName"
+                  placeholder="{{ 'profile.firstname' | translate }}"
+                  (ionInput)="editForm.firstName = $event.detail.value ?? ''"
+                ></ion-input>
+              </div>
+
+              <div class="profile-edit-field">
+                <label class="profile-edit-label">{{ 'profile.lastname' | translate }}</label>
+                <ion-input
+                  class="profile-edit-input"
+                  [value]="editForm.lastName"
+                  placeholder="{{ 'profile.lastname' | translate }}"
+                  (ionInput)="editForm.lastName = $event.detail.value ?? ''"
+                ></ion-input>
+              </div>
+
+              <div class="profile-edit-field">
+                <label class="profile-edit-label">{{ 'profile.email' | translate }}</label>
+                <ion-input
+                  class="profile-edit-input profile-edit-input--disabled"
+                  [value]="profile.email"
+                  disabled
+                ></ion-input>
+              </div>
+
+              <div class="profile-edit-field">
+                <label class="profile-edit-label">{{ 'profile.phone' | translate }}</label>
+                <ion-input
+                  class="profile-edit-input"
+                  [value]="editForm.phone"
+                  placeholder="{{ 'profile.phone' | translate }}"
+                  (ionInput)="editForm.phone = $event.detail.value ?? ''"
+                ></ion-input>
+              </div>
+
+              <div class="profile-edit-field">
+                <label class="profile-edit-label">{{ 'profile.doctype' | translate }}</label>
+                <ion-select
+                  class="profile-edit-select"
+                  [value]="editForm.documentType"
+                  placeholder="{{ 'profile.doctype' | translate }}"
+                  interface="action-sheet"
+                  (ionChange)="editForm.documentType = $event.detail.value"
+                >
+                  <ion-select-option
+                    *ngFor="let dt of documentTypes"
+                    [value]="dt.value"
+                  >
+                    {{ dt.label }}
+                  </ion-select-option>
+                </ion-select>
+              </div>
+
+              <div class="profile-edit-field">
+                <label class="profile-edit-label">{{ 'profile.docnumber' | translate }}</label>
+                <ion-input
+                  class="profile-edit-input"
+                  [value]="editForm.documentNumber"
+                  placeholder="{{ 'profile.docnumber' | translate }}"
+                  (ionInput)="editForm.documentNumber = $event.detail.value ?? ''"
+                ></ion-input>
+              </div>
+            </div>
+
+            <div class="profile-error" *ngIf="errorMessage">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+
+            <div class="profile-edit-actions">
+              <button
+                type="button"
+                class="occre-btn occre-btn--outline"
+                (click)="cancelEditing()"
+                [disabled]="isSaving"
+              >
+                <ion-icon name="close-outline"></ion-icon>
+                <span>{{ 'profile.cancel' | translate }}</span>
+              </button>
+              <button
+                type="button"
+                class="occre-btn occre-btn--primary"
+                (click)="saveProfile()"
+                [disabled]="isSaving || !isFormValid"
+                [class.is-loading]="isSaving"
+              >
+                <ion-icon name="checkmark-outline"></ion-icon>
+                <span>{{ isSaving ? ('profile.saving' | translate) : ('profile.save' | translate) }}</span>
+              </button>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="profile-actions">
+          <button
+            type="button"
+            class="profile-action-row"
+            *ngFor="let action of quickActions"
+            (click)="goTo(action.route)"
+          >
+            <ion-icon [name]="action.icon"></ion-icon>
+            <span>{{ action.label | translate }}</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+
+        <button
+          type="button"
+          class="profile-logout occre-btn occre-btn--dark occre-btn--full"
+          (click)="logout()"
+        >
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>{{ 'profile.logout' | translate }}</span>
+        </button>
+      </ng-container>
+
+      <ng-template #loadingTemplate>
+        <div class="profile-loading">
+          <div class="profile-loading-spinner"></div>
+          <p>{{ 'profile.loading' | translate }}</p>
+        </div>
+      </ng-template>
+    </section>
+  </main>
 </ion-content>

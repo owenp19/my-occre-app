@@ -16,7 +16,7 @@
 
         <button
           type="button"
-          class="menu-close-button"
+          class="menu-close-button occre-btn"
           aria-label="Cerrar menú"
           (click)="closeMenu()"
         >
@@ -64,7 +64,7 @@
         <div class="header-actions">
           <button
             type="button"
-            class="notification-button"
+            class="notification-button occre-btn"
             aria-label="Ver notificaciones"
             (click)="openNotifications()"
           >
@@ -97,14 +97,6 @@
             </ng-template>
           </button>
 
-          <button
-            type="button"
-            class="profile-options"
-            aria-label="Opciones de perfil"
-            (click)="openProfile()"
-          >
-            <ion-icon name="chevron-down-outline"></ion-icon>
-          </button>
         </div>
       </header>
 
@@ -163,7 +155,6 @@
       <form
         class="search-box"
         role="search"
-        (ngSubmit)="submitSearch()"
       >
         <ion-icon name="search-outline"></ion-icon>
 
@@ -176,30 +167,6 @@
           autocomplete="off"
         />
       </form>
-
-      <button
-        type="button"
-        class="filter-button"
-        aria-label="Abrir opciones rápidas de búsqueda"
-        (click)="toggleQuickSearchOptions()"
-      >
-        <ion-icon name="options-outline"></ion-icon>
-      </button>
-
-      <div
-        class="quick-search-panel"
-        *ngIf="isQuickSearchOpen"
-      >
-        <button
-          type="button"
-          class="quick-search-option"
-          *ngFor="let option of quickSearchOptions"
-          (click)="selectQuickSearch(option)"
-        >
-          <ion-icon [name]="option.icon"></ion-icon>
-          <span>{{ option.label }}</span>
-        </button>
-      </div>
     </section>
 
     <section class="home-body">
@@ -212,7 +179,7 @@
 
           <button
             type="button"
-            class="see-all-button"
+            class="see-all-button occre-btn occre-btn--link"
             (click)="goTo('/procedures')"
           >
             <span>Ver todos</span>
@@ -224,7 +191,7 @@
           <button
             type="button"
             class="procedure-list-card"
-            *ngFor="let procedure of occreProcedures"
+            *ngFor="let procedure of filteredProcedures"
             [ngClass]="procedure.colorClass"
             (click)="goToProcedure(procedure)"
           >
@@ -251,6 +218,11 @@
               name="chevron-forward-outline"
             ></ion-icon>
           </button>
+
+          <div class="procedures-empty" *ngIf="searchTerm.trim() && filteredProcedures.length === 0">
+            <ion-icon name="search-outline"></ion-icon>
+            <p>No se encontraron trámites para "{{ searchTerm }}"</p>
+          </div>
         </div>
       </section>
 
@@ -272,8 +244,8 @@
 
         <button
           type="button"
-          class="data-protection-button"
-          (click)="goTo('/profile')"
+          class="data-protection-button occre-btn occre-btn--outline"
+          (click)="goTo('/data-protection')"
         >
           <span>Conoce más</span>
           <ion-icon name="shield-checkmark-outline"></ion-icon>
@@ -286,6 +258,3 @@
     </section>
   </main>
 </ion-content>
-
-<!-- CHATBOT OPCIONAL -->
-<app-occre-chatbot></app-occre-chatbot>

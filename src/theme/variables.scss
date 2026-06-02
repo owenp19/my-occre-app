@@ -5,8 +5,8 @@
    * Azul institucional, naranja del sol y blanco de soporte.
    * ========================================================= */
 
-  --occre-primary: #174f91;
-  --occre-primary-rgb: 23, 79, 145;
+  --occre-primary: #1d72b5;
+  --occre-primary-rgb: 29, 114, 181;
 
   --occre-secondary: #f39218;
   --occre-secondary-rgb: 243, 146, 24;
@@ -19,7 +19,6 @@
 
   /* =========================================================
    * ROLES GLOBALES DE LA APP
-   * Nota: Solo cambia estos valores si deseas modificar toda la app.
    * ========================================================= */
 
   --app-color-primary: var(--occre-primary);
@@ -52,8 +51,8 @@
   --ion-color-primary-rgb: var(--occre-primary-rgb);
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #144680;
-  --ion-color-primary-tint: #2e619c;
+  --ion-color-primary-shade: #1964a1;
+  --ion-color-primary-tint: #3480c4;
 
   --ion-color-secondary: var(--occre-secondary);
   --ion-color-secondary-rgb: var(--occre-secondary-rgb);
@@ -70,4 +69,36 @@
 
   --ion-toolbar-background: var(--app-color-background);
   --ion-toolbar-color: var(--app-color-primary);
+}
+
+body.dark-mode {
+  --occre-primary: #2a6cb0;
+  --occre-primary-rgb: 42, 108, 176;
+  --occre-secondary: #f3a43a;
+  --occre-secondary-rgb: 243, 164, 58;
+  --occre-white: #1a1d23;
+  --occre-dark: #e8edf2;
+  --occre-light: #22262d;
+  --occre-text: #e0e4e8;
+  --occre-text-soft: #9aa3ae;
+
+  --app-color-background: #12141a;
+  --app-color-surface: #1a1d23;
+  --app-color-text: #e0e4e8;
+  --app-color-text-soft: #9aa3ae;
+
+  --ion-background-color: var(--app-color-background);
+  --ion-background-color-rgb: 18, 20, 26;
+  --ion-text-color: var(--app-color-text);
+  --ion-text-color-rgb: 224, 228, 232;
+  --ion-toolbar-background: var(--app-color-background);
+
+  --app-gradient-welcome:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.55) 35%,
+      rgba(0, 0, 0, 0.75) 70%,
+      rgba(0, 0, 0, 0.92) 100%
+    );
 }

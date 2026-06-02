@@ -1,0 +1,114 @@
+<ion-content [fullscreen]="true" class="settings-page">
+  <main class="settings-screen">
+    <header class="settings-header">
+      <button
+        type="button"
+        class="settings-back-btn"
+        aria-label="{{ 'common.back' | translate }}"
+        (click)="goBack()"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+
+      <h1 class="settings-title">{{ 'settings.title' | translate }}</h1>
+    </header>
+
+    <section class="settings-body" aria-label="{{ 'settings.title' | translate }}">
+      <div class="settings-group">
+        <h2 class="settings-group-title">{{ 'settings.general' | translate }}</h2>
+
+        <div class="settings-group-inner">
+          <div class="settings-row">
+            <div class="settings-row-left">
+              <ion-icon name="language-outline"></ion-icon>
+              <div class="settings-row-info">
+                <span class="settings-row-label">{{ 'settings.language' | translate }}</span>
+                <span class="settings-row-desc">{{ currentLangLabel }}</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="settings-row-nav"
+              (click)="toggleLangMenu()"
+            >
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          </div>
+
+          <div class="settings-lang-menu" *ngIf="showLangMenu">
+            <button
+              type="button"
+              class="settings-lang-option"
+              *ngFor="let lang of languages"
+              (click)="setLanguage(lang.code)"
+            >
+              <span>{{ lang.label }}</span>
+              <ion-icon
+                *ngIf="translation.current === lang.code"
+                name="checkmark-outline"
+                class="settings-lang-check"
+              ></ion-icon>
+            </button>
+          </div>
+
+          <div
+            class="settings-row"
+            *ngFor="let option of options"
+          >
+            <div class="settings-row-left">
+              <ion-icon [name]="option.icon"></ion-icon>
+              <div class="settings-row-info">
+                <span class="settings-row-label">{{ option.key | translate }}</span>
+                <span class="settings-row-desc">{{ option.descKey | translate }}</span>
+              </div>
+            </div>
+
+            <ng-container [ngSwitch]="option.type">
+              <ion-toggle
+                *ngSwitchCase="'toggle'"
+                class="settings-toggle"
+                [checked]="option.value"
+                (ionChange)="onToggleChange(option)"
+                mode="ios"
+              ></ion-toggle>
+
+              <button
+                *ngSwitchCase="'navigation'"
+                type="button"
+                class="settings-row-nav"
+                (click)="goTo(option.route)"
+              >
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h2 class="settings-group-title">{{ 'settings.info' | translate }}</h2>
+
+        <div class="settings-group-inner">
+          <div class="settings-row">
+            <div class="settings-row-left">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <div class="settings-row-info">
+                <span class="settings-row-label">{{ 'settings.version' | translate }}</span>
+                <span class="settings-row-desc">{{ appVersion }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="settings-logout occre-btn occre-btn--dark occre-btn--full"
+        (click)="logout()"
+      >
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>{{ 'profile.logout' | translate }}</span>
+      </button>
+    </section>
+  </main>
+</ion-content>

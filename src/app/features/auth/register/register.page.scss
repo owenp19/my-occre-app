@@ -8,10 +8,6 @@ ion-content.register-page {
   --background: var(--app-color-background);
 }
 
-/* =========================================================
-   CONTENEDOR GENERAL
-   ========================================================= */
-
 .register-screen {
   width: 100%;
   min-width: 100%;
@@ -25,10 +21,6 @@ ion-content.register-page {
   background: var(--app-color-background);
   overflow-x: hidden;
 }
-
-/* =========================================================
-   CONTENEDOR DEL REGISTRO
-   ========================================================= */
 
 .register-card {
   width: 100%;
@@ -45,10 +37,6 @@ ion-content.register-page {
   box-shadow: none;
   overflow: hidden;
 }
-
-/* =========================================================
-   CABECERA SUPERIOR
-   ========================================================= */
 
 .register-top {
   width: 100%;
@@ -75,10 +63,6 @@ ion-content.register-page {
   box-shadow: none;
 }
 
-/* =========================================================
-   MARCA Y BOTÓN VOLVER
-   ========================================================= */
-
 .register-brand {
   width: 100%;
   margin: 0 0 24px;
@@ -92,27 +76,12 @@ ion-content.register-page {
 .back-button {
   width: 44px;
   height: 44px;
-  padding: 0;
 
   flex: 0 0 auto;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 0;
-  border-radius: 50%;
-
   background: rgba(255, 255, 255, 0.16);
   color: var(--occre-white);
-
-  cursor: pointer;
-
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease,
-    opacity 180ms ease;
+  border-radius: 50px;
 }
 
 .back-button ion-icon {
@@ -130,18 +99,6 @@ ion-content.register-page {
   background: var(--app-color-secondary);
   color: var(--app-color-dark);
   transform: scale(0.94);
-}
-
-.register-logo {
-  width: 104px;
-  height: auto;
-  display: block;
-  object-fit: contain;
-
-  padding: 7px 9px;
-  border-radius: 14px;
-
-  background: var(--occre-white);
 }
 
 .register-brand-text {
@@ -174,10 +131,6 @@ ion-content.register-page {
   color: var(--occre-white);
 }
 
-/* =========================================================
-   AVATAR
-   ========================================================= */
-
 .register-avatar {
   width: 72px;
   height: 72px;
@@ -197,10 +150,6 @@ ion-content.register-page {
   font-size: 38px;
   color: var(--occre-white);
 }
-
-/* =========================================================
-   TÍTULOS
-   ========================================================= */
 
 .register-top h1 {
   margin: 0 0 10px;
@@ -226,10 +175,6 @@ ion-content.register-page {
 
   color: rgba(255, 255, 255, 0.9);
 }
-
-/* =========================================================
-   FORMULARIO
-   ========================================================= */
 
 .register-form {
   width: 100%;
@@ -258,7 +203,10 @@ ion-content.register-page {
 
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
+
+
 
 .input-wrapper {
   width: 100%;
@@ -266,11 +214,13 @@ ion-content.register-page {
   padding: 0 16px;
 
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 12px;
+  flex-wrap: nowrap;
 
   border: 1px solid rgba(var(--occre-primary-rgb), 0.14);
-  border-radius: 999px;
+  border-radius: 50px;
 
   background: var(--occre-white);
 
@@ -296,6 +246,7 @@ ion-content.register-page {
 
 .input-icon {
   flex: 0 0 auto;
+  flex-shrink: 0;
 
   font-size: 22px;
   color: var(--app-color-text-soft);
@@ -321,66 +272,20 @@ ion-select {
   --border-color: transparent;
 
   flex: 1;
+  min-width: 0;
 
   font-family: var(--app-font-text);
   font-size: 0.98rem;
   font-weight: 500;
 }
 
-/* =========================================================
-   BOTONES DE VISIBILIDAD DE CONTRASEÑA
-   ========================================================= */
-
 .password-toggle {
-  width: 38px;
-  height: 38px;
-  padding: 0;
-
   flex: 0 0 auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 0;
-  border-radius: 50%;
-
-  background: rgba(var(--occre-primary-rgb), 0.08);
-  color: var(--app-color-primary);
-
-  cursor: pointer;
-
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease,
-    opacity 180ms ease,
-    color 180ms ease;
-}
-
-.password-toggle ion-icon {
-  font-size: 21px;
-}
-
-@media (hover: hover) {
-  .password-toggle:hover:not(:disabled) {
-    background: rgba(var(--occre-secondary-rgb), 0.14);
-    color: var(--app-color-secondary);
-  }
-}
-
-.password-toggle:active {
-  transform: scale(0.94);
 }
 
 .password-toggle:disabled {
   opacity: 0.65;
-  cursor: default;
 }
-
-/* =========================================================
-   ERROR DE FORMULARIO
-   Se mantiene dentro de la paleta OCCRE
-   ========================================================= */
 
 .form-error {
   margin: -4px 2px 0;
@@ -392,10 +297,6 @@ ion-select {
 
   color: var(--app-color-secondary);
 }
-
-/* =========================================================
-   TÉRMINOS Y CONDICIONES
-   ========================================================= */
 
 .terms-box {
   width: 100%;
@@ -433,49 +334,10 @@ ion-select {
   color: var(--app-color-text-soft);
 }
 
-/* =========================================================
-   BOTÓN PRINCIPAL
-   Negro institucional con hover amarillo/naranja global
-   ========================================================= */
-
 .register-button {
   position: relative;
-
-  width: 100%;
-  min-height: 58px;
   margin: 18px 0 0;
-  padding: 0 22px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 0;
-  border-radius: 999px;
-
-  background: var(--app-color-dark);
-  color: var(--occre-white);
-
-  font-family: var(--app-font-text);
-  font-size: 1.02rem;
-  font-weight: 900;
-  line-height: 1;
-  text-align: center;
-
-  box-shadow:
-    0 16px 32px rgba(7, 26, 47, 0.24),
-    0 0 0 4px rgba(7, 26, 47, 0.06);
-
-  cursor: pointer;
   overflow: hidden;
-
-  transition:
-    background-color 220ms ease,
-    color 220ms ease,
-    transform 180ms ease,
-    opacity 180ms ease,
-    box-shadow 220ms ease,
-    filter 180ms ease;
 }
 
 .register-button::before {
@@ -499,70 +361,26 @@ ion-select {
   z-index: 1;
 }
 
-@media (hover: hover) {
-  .register-button:hover:not(:disabled) {
-    background: var(--app-color-secondary);
-    color: var(--app-color-dark);
-
-    box-shadow:
-      0 18px 34px rgba(var(--occre-secondary-rgb), 0.28),
-      0 0 0 5px rgba(var(--occre-secondary-rgb), 0.14);
-
-    transform: translateY(-1px);
-  }
+.loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.register-button:active:not(:disabled) {
-  background: var(--app-color-secondary);
-  color: var(--app-color-dark);
-
-  transform: scale(0.97);
-  filter: brightness(0.98);
-
-  box-shadow:
-    0 12px 24px rgba(var(--occre-secondary-rgb), 0.24),
-    0 0 0 4px rgba(var(--occre-secondary-rgb), 0.12);
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  flex-shrink: 0;
 }
 
-.register-button:disabled {
-  opacity: 0.58;
-  cursor: default;
-
-  background: var(--app-color-dark);
-  color: var(--occre-white);
-
-  box-shadow:
-    0 10px 22px rgba(7, 26, 47, 0.12),
-    0 0 0 0 transparent;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
-
-.register-button.is-loading {
-  pointer-events: none;
-}
-
-.register-button.is-loading::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-
-  border-radius: inherit;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.24),
-      transparent
-    );
-
-  transform: translateX(-110%);
-  animation: loadingSweep 1s ease-in-out infinite;
-}
-
-/* =========================================================
-   PIE DE PÁGINA
-   ========================================================= */
 
 .register-footer {
   width: 100%;
@@ -591,64 +409,16 @@ ion-select {
 }
 
 .login-link {
-  padding: 0;
-  border: 0;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-
-  background: transparent;
-  color: var(--app-color-primary);
-
-  font-family: var(--app-font-text);
   font-size: 0.94rem;
-  font-weight: 900;
-  line-height: 1.2;
-
-  cursor: pointer;
-
-  transition:
-    transform 180ms ease,
-    opacity 180ms ease,
-    color 180ms ease;
 }
 
 .login-link ion-icon {
   font-size: 18px;
 }
 
-@media (hover: hover) {
-  .login-link:hover:not(:disabled) {
-    color: var(--app-color-secondary);
-  }
-}
-
-.login-link:active {
-  color: var(--app-color-secondary);
-  transform: translateX(2px);
-}
-
 .login-link:disabled {
   opacity: 0.65;
-  cursor: default;
 }
-
-/* =========================================================
-   ANIMACIÓN DE CARGA
-   ========================================================= */
-
-@keyframes loadingSweep {
-  to {
-    transform: translateX(110%);
-  }
-}
-
-/* =========================================================
-   RESPONSIVE
-   Mantiene pantalla completa y estilo app
-   ========================================================= */
 
 @media (min-width: 768px) {
   .register-screen {
@@ -691,10 +461,6 @@ ion-select {
   .back-button {
     width: 40px;
     height: 40px;
-  }
-
-  .register-logo {
-    width: 96px;
   }
 
   .register-brand-text strong {

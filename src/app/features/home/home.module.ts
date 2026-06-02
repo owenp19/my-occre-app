@@ -6,7 +6,6 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
-// Ajusta esta ruta según la ubicación real de tu archivo
 import { SharedModule } from '../../shared/shared-module';
 
 

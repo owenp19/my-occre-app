@@ -35,19 +35,11 @@
 
   border: 0;
   outline: 0;
-  border-radius: 18px;
+  border-radius: 50px;
   background: transparent;
   color: var(--app-color-text-soft, #64748b);
 
-  font-family: var(--app-font-text, inherit);
   text-align: center;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-
-  transition:
-    transform 160ms ease,
-    background-color 160ms ease,
-    color 160ms ease;
 }
 
 .bottom-menu-item::before {

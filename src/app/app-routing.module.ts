@@ -51,6 +51,48 @@ const routes: Routes = [
         m => m.ProfilePageModule
       ),
   },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./features/settings/settings.module').then(
+        m => m.SettingsPageModule
+      ),
+  },
+  {
+    path: 'help-contact',
+    loadChildren: () =>
+      import('./features/help-contact/help-contact.module').then(
+        m => m.HelpContactPageModule
+      ),
+  },
+  {
+    path: 'legal',
+    loadChildren: () =>
+      import('./features/legal/legal.module').then(
+        m => m.LegalPageModule
+      ),
+  },
+  {
+    path: 'notifications',
+    loadChildren: () =>
+      import('./features/notifications/notifications.module').then(
+        m => m.NotificationsPageModule
+      ),
+  },
+  {
+    path: 'data-protection',
+    loadChildren: () =>
+      import('./features/data-protection/data-protection.module').then(
+        m => m.DataProtectionPageModule
+      ),
+  },
+  {
+    path: 'recover-password',
+    loadChildren: () =>
+      import('./features/auth/recover-password/recover-password.module').then(
+        m => m.RecoverPasswordPageModule
+      ),
+  },
 
   {
     path: '**',

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
@@ -9,6 +10,7 @@ import {
   mailOutline,
   personOutline,
 } from 'ionicons/icons';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,8 +25,12 @@ export class LoginComponent {
   public isSubmitting = false;
   public isGoingToRegister = false;
   public isRecoveringPassword = false;
+  public errorMessage = '';
 
-  constructor(private readonly navCtrl: NavController) {
+  constructor(
+    private readonly navCtrl: NavController,
+    private readonly authService: AuthService,
+  ) {
     addIcons({
       mailOutline,
       lockClosedOutline,
@@ -57,15 +63,18 @@ export class LoginComponent {
     if (!this.isFormValid || this.isSubmitting) return;
 
     this.isSubmitting = true;
+    this.errorMessage = '';
 
     try {
       this.clearActiveFocus();
 
-      await this.delay(700);
-
-      await this.navCtrl.navigateRoot('/home');
-    } catch (error) {
-      console.error('Error al iniciar sesión y navegar hacia /home:', error);
+      const res = await firstValueFrom(this.authService.login(this.email, this.password));
+      if (res) {
+        this.authService.saveSession(res.token, res.user);
+        await this.navCtrl.navigateRoot('/home');
+      }
+    } catch (error: any) {
+      this.errorMessage = error.error?.error || 'Error al iniciar sesión';
     } finally {
       this.isSubmitting = false;
     }
@@ -108,7 +117,7 @@ export class LoginComponent {
   }
 
   public get isFormValid(): boolean {
-    return this.email.length > 5 && this.password.length >= 6;
+    return this.email.length > 0 && this.password.length >= 6;
   }
 
   private clearActiveFocus(): void {

@@ -1,0 +1,68 @@
+<ion-content [fullscreen]="true" class="notifications-page">
+  <main class="notifications-screen">
+    <header class="notifications-header">
+      <button
+        type="button"
+        class="notifications-back-btn"
+        aria-label="Volver atrás"
+        (click)="goBack()"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+
+      <h1 class="notifications-title">Notificaciones</h1>
+
+      <button
+        *ngIf="notifications.length > 0"
+        type="button"
+        class="notifications-clear-btn"
+        aria-label="Limpiar todas las notificaciones"
+        (click)="clearAll()"
+      >
+        <ion-icon name="trash-outline"></ion-icon>
+      </button>
+    </header>
+
+    <section class="notifications-body" aria-label="Lista de notificaciones">
+      <div
+        class="notifications-empty"
+        *ngIf="notifications.length === 0"
+      >
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <h2>No hay notificaciones</h2>
+        <p>Tus notificaciones aparecerán aquí cuando tengas actualizaciones de tus trámites.</p>
+      </div>
+
+      <div
+        class="notifications-list"
+        *ngIf="notifications.length > 0"
+      >
+        <div class="notifications-summary" *ngIf="unreadCount > 0">
+          <span>{{ unreadCount }} notificación{{ unreadCount !== 1 ? 'es' : '' }} sin leer</span>
+        </div>
+
+        <button
+          type="button"
+          class="notifications-item"
+          *ngFor="let item of notifications"
+          [class.unread]="!item.read"
+          (click)="markAsRead(item)"
+        >
+          <div class="notifications-item-icon" [class]="'type-' + item.type">
+            <ion-icon [name]="item.icon"></ion-icon>
+          </div>
+
+          <div class="notifications-item-content">
+            <div class="notifications-item-header">
+              <span class="notifications-item-title">{{ item.title }}</span>
+              <span class="notifications-item-date">{{ item.date }}</span>
+            </div>
+            <p class="notifications-item-desc">{{ item.description }}</p>
+          </div>
+
+          <div class="notifications-item-dot" *ngIf="!item.read"></div>
+        </button>
+      </div>
+    </section>
+  </main>
+</ion-content>

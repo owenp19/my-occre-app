@@ -56,7 +56,7 @@
 
             <button
               type="button"
-              class="password-toggle"
+              class="password-toggle occre-btn occre-btn--icon"
               aria-label="Mostrar u ocultar contraseña"
               (click)="togglePasswordVisibility()"
             >
@@ -70,7 +70,7 @@
         <div class="login-actions">
           <button
             type="button"
-            class="forgot-button"
+            class="forgot-button occre-btn occre-btn--link"
             [disabled]="isRecoveringPassword"
             (click)="recoverPassword()"
           >
@@ -79,17 +79,22 @@
           </button>
         </div>
 
+        <p class="form-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </p>
+
         <button
           type="submit"
-          class="login-button"
+          class="login-button occre-btn occre-btn--primary occre-btn--full"
           [disabled]="!isFormValid || isSubmitting"
           [class.is-loading]="isSubmitting"
         >
-          <span class="login-button__wave" aria-hidden="true"></span>
-
           <span class="login-button__content">
             <span *ngIf="!isSubmitting">Ingresar</span>
-            <span *ngIf="isSubmitting">Validando acceso...</span>
+            <span class="loading-content" *ngIf="isSubmitting">
+              <span class="btn-spinner"></span>
+              <span>Validando datos...</span>
+            </span>
           </span>
         </button>
       </form>
@@ -99,7 +104,7 @@
 
         <button
           type="button"
-          class="register-link"
+          class="register-link occre-btn occre-btn--link"
           [disabled]="isGoingToRegister"
           (click)="goToRegister()"
         >

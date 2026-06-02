@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
@@ -11,8 +12,8 @@ import {
   eyeOffOutline,
   chevronBackOutline,
   chevronForwardOutline,
-  checkmarkCircleOutline,
 } from 'ionicons/icons';
+import { AuthService } from '../../../services/auth.service';
 
 interface RegisterForm {
   firstName: string;
@@ -50,6 +51,7 @@ export class RegisterPage {
   public isSubmitting = false;
   public wasSubmitted = false;
   public isGoingBack = false;
+  public errorMessage = '';
 
   public readonly documentTypes = [
     { value: 'CC', label: 'Cédula de ciudadanía' },
@@ -58,7 +60,10 @@ export class RegisterPage {
     { value: 'PA', label: 'Pasaporte' },
   ];
 
-  constructor(private readonly navCtrl: NavController) {
+  constructor(
+    private readonly navCtrl: NavController,
+    private readonly authService: AuthService,
+  ) {
     addIcons({
       personOutline,
       cardOutline,
@@ -69,7 +74,6 @@ export class RegisterPage {
       eyeOffOutline,
       chevronBackOutline,
       chevronForwardOutline,
-      checkmarkCircleOutline,
     });
   }
 
@@ -130,16 +134,32 @@ export class RegisterPage {
 
   public async register(): Promise<void> {
     this.wasSubmitted = true;
+    this.errorMessage = '';
 
     if (!this.isFormValid || this.isSubmitting) return;
 
     this.isSubmitting = true;
 
     try {
-      await this.delay(1300);
-      await this.navCtrl.navigateRoot('/home');
-    } catch (error) {
-      console.error('Error al registrar y navegar hacia /home:', error);
+      const res = await firstValueFrom(
+        this.authService.register({
+          firstName: this.form.firstName,
+          lastName: this.form.lastName,
+          email: this.form.email,
+          password: this.form.password,
+          documentType: this.form.documentType,
+          documentNumber: this.form.documentNumber,
+          phone: this.form.phone,
+        })
+      );
+
+      if (res) {
+        this.authService.saveSession(res.token, res.user);
+        await this.navCtrl.navigateRoot('/home');
+      }
+    } catch (error: any) {
+      this.errorMessage = error.error?.error || 'Error al registrar usuario';
+    } finally {
       this.isSubmitting = false;
     }
   }

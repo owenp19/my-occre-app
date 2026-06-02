@@ -8,11 +8,6 @@ ion-content.login-page {
   --background: var(--app-color-background);
 }
 
-/* =========================================================
-   CONTENEDOR GENERAL
-   Pantalla completa, sin espacios laterales sobrantes
-   ========================================================= */
-
 .login-screen {
   width: 100%;
   min-width: 100%;
@@ -26,11 +21,6 @@ ion-content.login-page {
   background: var(--app-color-background);
   overflow-x: hidden;
 }
-
-/* =========================================================
-   CONTENEDOR DEL LOGIN
-   Pantalla completa, sin tarjeta flotante
-   ========================================================= */
 
 .login-card {
   width: 100%;
@@ -48,10 +38,84 @@ ion-content.login-page {
   overflow: hidden;
 }
 
-/* =========================================================
-   CABECERA SUPERIOR
-   Degradado azul + negro usando paleta global
-   ========================================================= */
+.input-wrapper {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 16px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+
+  border: 1px solid rgba(var(--occre-primary-rgb), 0.14);
+  border-radius: 50px;
+
+  background: var(--occre-white);
+
+  box-shadow:
+    0 10px 24px rgba(7, 26, 47, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: rgba(var(--occre-primary-rgb), 0.45);
+
+  box-shadow:
+    0 12px 28px rgba(var(--occre-primary-rgb), 0.12),
+    0 0 0 4px rgba(var(--occre-primary-rgb), 0.08);
+
+  transform: translateY(-1px);
+}
+
+.input-icon {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+
+  font-size: 22px;
+  color: var(--app-color-text-soft);
+}
+
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+
+  --placeholder-color: var(--app-color-text-soft);
+  --placeholder-opacity: 0.82;
+
+  --color: var(--app-color-text);
+
+  --highlight-height: 0;
+  --highlight-color: transparent;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  --border-color: transparent;
+
+  flex: 1;
+  min-width: 0;
+
+  font-family: var(--app-font-text);
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.password-toggle {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+}
+
+.password-toggle:disabled {
+  opacity: 0.65;
+}
 
 .login-top {
   width: 100%;
@@ -77,10 +141,6 @@ ion-content.login-page {
   border-radius: 0;
   box-shadow: none;
 }
-
-/* =========================================================
-   MARCA
-   ========================================================= */
 
 .login-brand {
   width: 100%;
@@ -134,10 +194,6 @@ ion-content.login-page {
   color: var(--occre-white);
 }
 
-/* =========================================================
-   AVATAR
-   ========================================================= */
-
 .login-avatar {
   width: 72px;
   height: 72px;
@@ -157,10 +213,6 @@ ion-content.login-page {
   font-size: 38px;
   color: var(--occre-white);
 }
-
-/* =========================================================
-   TÍTULOS
-   ========================================================= */
 
 .login-top h1 {
   margin: 0 0 10px;
@@ -187,10 +239,6 @@ ion-content.login-page {
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* =========================================================
-   FORMULARIO
-   ========================================================= */
-
 .login-form {
   width: 100%;
   margin: 0;
@@ -212,199 +260,10 @@ ion-content.login-page {
   flex-direction: column;
 }
 
-.input-wrapper {
-  width: 100%;
-  min-height: 58px;
-  padding: 0 16px;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  border: 1px solid rgba(var(--occre-primary-rgb), 0.14);
-  border-radius: 999px;
-
-  background: var(--occre-white);
-
-  box-shadow:
-    0 10px 24px rgba(7, 26, 47, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
-}
-
-.input-wrapper:focus-within {
-  border-color: rgba(var(--occre-primary-rgb), 0.45);
-
-  box-shadow:
-    0 12px 28px rgba(var(--occre-primary-rgb), 0.12),
-    0 0 0 4px rgba(var(--occre-primary-rgb), 0.08);
-
-  transform: translateY(-1px);
-}
-
-.input-icon {
-  flex: 0 0 auto;
-
-  font-size: 22px;
-  color: var(--app-color-text-soft);
-}
-
-ion-input {
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
-
-  --placeholder-color: var(--app-color-text-soft);
-  --placeholder-opacity: 0.82;
-
-  --color: var(--app-color-text);
-
-  --highlight-height: 0;
-  --highlight-color: transparent;
-  --highlight-color-focused: transparent;
-  --highlight-color-valid: transparent;
-  --highlight-color-invalid: transparent;
-  --border-color: transparent;
-
-  flex: 1;
-
-  font-family: var(--app-font-text);
-  font-size: 0.98rem;
-  font-weight: 500;
-}
-
-/* =========================================================
-   BOTÓN MOSTRAR CONTRASEÑA
-   ========================================================= */
-
-.password-toggle {
-  width: 38px;
-  height: 38px;
-  padding: 0;
-
-  flex: 0 0 auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 0;
-  border-radius: 50%;
-
-  background: rgba(var(--occre-primary-rgb), 0.08);
-  color: var(--app-color-primary);
-
-  cursor: pointer;
-
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease,
-    opacity 180ms ease,
-    color 180ms ease;
-}
-
-.password-toggle ion-icon {
-  font-size: 21px;
-}
-
-.password-toggle:active {
-  transform: scale(0.94);
-}
-
-.password-toggle:disabled {
-  opacity: 0.65;
-  cursor: default;
-}
-
-/* =========================================================
-   ACCIONES SECUNDARIAS
-   ========================================================= */
-
-.login-actions {
-  width: 100%;
-  margin: -2px 0 0;
-  padding: 0;
-
-  display: flex;
-  justify-content: flex-end;
-}
-
-.forgot-button {
-  padding: 4px 0;
-  border: 0;
-
-  background: transparent;
-  color: var(--app-color-primary);
-
-  font-family: var(--app-font-text);
-  font-size: 0.84rem;
-  font-weight: 800;
-  line-height: 1.2;
-
-  cursor: pointer;
-
-  transition:
-    color 180ms ease,
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-.forgot-button:active {
-  transform: translateY(1px);
-}
-
-.forgot-button:disabled {
-  opacity: 0.65;
-  cursor: default;
-}
-
-/* =========================================================
-   BOTÓN PRINCIPAL
-   ========================================================= */
-
 .login-button {
   position: relative;
-
-  width: 100%;
-  min-height: 58px;
   margin: 18px 0 0;
-  padding: 0 22px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 0;
-  border-radius: 999px;
-
-  background: var(--app-color-secondary);
-  color: var(--occre-white);
-
-  font-family: var(--app-font-text);
-  font-size: 1.03rem;
-  font-weight: 900;
-  line-height: 1;
-  text-align: center;
-
-  box-shadow:
-    0 16px 32px rgba(7, 26, 47, 0.24),
-    0 0 0 4px rgba(7, 26, 47, 0.06);
-
-  cursor: pointer;
   overflow: hidden;
-
-  transition:
-    background-color 220ms ease,
-    color 220ms ease,
-    transform 180ms ease,
-    opacity 180ms ease,
-    box-shadow 220ms ease,
-    filter 180ms ease;
 }
 
 .login-button::before {
@@ -423,10 +282,6 @@ ion-input {
   pointer-events: none;
 }
 
-.login-button__wave {
-  display: none;
-}
-
 .login-button__content {
   position: relative;
   z-index: 1;
@@ -434,68 +289,34 @@ ion-input {
 
 @media (hover: hover) {
   .login-button:hover:not(:disabled) {
-    background: var(--app-color-secondary);
-    color: var(--app-color-dark);
-
-    box-shadow:
-      0 18px 34px rgba(var(--occre-secondary-rgb), 0.28),
-      0 0 0 5px rgba(var(--occre-secondary-rgb), 0.14);
-
-    transform: translateY(-1px);
+    filter: brightness(0.98);
   }
 }
 
 .login-button:active:not(:disabled) {
-  background: var(--app-color-secondary);
-  color: var(--app-color-dark);
-
-  transform: scale(0.97);
   filter: brightness(0.98);
-
-  box-shadow:
-    0 12px 24px rgba(var(--occre-secondary-rgb), 0.24),
-    0 0 0 4px rgba(var(--occre-secondary-rgb), 0.12);
 }
 
-.login-button:disabled {
-  opacity: 0.58;
-  cursor: default;
-
-  background: var(--app-color-dark);
-  color: var(--occre-white);
-
-  box-shadow:
-    0 10px 22px rgba(7, 26, 47, 0.12),
-    0 0 0 0 transparent;
+.loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.login-button.is-loading {
-  pointer-events: none;
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  flex-shrink: 0;
 }
 
-.login-button.is-loading::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-
-  border-radius: inherit;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.24),
-      transparent
-    );
-
-  transform: translateX(-110%);
-  animation: loadingSweep 1s ease-in-out infinite;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
-
-/* =========================================================
-   PIE DE PÁGINA
-   ========================================================= */
 
 .login-footer {
   width: 100%;
@@ -524,63 +345,16 @@ ion-input {
 }
 
 .register-link {
-  padding: 0;
-  border: 0;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-
-  background: transparent;
-  color: var(--app-color-primary);
-
-  font-family: var(--app-font-text);
   font-size: 0.94rem;
-  font-weight: 900;
-  line-height: 1.2;
-
-  cursor: pointer;
-
-  transition:
-    transform 180ms ease,
-    opacity 180ms ease,
-    color 180ms ease;
-}
-
-@media (hover: hover) {
-  .register-link:hover:not(:disabled) {
-    color: var(--app-color-secondary);
-  }
 }
 
 .register-link ion-icon {
   font-size: 18px;
 }
 
-.register-link:active {
-  color: var(--app-color-secondary);
-  transform: translateX(2px);
-}
-
 .register-link:disabled {
   opacity: 0.65;
-  cursor: default;
 }
-
-/* =========================================================
-   ANIMACIÓN DE CARGA
-   ========================================================= */
-
-@keyframes loadingSweep {
-  to {
-    transform: translateX(110%);
-  }
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
 
 @media (min-width: 768px) {
   .login-screen {
@@ -636,7 +410,24 @@ ion-input {
     min-height: 56px;
   }
 
-  .login-button {
+.form-error {
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px;
+
+  font-family: var(--app-font-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+
+  color: var(--occre-red, #d32f2f);
+  background: rgba(211, 47, 47, 0.08);
+
+  border-radius: 12px;
+}
+
+.login-button {
     min-height: 56px;
   }
 }

@@ -26,7 +26,7 @@
   margin: 0;
 
   border: 4px solid var(--occre-white);
-  border-radius: 50%;
+  border-radius: 50px;
   background: var(--occre-primary);
   color: var(--occre-white);
   box-shadow: 0 16px 38px rgba(var(--occre-primary-rgb), 0.36);
@@ -167,6 +167,13 @@
   opacity: 0.9;
 }
 
+.chatbot-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chatbot-clear,
 .chatbot-close {
   width: 38px;
   height: 38px;
@@ -175,13 +182,21 @@
   place-items: center;
 
   border: 0;
-  border-radius: 50%;
+  border-radius: 50px;
   background: rgba(255, 255, 255, 0.14);
   color: var(--occre-white);
 
   cursor: pointer;
+
+  transition: background 160ms ease;
 }
 
+.chatbot-clear:active,
+.chatbot-close:active {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.chatbot-clear ion-icon,
 .chatbot-close ion-icon {
   font-size: 22px;
 }
@@ -279,7 +294,7 @@
   gap: 5px;
 
   border: 0;
-  border-radius: 999px;
+  border-radius: 50px;
   background: rgba(var(--occre-secondary-rgb), 0.14);
   color: var(--occre-primary);
 
@@ -305,13 +320,84 @@
   padding: 7px 9px;
 
   border: 1px solid rgba(var(--occre-primary-rgb), 0.16);
-  border-radius: 999px;
+  border-radius: 50px;
   background: var(--occre-white);
   color: var(--occre-primary);
 
   font-size: 0.72rem;
   font-weight: 800;
   cursor: pointer;
+}
+
+/* ================================
+   TYPING INDICATOR
+================================ */
+
+.chatbot-typing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  margin-top: 2px;
+}
+
+.typing-avatar {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--occre-light);
+  border: 2px solid var(--occre-white);
+}
+
+.typing-avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 14px;
+  background: var(--occre-white);
+  border-radius: 19px;
+  border-bottom-left-radius: 7px;
+  box-shadow: 0 8px 18px rgba(7, 26, 47, 0.06);
+}
+
+.typing-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--app-color-text-soft);
+  opacity: 0.4;
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
 }
 
 /* ================================
@@ -357,7 +443,7 @@
   place-items: center;
 
   border: 0;
-  border-radius: 50%;
+  border-radius: 50px;
   background: var(--occre-secondary);
   color: var(--occre-white);
 

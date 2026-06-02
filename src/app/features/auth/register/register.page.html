@@ -5,7 +5,7 @@
         <div class="register-brand">
           <button
             type="button"
-            class="back-button"
+            class="back-button occre-btn occre-btn--icon"
             aria-label="Volver al inicio de sesión"
             (click)="goBack()"
           >
@@ -65,7 +65,7 @@
               <ion-icon name="card-outline" class="input-icon"></ion-icon>
 
               <ion-select
-                interface="popover"
+                interface="action-sheet"
                 placeholder="Tipo de documento"
                 [value]="form.documentType"
                 (ionChange)="onDocumentTypeChange($event)"
@@ -139,7 +139,7 @@
 
               <button
                 type="button"
-                class="password-toggle"
+                class="password-toggle occre-btn occre-btn--icon"
                 aria-label="Mostrar u ocultar contraseña"
                 (click)="togglePasswordVisibility()"
               >
@@ -164,7 +164,7 @@
 
               <button
                 type="button"
-                class="password-toggle"
+                class="password-toggle occre-btn occre-btn--icon"
                 aria-label="Mostrar u ocultar confirmación de contraseña"
                 (click)="toggleConfirmPasswordVisibility()"
               >
@@ -183,6 +183,10 @@
           Las contraseñas no coinciden.
         </p>
 
+        <p class="form-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </p>
+
         <label class="terms-box">
           <ion-checkbox
             [checked]="form.acceptTerms"
@@ -197,13 +201,16 @@
 
         <button
           type="submit"
-          class="register-button"
+          class="register-button occre-btn occre-btn--dark occre-btn--full"
           [disabled]="!isFormValid || isSubmitting"
           [class.is-loading]="isSubmitting"
         >
           <span class="register-button__content">
             <span *ngIf="!isSubmitting">Crear cuenta</span>
-            <span *ngIf="isSubmitting">Registrando...</span>
+            <span class="loading-content" *ngIf="isSubmitting">
+              <span class="btn-spinner"></span>
+              <span>Validando datos...</span>
+            </span>
           </span>
         </button>
       </form>
@@ -213,7 +220,7 @@
 
         <button
           type="button"
-          class="login-link"
+          class="login-link occre-btn occre-btn--link"
           (click)="goToLogin()"
         >
           Iniciar sesión

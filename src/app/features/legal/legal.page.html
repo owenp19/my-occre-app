@@ -1,0 +1,60 @@
+<ion-content [fullscreen]="true" class="legal-page">
+  <main class="legal-screen">
+    <header class="legal-header">
+      <button
+        type="button"
+        class="legal-back-btn"
+        aria-label="Volver atrás"
+        (click)="goBack()"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+
+      <h1 class="legal-title">Información legal</h1>
+    </header>
+
+    <section class="legal-body" aria-label="Información legal y políticas">
+      <div class="legal-intro">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <p>
+          En cumplimiento de la normativa colombiana de protección de datos y
+          transparencia, ponemos a tu disposición la información legal
+          relacionada con el tratamiento de tu información y el uso de la
+          aplicación.
+        </p>
+      </div>
+
+      <div class="legal-group">
+        <div
+          class="legal-section"
+          *ngFor="let section of sections"
+        >
+          <button
+            type="button"
+            class="legal-section-header"
+            (click)="toggleSection(section)"
+            [attr.aria-expanded]="section.open"
+          >
+            <ion-icon [name]="section.icon"></ion-icon>
+            <span>{{ section.title }}</span>
+            <ion-icon
+              [name]="section.open ? 'chevron-down-outline' : 'chevron-forward-outline'"
+            ></ion-icon>
+          </button>
+
+          <div
+            class="legal-section-body"
+            [class.open]="section.open"
+          >
+            <p>{{ section.content }}</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="legal-footer-text">
+        Última actualización: mayo de 2026. Para más información, contacta a la
+        OCCRE a través de los canales oficiales.
+      </p>
+    </section>
+  </main>
+</ion-content>

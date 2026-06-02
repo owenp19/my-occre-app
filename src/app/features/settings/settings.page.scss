@@ -1,0 +1,245 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+ion-content.settings-page {
+  --background: var(--app-color-background);
+}
+
+.settings-screen {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--app-color-background);
+}
+
+.settings-header {
+  position: relative;
+  width: 100%;
+  padding: calc(env(safe-area-inset-top) + 20px) 24px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--app-color-primary) 0%,
+      var(--app-color-dark) 100%
+    );
+}
+
+.settings-back-btn {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 8px);
+  left: 8px;
+
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--occre-white);
+
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  transition: background 160ms ease;
+}
+
+.settings-back-btn:active {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.settings-back-btn ion-icon {
+  font-size: 24px;
+}
+
+.settings-title {
+  margin: 0;
+  font-family: var(--app-font-title);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--occre-white);
+  letter-spacing: 0.02em;
+}
+
+.settings-body {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.settings-group {
+  width: 100%;
+}
+
+.settings-group-title {
+  font-family: var(--app-font-text);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--app-color-text-soft);
+  margin: 0 0 12px;
+  padding: 0 4px;
+}
+
+.settings-group-inner {
+  width: 100%;
+  background: var(--occre-white);
+  border: 1px solid rgba(7, 26, 47, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.settings-row {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  border-bottom: 1px solid rgba(7, 26, 47, 0.05);
+}
+
+.settings-row:last-child {
+  border-bottom: 0;
+}
+
+.settings-row-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
+.settings-row-left ion-icon {
+  flex: 0 0 auto;
+  font-size: 22px;
+  color: var(--app-color-primary);
+}
+
+.settings-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.settings-row-label {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--app-color-text);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.settings-row-desc {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--app-color-text-soft);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.settings-toggle {
+  --handle-background: var(--app-color-text-soft);
+  --handle-background-checked: var(--occre-white);
+  --background: rgba(7, 26, 47, 0.12);
+  --background-checked: var(--app-color-primary);
+}
+
+.settings-row-nav {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--app-color-text-soft);
+
+  cursor: pointer;
+}
+
+.settings-row-nav ion-icon {
+  font-size: 20px;
+}
+
+.settings-lang-menu {
+  border-bottom: 1px solid rgba(7, 26, 47, 0.05);
+}
+
+.settings-lang-option {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  background: transparent;
+  color: var(--app-color-text);
+  font-family: var(--app-font-text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.settings-lang-option:active {
+  background: rgba(7, 26, 47, 0.04);
+}
+
+.settings-lang-option:not(:last-child) {
+  border-bottom: 1px solid rgba(7, 26, 47, 0.04);
+}
+
+.settings-lang-check {
+  font-size: 20px;
+  color: var(--app-color-primary);
+}
+
+.settings-logout {
+  margin: 4px 0 0;
+}
+
+.settings-logout ion-icon {
+  font-size: 22px;
+}
+
+@media (max-width: 380px) {
+  .settings-header {
+    padding-top: calc(env(safe-area-inset-top) + 18px);
+    padding-inline: 18px;
+  }
+
+  .settings-body {
+    padding-inline: 16px;
+  }
+
+  .settings-row {
+    padding-inline: 14px;
+  }
+}

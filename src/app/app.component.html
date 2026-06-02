@@ -1,3 +1,13 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+
+  <app-occre-chatbot *ngIf="showChatbot"></app-occre-chatbot>
+
+  <div class="app-loader" *ngIf="isLoading">
+    <div class="app-loader-backdrop"></div>
+    <div class="app-loader-content">
+      <div class="app-loader-spinner"></div>
+      <p class="app-loader-text">Cargando...</p>
+    </div>
+  </div>
 </ion-app>

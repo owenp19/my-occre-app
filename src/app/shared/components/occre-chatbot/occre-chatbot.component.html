@@ -17,14 +17,25 @@
         <p>{{ botSubtitle }}</p>
       </div>
 
-      <button
-        type="button"
-        class="chatbot-close"
-        aria-label="Cerrar chat"
-        (click)="closeChat()"
-      >
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
+      <div class="chatbot-header-actions">
+        <button
+          type="button"
+          class="chatbot-clear"
+          aria-label="Limpiar conversación"
+          (click)="clearConversation()"
+        >
+          <ion-icon name="refresh-outline"></ion-icon>
+        </button>
+
+        <button
+          type="button"
+          class="chatbot-close"
+          aria-label="Cerrar chat"
+          (click)="closeChat()"
+        >
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
     </header>
 
     <div
@@ -32,7 +43,7 @@
       class="chatbot-body"
     >
       <div class="chatbot-disclaimer">
-        Orientación básica. Para decisiones oficiales, verifica con la OCCRE.
+        {{ 'chatbot.disclaimer' | translate }}
       </div>
 
       <div class="chatbot-messages">
@@ -42,7 +53,7 @@
           [class.user-message]="message.author === 'user'"
           [class.bot-message]="message.author === 'bot'"
         >
-          <p>{{ message.text }}</p>
+          <p>{{ message.text | translate }}</p>
 
           <button
             *ngIf="message.sourceUrl"
@@ -50,7 +61,7 @@
             class="source-button"
             (click)="openSource(message.sourceUrl)"
           >
-            {{ message.sourceLabel || 'Ver fuente oficial' }}
+            {{ message.sourceLabel || ('chatbot.source' | translate) }}
             <ion-icon name="open-outline"></ion-icon>
           </button>
 
@@ -67,6 +78,21 @@
             </button>
           </div>
         </article>
+
+        <div
+          class="chatbot-typing"
+          *ngIf="isTyping"
+          aria-label="Miss Lorna está escribiendo una respuesta"
+        >
+          <div class="typing-avatar">
+            <img [src]="botAvatarUrl" alt="" />
+          </div>
+          <div class="typing-dots">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -78,8 +104,8 @@
         type="text"
         name="userQuestion"
         [(ngModel)]="userQuestion"
-        placeholder="Escribe tu pregunta..."
-        aria-label="Escribe tu pregunta para Miss Lorna"
+        placeholder="{{ 'chatbot.placeholder' | translate }}"
+         aria-label="{{ 'chatbot.placeholder' | translate }}"
         autocomplete="off"
       />
 
@@ -106,7 +132,7 @@
     </span>
 
     <span class="chatbot-toggle-text">
-      Ayuda
+      {{ 'chatbot.help' | translate }}
     </span>
   </button>
 </div>

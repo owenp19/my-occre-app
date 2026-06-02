@@ -101,7 +101,7 @@ button {
   display: grid;
   place-items: center;
 
-  border-radius: 14px;
+  border-radius: 50px;
   background: var(--home-surface);
   color: var(--home-primary);
 
@@ -144,7 +144,7 @@ button {
   align-items: center;
   gap: 10px;
 
-  border-radius: 16px;
+  border-radius: 50px;
   background: transparent;
   color: var(--home-text);
   text-align: left;
@@ -256,7 +256,7 @@ button {
   display: grid;
   place-items: center;
 
-  border-radius: 50%;
+  border-radius: 50px;
   background: transparent;
   color: var(--home-white);
 
@@ -308,7 +308,7 @@ button {
   place-items: center;
 
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 50px;
   background: var(--home-dark);
   color: var(--home-white);
 
@@ -446,7 +446,7 @@ button {
   --background-hover: var(--ion-color-secondary-shade);
   --background-activated: var(--ion-color-secondary-shade);
   --color: var(--home-white);
-  --border-radius: 15px;
+  --border-radius: 50px;
   --box-shadow: none;
 
   min-height: 52px;
@@ -537,7 +537,7 @@ button {
   overflow: hidden;
 
   border: 0;
-  border-radius: 18px;
+  border-radius: 50px;
   background: var(--home-white);
   color: var(--home-text-soft);
   text-align: left;
@@ -584,10 +584,7 @@ button {
   height: 46px;
   min-width: 46px;
 
-  display: grid;
-  place-items: center;
-
-  border-radius: 16px;
+  border-radius: 50px;
   background: var(--home-white);
   color: var(--home-primary);
 
@@ -646,7 +643,7 @@ button {
   align-items: center;
   gap: 10px;
 
-  border-radius: 14px;
+  border-radius: 50px;
   background: transparent;
   color: var(--home-text);
   text-align: left;
@@ -954,6 +951,29 @@ button {
   color: var(--ion-color-primary-tint);
 }
 
+.procedures-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.procedures-empty ion-icon {
+  font-size: 40px;
+  color: var(--home-text-soft);
+  opacity: 0.5;
+}
+
+.procedures-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--home-text-soft);
+  font-family: var(--app-font-text);
+}
+
 /* =========================================================
    BANNER PROTECCIÓN DE DATOS
 ========================================================= */
@@ -966,25 +986,7 @@ button {
   grid-template-columns: 62px minmax(0, 1fr);
   align-items: center;
   gap: 14px;
-
-  border-radius: 22px;
-  background: var(--home-surface);
-  border: 1px solid var(--home-border-soft);
-}
-
-.data-protection-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.shield-icon {
-  width: 60px;
-  height: 60px;
-
-  display: grid;
-  place-items: center;
-
+  overflow: hidden;
   border-radius: 20px;
   background: var(--home-primary);
   color: var(--home-white);

@@ -1,0 +1,102 @@
+<ion-content [fullscreen]="true" class="help-page">
+  <main class="help-screen">
+    <header class="help-header">
+      <button
+        type="button"
+        class="help-back-btn"
+        aria-label="{{ 'common.back' | translate }}"
+        (click)="goBack()"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+
+      <h1 class="help-title">{{ 'help.title' | translate }}</h1>
+    </header>
+
+    <section class="help-body" aria-label="{{ 'help.title' | translate }}">
+      <div class="help-group">
+        <h2 class="help-group-title">{{ 'help.channels' | translate }}</h2>
+
+        <div class="help-group-inner">
+          <a
+            class="help-contact-row"
+            *ngFor="let item of contactInfo"
+            [href]="item.href || '#'"
+            [target]="item.href ? '_blank' : ''"
+            [rel]="item.href ? 'noopener noreferrer' : ''"
+            [class.no-link]="!item.href"
+          >
+            <ion-icon [name]="item.icon"></ion-icon>
+            <div class="help-contact-info">
+              <span class="help-contact-label">{{ item.label | translate }}</span>
+              <span class="help-contact-value">{{ item.value }}</span>
+            </div>
+            <ion-icon
+              *ngIf="item.href"
+              name="chevron-forward-outline"
+              class="help-contact-arrow"
+            ></ion-icon>
+          </a>
+        </div>
+      </div>
+
+      <div class="help-group">
+        <h2 class="help-group-title">{{ 'help.faq' | translate }}</h2>
+
+        <div class="help-group-inner">
+          <div
+            class="help-faq-item"
+            *ngFor="let faq of faqItems"
+          >
+            <button
+              type="button"
+              class="help-faq-header"
+              (click)="toggleFaq(faq)"
+              [attr.aria-expanded]="faq.open"
+            >
+              <span>{{ faq.question }}</span>
+              <ion-icon
+                [name]="faq.open ? 'chevron-down-outline' : 'chevron-forward-outline'"
+              ></ion-icon>
+            </button>
+
+            <div
+              class="help-faq-body"
+              [class.open]="faq.open"
+            >
+              <div class="help-faq-answer">
+                <p>{{ faq.answer }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-group">
+        <h2 class="help-group-title">{{ 'help.links' | translate }}</h2>
+
+        <div class="help-group-inner">
+          <button
+            type="button"
+            class="help-action-row"
+            (click)="openLink('https://www.sanandres.gov.co/')"
+          >
+            <ion-icon name="globe-outline"></ion-icon>
+            <span>{{ 'help.links.governor' | translate }}</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+
+          <button
+            type="button"
+            class="help-action-row"
+            (click)="openLink('https://ventanilla.sanandres.gov.co/')"
+          >
+            <ion-icon name="document-text-outline"></ion-icon>
+            <span>{{ 'help.links.virtual' | translate }}</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+</ion-content>

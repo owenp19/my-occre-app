@@ -38,7 +38,6 @@ export class WelcomePage {
     this.isStarting = true;
 
     try {
-      await new Promise(resolve => window.setTimeout(resolve, 450));
       await this.navCtrl.navigateRoot('/login');
     } catch (error) {
       console.error('Error al navegar hacia login:', error);

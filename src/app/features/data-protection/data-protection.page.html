@@ -1,0 +1,52 @@
+<ion-content [fullscreen]="true" class="protection-page">
+  <main class="protection-screen">
+    <header class="protection-header">
+      <button
+        type="button"
+        class="protection-back-btn"
+        aria-label="Volver atrás"
+        (click)="goBack()"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+
+      <h1 class="protection-title">Datos protegidos</h1>
+    </header>
+
+    <section class="protection-body" aria-label="Información sobre protección de datos">
+      <div class="protection-hero">
+        <div class="protection-hero-icon">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <h2>Tus datos están seguros con nosotros</h2>
+        <p>
+          En la OCCRE tratamos tu información personal con responsabilidad,
+          transparencia y cumplimiento de la ley.
+        </p>
+      </div>
+
+      <div class="protection-list">
+        <div
+          class="protection-card"
+          *ngFor="let item of items"
+        >
+          <div class="protection-card-icon">
+            <ion-icon [name]="item.icon"></ion-icon>
+          </div>
+          <div class="protection-card-content">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="protection-footer">
+        <ion-icon name="document-text-outline"></ion-icon>
+        <p>
+          Para conocer más detalles sobre el tratamiento de tus datos, consulta nuestra
+          <a href="/legal">política de privacidad</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+</ion-content>

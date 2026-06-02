@@ -37,25 +37,15 @@
 
     <button
       type="button"
-      class="welcome-button"
+      class="welcome-button occre-btn"
       aria-label="Iniciar aplicación OCCRE"
       [disabled]="isStarting"
       [class.is-loading]="isStarting"
+      [class.occre-btn--loading]="isStarting"
       (click)="startJourney()"
     >
       Iniciar
     </button>
 
-    <section
-  class="start-loader"
-  [class.is-visible]="isStarting"
-  aria-live="polite"
-  aria-label="Cargando acceso"
->
-  <div class="start-loader__content">
-    <div class="start-loader__spinner"></div>
-    <p>Cargando...</p>
-  </div>
-</section>
   </main>
 </ion-content>

@@ -5,7 +5,6 @@ import { addIcons } from 'ionicons';
 import {
   menuOutline,
   notificationsOutline,
-  chevronDownOutline,
   chevronForwardOutline,
   searchOutline,
   optionsOutline,
@@ -22,7 +21,12 @@ import {
   airplaneOutline,
   businessOutline,
   shieldCheckmarkOutline,
+  settingsOutline,
+  logOutOutline,
+  informationCircleOutline,
 } from 'ionicons/icons';
+import { AuthService } from '../../services/auth.service';
+import { NotificationsService } from '../../services/notifications.service';
 
 interface HeroSlide {
   image: string;
@@ -36,13 +40,6 @@ interface HeroSlide {
 interface MenuOption {
   label: string;
   icon: string;
-  route: string;
-}
-
-interface QuickSearchOption {
-  label: string;
-  icon: string;
-  value: string;
   route: string;
 }
 
@@ -72,16 +69,15 @@ export class HomePage implements OnInit, OnDestroy {
   public readonly brandImagePath = 'assets/images/logo-occre.png';
 
   public currentUser: UserProfile = {
-    firstName: 'Juan',
-    lastName: 'Díaz',
+    firstName: '',
+    lastName: '',
     photoUrl: null,
   };
 
-  public readonly notificationCount = 2;
+  public notificationCount = 0;
 
   public activeSlideIndex = 0;
   public searchTerm = '';
-  public isQuickSearchOpen = false;
 
   public readonly heroSlides: HeroSlide[] = [
     {
@@ -115,45 +111,29 @@ export class HomePage implements OnInit, OnDestroy {
 
   public readonly menuOptions: MenuOption[] = [
     {
-      label: 'Inicio',
-      icon: 'home-outline',
-      route: '/home',
-    },
-    {
-      label: 'Trámites',
-      icon: 'document-text-outline',
-      route: '/procedures',
-    },
-    {
-      label: 'Mi perfil',
-      icon: 'person-outline',
-      route: '/profile',
+      label: 'Notificaciones',
+      icon: 'notifications-outline',
+      route: '/notifications',
     },
     {
       label: 'Ayuda y contacto',
       icon: 'help-circle-outline',
       route: '/help-contact',
     },
-  ];
-
-  public readonly quickSearchOptions: QuickSearchOption[] = [
     {
-      label: 'Buscar trámites',
-      icon: 'document-text-outline',
-      value: 'tramites',
-      route: '/procedures',
+      label: 'Información legal',
+      icon: 'information-circle-outline',
+      route: '/legal',
     },
     {
-      label: 'Consultar estado',
-      icon: 'search-outline',
-      value: 'estado',
-      route: '/procedures',
+      label: 'Configuración',
+      icon: 'settings-outline',
+      route: '/settings',
     },
     {
-      label: 'Ver requisitos',
-      icon: 'folder-open-outline',
-      value: 'requisitos',
-      route: '/procedures',
+      label: 'Cerrar sesión',
+      icon: 'log-out-outline',
+      route: 'logout',
     },
   ];
 
@@ -254,12 +234,13 @@ export class HomePage implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
-    private readonly menuController: MenuController
+    private readonly menuController: MenuController,
+    private readonly authService: AuthService,
+    private readonly notificationsService: NotificationsService,
   ) {
     addIcons({
       menuOutline,
       notificationsOutline,
-      chevronDownOutline,
       chevronForwardOutline,
       searchOutline,
       optionsOutline,
@@ -276,15 +257,42 @@ export class HomePage implements OnInit, OnDestroy {
       airplaneOutline,
       businessOutline,
       shieldCheckmarkOutline,
+      settingsOutline,
+      logOutOutline,
+      informationCircleOutline,
     });
   }
 
   public ngOnInit(): void {
+    const user = this.authService.getUser();
+    if (user) {
+      this.currentUser = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        photoUrl: null,
+      };
+      this.notificationsService.getUnreadCount().subscribe({
+        next: (res) => { this.notificationCount = res.count; },
+      });
+    }
     this.startCarousel();
   }
 
   public ngOnDestroy(): void {
     this.stopCarousel();
+  }
+
+  public get filteredProcedures(): OccreProcedure[] {
+    const query = this.searchTerm.trim().toLowerCase();
+    if (!query) {
+      return this.occreProcedures;
+    }
+    return this.occreProcedures.filter(
+      (p) =>
+        p.title.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query)
+    );
   }
 
   public get activeSlide(): HeroSlide {
@@ -312,6 +320,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   public async goTo(route: string): Promise<void> {
     await this.closeMenu();
+    if (route === 'logout') {
+      this.authService.logout();
+      return;
+    }
     await this.router.navigate([route]);
   }
 
@@ -336,37 +348,6 @@ export class HomePage implements OnInit, OnDestroy {
     void this.router.navigate(['/profile']);
   }
 
-  public submitSearch(): void {
-    const query = this.searchTerm.trim();
-
-    if (!query) {
-      return;
-    }
-
-    this.isQuickSearchOpen = false;
-
-    void this.router.navigate(['/procedures'], {
-      queryParams: {
-        search: query,
-      },
-    });
-  }
-
-  public toggleQuickSearchOptions(): void {
-    this.isQuickSearchOpen = !this.isQuickSearchOpen;
-  }
-
-  public selectQuickSearch(option: QuickSearchOption): void {
-    this.searchTerm = option.label;
-    this.isQuickSearchOpen = false;
-
-    void this.router.navigate([option.route], {
-      queryParams: {
-        filter: option.value,
-      },
-    });
-  }
-
   public goToProcedure(procedure: OccreProcedure): void {
     void this.router.navigate([procedure.route], {
       queryParams: {
@@ -374,11 +355,6 @@ export class HomePage implements OnInit, OnDestroy {
         category: procedure.category,
       },
     });
-  }
-
-  public clearSearch(): void {
-    this.searchTerm = '';
-    this.isQuickSearchOpen = false;
   }
 
   private startCarousel(): void {
