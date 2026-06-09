@@ -1,33 +1,70 @@
-:root {
-  /* =========================================================
-   * OCCRE APP — PALETA GLOBAL 
-   * Colores tomados del logo OCCRE:
-   * Azul institucional, naranja del sol y blanco de soporte.
-   * ========================================================= */
+/* =========================================================
+ * OCCRE APP — SISTEMA DE TEMAS GLOBAL
+ * =========================================================
+ * Jerarquía:
+ *   1. --occre-*       → Paleta raw (cambia por tema)
+ *   2. --app-*         → Variables semánticas de la app
+ *   3. --app-color-*   → Backward compatibility (alias)
+ *   4. --ion-color-*   → Integración con Ionic
+ *   5. body.tema-*     → Override por clase en <body>
+ * =========================================================
+ * IMPORTANTE: NO crear referencias circulares.
+ *   --occre-*  → valores hardcodeados en :root
+ *   --app-*    → var(--occre-*) 
+ *   --app-color-* → var(--app-*)
+ *   body.tema-* → overridea --occre-* y --app-*
+ * ========================================================= */
 
+/* =========================================================
+ * TEMA POR DEFECTO — AZUL INSTITUCIONAL
+ * ========================================================= */
+:root {
   --occre-primary: #1d72b5;
   --occre-primary-rgb: 29, 114, 181;
-
   --occre-secondary: #f39218;
   --occre-secondary-rgb: 243, 146, 24;
-
   --occre-white: #ffffff;
   --occre-dark: #071a2f;
+  --occre-dark-rgb: 7, 26, 47;
   --occre-light: #f5f8fb;
   --occre-text: #102033;
   --occre-text-soft: #5c6b7a;
 
-  /* =========================================================
-   * ROLES GLOBALES DE LA APP
-   * ========================================================= */
+  --app-primary: var(--occre-primary);
+  --app-primary-rgb: var(--occre-primary-rgb);
+  --app-primary-shade: #1964a1;
+  --app-primary-tint: #3480c4;
+  --app-primary-contrast: #ffffff;
+  --app-primary-contrast-rgb: 255, 255, 255;
+  --app-primary-soft: rgba(var(--occre-primary-rgb), 0.10);
+  --app-primary-border: rgba(var(--occre-primary-rgb), 0.25);
+  --app-primary-gradient: linear-gradient(135deg, var(--app-primary) 0%, var(--app-primary-shade) 100%);
 
-  --app-color-primary: var(--occre-primary);
-  --app-color-secondary: var(--occre-secondary);
-  --app-color-background: var(--occre-white);
-  --app-color-surface: var(--occre-light);
-  --app-color-text: var(--occre-text);
-  --app-color-text-soft: var(--occre-text-soft);
-  --app-color-dark: var(--occre-dark);
+  --app-secondary: var(--occre-secondary);
+  --app-secondary-rgb: var(--occre-secondary-rgb);
+
+  --app-background: var(--occre-white);
+  --app-surface: var(--occre-light);
+  --app-text: var(--occre-text);
+  --app-text-soft: var(--occre-text-soft);
+  --app-text-inverse: #ffffff;
+  --app-dark: var(--occre-dark);
+  --app-dark-rgb: var(--occre-dark-rgb);
+  --app-bg-dark: #071a2f;
+
+  /* Backward compatibility — old --app-color-* aliases */
+  --app-color-primary: var(--app-primary);
+  --app-color-primary-rgb: var(--app-primary-rgb);
+  --app-color-secondary: var(--app-secondary);
+  --app-color-secondary-rgb: var(--app-secondary-rgb);
+  --app-color-background: var(--app-background);
+  --app-color-surface: var(--app-surface);
+  --app-color-text: var(--app-text);
+  --app-color-text-soft: var(--app-text-soft);
+  --app-color-text-inverse: var(--app-text-inverse);
+  --app-color-dark: var(--app-dark);
+  --app-color-dark-rgb: var(--app-dark-rgb);
+  --app-color-bg-dark: var(--app-bg-dark);
 
   --app-font-title: 'Oswald', sans-serif;
   --app-font-text: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -35,63 +72,248 @@
   --app-gradient-welcome:
     linear-gradient(
       to bottom,
-      rgba(7, 26, 47, 0.05) 0%,
-      rgba(7, 26, 47, 0.12) 35%,
-      rgba(7, 26, 47, 0.48) 70%,
-      rgba(7, 26, 47, 0.82) 100%
+      rgba(var(--app-dark-rgb), 0.05) 0%,
+      rgba(var(--app-dark-rgb), 0.12) 35%,
+      rgba(var(--app-dark-rgb), 0.48) 70%,
+      rgba(var(--app-dark-rgb), 0.82) 100%
     );
 
   /* =========================================================
    * IONIC THEME
    * ========================================================= */
-
   --ion-font-family: var(--app-font-text);
 
-  --ion-color-primary: var(--occre-primary);
-  --ion-color-primary-rgb: var(--occre-primary-rgb);
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #1964a1;
-  --ion-color-primary-tint: #3480c4;
+  --ion-color-primary: var(--app-primary);
+  --ion-color-primary-rgb: var(--app-primary-rgb);
+  --ion-color-primary-contrast: var(--app-primary-contrast);
+  --ion-color-primary-contrast-rgb: var(--app-primary-contrast-rgb);
+  --ion-color-primary-shade: var(--app-primary-shade);
+  --ion-color-primary-tint: var(--app-primary-tint);
 
-  --ion-color-secondary: var(--occre-secondary);
-  --ion-color-secondary-rgb: var(--occre-secondary-rgb);
+  --ion-color-secondary: var(--app-secondary);
+  --ion-color-secondary-rgb: var(--app-secondary-rgb);
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #d68015;
   --ion-color-secondary-tint: #f49d2f;
 
-  --ion-background-color: var(--app-color-background);
+  --ion-background-color: var(--app-background);
   --ion-background-color-rgb: 255, 255, 255;
-
-  --ion-text-color: var(--app-color-text);
+  --ion-text-color: var(--app-text);
   --ion-text-color-rgb: 16, 32, 51;
-
-  --ion-toolbar-background: var(--app-color-background);
-  --ion-toolbar-color: var(--app-color-primary);
+  --ion-toolbar-background: var(--app-background);
+  --ion-toolbar-color: var(--app-primary);
 }
 
-body.dark-mode {
-  --occre-primary: #2a6cb0;
-  --occre-primary-rgb: 42, 108, 176;
-  --occre-secondary: #f3a43a;
-  --occre-secondary-rgb: 243, 164, 58;
+/* =========================================================
+ * TEMA ROJO INSTITUCIONAL
+ * ========================================================= */
+html.theme-red {
+  --occre-primary: #b51d1d;
+  --occre-primary-rgb: 181, 29, 29;
+  --occre-secondary: #e67e22;
+  --occre-secondary-rgb: 230, 126, 34;
+  --occre-dark: #1f0a0a;
+  --occre-dark-rgb: 31, 10, 10;
+
+  --app-primary: #b51d1d;
+  --app-primary-rgb: 181, 29, 29;
+  --app-primary-shade: #a11919;
+  --app-primary-tint: #c43434;
+  --app-primary-contrast: #ffffff;
+  --app-primary-contrast-rgb: 255, 255, 255;
+  --app-primary-soft: rgba(181, 29, 29, 0.10);
+  --app-primary-border: rgba(181, 29, 29, 0.25);
+  --app-primary-gradient: linear-gradient(135deg, #b51d1d 0%, #1f0a0a 100%);
+
+  --app-secondary: #e67e22;
+  --app-secondary-rgb: 230, 126, 34;
+  --app-dark: #1f0a0a;
+  --app-dark-rgb: 31, 10, 10;
+  --app-bg-dark: #1f0a0a;
+
+  --ion-color-primary: #b51d1d;
+  --ion-color-primary-rgb: 181, 29, 29;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #a11919;
+  --ion-color-primary-tint: #c43434;
+
+  --ion-color-secondary: #e67e22;
+  --ion-color-secondary-rgb: 230, 126, 34;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #c96e1e;
+  --ion-color-secondary-tint: #e98b38;
+
+  --ion-toolbar-color: var(--app-primary);
+}
+
+html.theme-red.dark-mode {
+  --occre-primary: #c73a3a;
+  --occre-primary-rgb: 199, 58, 58;
+  --occre-secondary: #e88e3a;
+  --occre-secondary-rgb: 232, 142, 58;
+  --occre-dark: #1f0a0a;
+  --occre-dark-rgb: 0, 0, 0;
+
+  --app-primary: #c73a3a;
+  --app-primary-rgb: 199, 58, 58;
+  --app-primary-shade: #b03333;
+  --app-primary-tint: #d14e4e;
+  --app-primary-contrast: #ffffff;
+  --app-primary-contrast-rgb: 255, 255, 255;
+  --app-primary-soft: rgba(199, 58, 58, 0.12);
+  --app-primary-border: rgba(199, 58, 58, 0.30);
+  --app-primary-gradient: linear-gradient(135deg, #c73a3a 0%, #2a1212 100%);
+
+  --app-secondary: #e88e3a;
+  --app-secondary-rgb: 232, 142, 58;
+  --app-dark: #1f0a0a;
+  --app-dark-rgb: 0, 0, 0;
+  --app-bg-dark: #2a1212;
+
+  --ion-color-primary: #c73a3a;
+  --ion-color-primary-rgb: 199, 58, 58;
+  --ion-color-primary-shade: #b03333;
+  --ion-color-primary-tint: #d14e4e;
+
+  --ion-color-secondary: #e88e3a;
+  --ion-color-secondary-rgb: 232, 142, 58;
+  --ion-color-secondary-shade: #cc7d33;
+  --ion-color-secondary-tint: #eb9951;
+
+  --ion-toolbar-color: var(--app-primary);
+
+  --app-gradient-welcome:
+    linear-gradient(
+      to bottom,
+      rgba(31, 10, 10, 0.4) 0%,
+      rgba(31, 10, 10, 0.55) 35%,
+      rgba(31, 10, 10, 0.75) 70%,
+      rgba(31, 10, 10, 0.92) 100%
+    );
+}
+
+/* =========================================================
+ * TEMA AMARILLO INSTITUCIONAL
+ * Contraste corregido: texto oscuro sobre fondo amarillo
+ * ========================================================= */
+html.theme-yellow {
+  --occre-primary: #c9a020;
+  --occre-primary-rgb: 201, 160, 32;
+  --occre-secondary: #d4851e;
+  --occre-secondary-rgb: 212, 133, 30;
+  --occre-dark: #1f180a;
+  --occre-dark-rgb: 31, 24, 10;
+
+  --app-primary: #c9a020;
+  --app-primary-rgb: 201, 160, 32;
+  --app-primary-shade: #b48e1c;
+  --app-primary-tint: #d4aa37;
+  --app-primary-contrast: #1f180a;
+  --app-primary-contrast-rgb: 31, 24, 10;
+  --app-primary-soft: rgba(201, 160, 32, 0.12);
+  --app-primary-border: rgba(201, 160, 32, 0.30);
+  --app-primary-gradient: linear-gradient(135deg, #c9a020 0%, #1f180a 100%);
+
+  --app-secondary: #d4851e;
+  --app-secondary-rgb: 212, 133, 30;
+  --app-dark: #1f180a;
+  --app-dark-rgb: 31, 24, 10;
+  --app-bg-dark: #1f180a;
+
+  --ion-color-primary: #c9a020;
+  --ion-color-primary-rgb: 201, 160, 32;
+  --ion-color-primary-contrast: #1f180a;
+  --ion-color-primary-contrast-rgb: 31, 24, 10;
+  --ion-color-primary-shade: #b48e1c;
+  --ion-color-primary-tint: #d4aa37;
+
+  --ion-color-secondary: #d4851e;
+  --ion-color-secondary-rgb: 212, 133, 30;
+  --ion-color-secondary-contrast: #1f180a;
+  --ion-color-secondary-contrast-rgb: 31, 24, 10;
+  --ion-color-secondary-shade: #ba751a;
+  --ion-color-secondary-tint: #d99135;
+
+  --ion-toolbar-color: var(--app-primary);
+}
+
+html.theme-yellow.dark-mode {
+  --occre-primary: #d4ad35;
+  --occre-primary-rgb: 212, 173, 53;
+  --occre-secondary: #d99530;
+  --occre-secondary-rgb: 217, 149, 48;
+  --occre-dark: #1f180a;
+  --occre-dark-rgb: 0, 0, 0;
+
+  --app-primary: #d4ad35;
+  --app-primary-rgb: 212, 173, 53;
+  --app-primary-shade: #bb992e;
+  --app-primary-tint: #d9b549;
+  --app-primary-contrast: #1f180a;
+  --app-primary-contrast-rgb: 31, 24, 10;
+  --app-primary-soft: rgba(212, 173, 53, 0.14);
+  --app-primary-border: rgba(212, 173, 53, 0.32);
+  --app-primary-gradient: linear-gradient(135deg, #d4ad35 0%, #221b0e 100%);
+
+  --app-secondary: #d99530;
+  --app-secondary-rgb: 217, 149, 48;
+  --app-dark: #1f180a;
+  --app-dark-rgb: 0, 0, 0;
+  --app-bg-dark: #221b0e;
+
+  --ion-color-primary: #d4ad35;
+  --ion-color-primary-rgb: 212, 173, 53;
+  --ion-color-primary-contrast: #1f180a;
+  --ion-color-primary-contrast-rgb: 31, 24, 10;
+  --ion-color-primary-shade: #bb992e;
+  --ion-color-primary-tint: #d9b549;
+
+  --ion-color-secondary: #d99530;
+  --ion-color-secondary-rgb: 217, 149, 48;
+  --ion-color-secondary-shade: #bf832a;
+  --ion-color-secondary-tint: #dda045;
+
+  --ion-toolbar-color: var(--app-primary);
+
+  --app-gradient-welcome:
+    linear-gradient(
+      to bottom,
+      rgba(31, 24, 10, 0.4) 0%,
+      rgba(31, 24, 10, 0.55) 35%,
+      rgba(31, 24, 10, 0.75) 70%,
+      rgba(31, 24, 10, 0.92) 100%
+    );
+}
+
+/* =========================================================
+ * DARK MODE (independiente del color, compatible con todos)
+ * ========================================================= */
+html.dark-mode {
   --occre-white: #1a1d23;
-  --occre-dark: #e8edf2;
   --occre-light: #22262d;
   --occre-text: #e0e4e8;
   --occre-text-soft: #9aa3ae;
 
-  --app-color-background: #12141a;
-  --app-color-surface: #1a1d23;
-  --app-color-text: #e0e4e8;
-  --app-color-text-soft: #9aa3ae;
+  --app-background: #12141a;
+  --app-surface: #1a1d23;
+  --app-text: #e0e4e8;
+  --app-text-soft: #9aa3ae;
+  --app-text-inverse: #e0e4e8;
 
-  --ion-background-color: var(--app-color-background);
+  --ion-background-color: var(--app-background);
   --ion-background-color-rgb: 18, 20, 26;
-  --ion-text-color: var(--app-color-text);
+  --ion-text-color: var(--app-text);
   --ion-text-color-rgb: 224, 228, 232;
-  --ion-toolbar-background: var(--app-color-background);
+  --ion-toolbar-background: var(--app-background);
+  --ion-toolbar-color: var(--app-text);
+  --ion-item-background: var(--app-surface);
+  --ion-item-color: var(--app-text);
+  --ion-card-background: var(--app-surface);
+  --ion-card-color: var(--app-text);
+  --ion-border-color: rgba(255, 255, 255, 0.08);
 
   --app-gradient-welcome:
     linear-gradient(

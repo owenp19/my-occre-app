@@ -20,13 +20,14 @@ import {
   peopleOutline,
   airplaneOutline,
   businessOutline,
-  shieldCheckmarkOutline,
   settingsOutline,
   logOutOutline,
   informationCircleOutline,
+  calendarOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
 import { NotificationsService } from '../../services/notifications.service';
+import { environment } from '../../../environments/environment';
 
 interface HeroSlide {
   image: string;
@@ -111,6 +112,21 @@ export class HomePage implements OnInit, OnDestroy {
 
   public readonly menuOptions: MenuOption[] = [
     {
+      label: 'Mis trámites',
+      icon: 'folder-open-outline',
+      route: '/my-procedures',
+    },
+    {
+      label: 'Consulta de radicado',
+      icon: 'search-outline',
+      route: '/record-search',
+    },
+    {
+      label: 'Agendar cita',
+      icon: 'calendar-outline',
+      route: '/appointments',
+    },
+    {
       label: 'Notificaciones',
       icon: 'notifications-outline',
       route: '/notifications',
@@ -139,94 +155,84 @@ export class HomePage implements OnInit, OnDestroy {
 
   public readonly occreProcedures: OccreProcedure[] = [
     {
-      title: 'Mi primera tarjeta OCCRE',
+      title: 'Mi Primera Tarjeta OCCRE',
       description:
-        'Orientación para solicitar por primera vez la tarjeta OCCRE.',
+        'Solicitud inicial de tarjeta de residencia para residentes del Archipiélago.',
       icon: 'id-card-outline',
       route: '/procedures',
       colorClass: 'is-blue',
       category: 'Residencia',
-      slug: 'first-occre-card',
+      slug: 'mi-primera-tarjeta-occre',
     },
     {
-      title: 'Cambio de tarjeta de identidad a cédula',
+      title: 'Cambio de Tarjeta de Identidad a Cédula',
       description:
-        'Requisitos para actualizar el documento asociado a la OCCRE.',
+        'Actualización del documento de identidad asociado a la Tarjeta OCCRE.',
       icon: 'person-outline',
       route: '/procedures',
       colorClass: 'is-green',
       category: 'Actualización',
-      slug: 'id-card-change',
+      slug: 'cambio-tarjeta-identidad-cedula',
     },
     {
-      title: 'Requisitos para inversionistas',
+      title: 'Requisitos para Inversionistas',
       description:
         'Información documental para personas o empresas inversionistas.',
       icon: 'briefcase-outline',
       route: '/procedures',
       colorClass: 'is-orange',
       category: 'Inversionistas',
-      slug: 'investors',
+      slug: 'requisitos-inversionistas',
     },
     {
-      title: 'Duplicado de tarjeta OCCRE',
+      title: 'Duplicado Tarjeta OCCRE',
       description:
         'Solicitud de duplicado por pérdida, deterioro u otra causal.',
       icon: 'card-outline',
       route: '/procedures',
       colorClass: 'is-purple',
       category: 'Duplicado',
-      slug: 'duplicate-card',
+      slug: 'duplicado-tarjeta-occre',
     },
     {
-      title: 'Independiente primera vez',
+      title: 'Independiente Primera Vez',
       description:
         'Checklist para solicitantes independientes que realizan el trámite inicial.',
       icon: 'document-text-outline',
       route: '/procedures',
       colorClass: 'is-blue',
       category: 'Residencia',
-      slug: 'independent-first-time',
+      slug: 'independiente-primera-vez',
     },
     {
-      title: 'Corrección de tarjeta OCCRE',
-      description:
-        'Corrección de datos, tipo de residencia u otra información registrada.',
-      icon: 'document-text-outline',
-      route: '/procedures',
-      colorClass: 'is-green',
-      category: 'Corrección',
-      slug: 'card-correction',
-    },
-    {
-      title: 'Residencia por convivencia',
+      title: 'Residencia por Convivencia',
       description:
         'Trámite para beneficiario y otorgante por vínculo de convivencia.',
       icon: 'people-outline',
       route: '/procedures',
       colorClass: 'is-orange',
       category: 'Convivencia',
-      slug: 'residence-cohabitation',
+      slug: 'residencia-convivencia',
     },
     {
-      title: 'Pasajero en comisión',
+      title: 'Pasajero en Comisión',
       description:
         'Orientación para comisión temporal, entidad solicitante y familiares.',
       icon: 'airplane-outline',
       route: '/procedures',
       colorClass: 'is-purple',
       category: 'Comisión',
-      slug: 'commission-passenger',
+      slug: 'pasajero-comision',
     },
     {
-      title: 'Trabajador foráneo o tratamiento especial',
+      title: 'Trabajador Foráneo o Trámite Especial',
       description:
-        'Requisitos para trabajador, empresa contratante y núcleo familiar.',
+        'Requisitos para trabajador foráneo, empresa contratante y núcleo familiar.',
       icon: 'business-outline',
       route: '/procedures',
       colorClass: 'is-blue',
       category: 'Trabajador foráneo',
-      slug: 'foreign-worker',
+      slug: 'trabajador-foraneo-tramite-especial',
     },
   ];
 
@@ -256,10 +262,10 @@ export class HomePage implements OnInit, OnDestroy {
       peopleOutline,
       airplaneOutline,
       businessOutline,
-      shieldCheckmarkOutline,
       settingsOutline,
       logOutOutline,
       informationCircleOutline,
+      calendarOutline,
     });
   }
 
@@ -269,11 +275,14 @@ export class HomePage implements OnInit, OnDestroy {
       this.currentUser = {
         firstName: user.firstName,
         lastName: user.lastName,
-        photoUrl: null,
+        photoUrl: user.photoUrl || null,
       };
-      this.notificationsService.getUnreadCount().subscribe({
-        next: (res) => { this.notificationCount = res.count; },
-      });
+      if (!environment.useFallback) {
+        this.notificationsService.getUnreadCount().subscribe({
+          next: (res) => { this.notificationCount = res.count; },
+          error: () => { this.notificationCount = 0; },
+        });
+      }
     }
     this.startCarousel();
   }
@@ -349,12 +358,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public goToProcedure(procedure: OccreProcedure): void {
-    void this.router.navigate([procedure.route], {
-      queryParams: {
-        procedure: procedure.slug,
-        category: procedure.category,
-      },
-    });
+    void this.router.navigate(['/procedures', procedure.slug]);
   }
 
   private startCarousel(): void {

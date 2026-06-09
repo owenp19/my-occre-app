@@ -1,5 +1,6 @@
+@use "./theme/buttons";
+
 @import "@ionic/angular/css/core.css";
-@import "./theme/buttons";
 
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
@@ -55,5 +56,18 @@ ion-text {
 button {
   border: none;
   outline: none;
+}
+
+.occre-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(var(--app-color-dark-rgb), 0.08);
+  border-top-color: var(--app-color-primary);
+  border-radius: 50%;
+  animation: occreSpin 800ms linear infinite;
+}
+
+@keyframes occreSpin {
+  to { transform: rotate(360deg); }
 }
 

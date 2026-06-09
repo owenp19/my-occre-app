@@ -45,16 +45,16 @@
   border-radius: 50px;
 
   background: var(--app-color-secondary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   box-shadow:
-    0 16px 32px rgba(7, 26, 47, 0.24),
-    0 0 0 4px rgba(7, 26, 47, 0.06);
+    0 16px 32px rgba(var(--app-color-dark-rgb), 0.24),
+    0 0 0 4px rgba(var(--app-color-dark-rgb), 0.06);
 }
 
 .occre-btn--primary:disabled {
-  background: var(--app-color-dark);
-  color: var(--occre-white);
+  background: var(--app-color-bg-dark);
+  color: var(--app-color-text-inverse);
   box-shadow: none;
 }
 
@@ -83,17 +83,17 @@
 
   border-radius: 50px;
 
-  background: var(--app-color-dark);
-  color: var(--occre-white);
+  background: var(--app-color-bg-dark);
+  color: var(--app-color-text-inverse);
 
   box-shadow:
-    0 16px 32px rgba(7, 26, 47, 0.24),
-    0 0 0 4px rgba(7, 26, 47, 0.06);
+    0 16px 32px rgba(var(--app-color-dark-rgb), 0.24),
+    0 0 0 4px rgba(var(--app-color-dark-rgb), 0.06);
 }
 
 .occre-btn--dark:disabled {
-  background: var(--app-color-dark);
-  color: var(--occre-white);
+  background: var(--app-color-bg-dark);
+  color: var(--app-color-text-inverse);
   box-shadow: none;
 }
 
@@ -122,7 +122,7 @@
 
   border-radius: 50px;
 
-  background: var(--occre-white);
+  background: var(--app-color-surface);
   color: var(--app-color-primary);
   border: 1px solid var(--app-color-primary);
 }
@@ -130,13 +130,13 @@
 @media (hover: hover) {
   .occre-btn--outline:hover:not(:disabled) {
     background: var(--app-color-primary);
-    color: var(--occre-white);
+    color: var(--app-color-text-inverse);
   }
 }
 
 .occre-btn--outline:active:not(:disabled) {
   background: var(--app-color-primary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 }
 
 .occre-btn--link {

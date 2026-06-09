@@ -45,7 +45,7 @@ ion-content.help-page {
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -66,7 +66,7 @@ ion-content.help-page {
   font-family: var(--app-font-title);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   letter-spacing: 0.02em;
 }
 
@@ -98,7 +98,7 @@ ion-content.help-page {
 .help-group-inner {
   width: 100%;
   background: var(--occre-white);
-  border: 1px solid rgba(7, 26, 47, 0.06);
+  border: 1px solid rgba(var(--app-color-dark-rgb), 0.06);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -113,7 +113,7 @@ ion-content.help-page {
   align-items: center;
   gap: 14px;
 
-  border-bottom: 1px solid rgba(7, 26, 47, 0.05);
+  border-bottom: 1px solid rgba(var(--app-color-dark-rgb), 0.05);
   color: var(--app-color-text);
   text-decoration: none;
   cursor: pointer;
@@ -164,7 +164,7 @@ ion-content.help-page {
 }
 
 .help-faq-item {
-  border-bottom: 1px solid rgba(7, 26, 47, 0.05);
+  border-bottom: 1px solid rgba(var(--app-color-dark-rgb), 0.05);
 }
 
 .help-faq-item:last-child {
@@ -234,7 +234,7 @@ ion-content.help-page {
   gap: 14px;
 
   border: 0;
-  border-bottom: 1px solid rgba(7, 26, 47, 0.05);
+  border-bottom: 1px solid rgba(var(--app-color-dark-rgb), 0.05);
   background: transparent;
   color: var(--app-color-text);
   text-align: left;

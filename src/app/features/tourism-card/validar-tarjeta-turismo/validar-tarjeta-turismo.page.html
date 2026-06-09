@@ -1,0 +1,86 @@
+<ion-content class="login-page" [fullscreen]="true">
+  <div class="status-space"></div>
+
+  <main class="login-wrapper">
+    <!-- HEADER -->
+    <section class="brand-section">
+      <div class="header-row">
+        <ion-button fill="clear" class="settings-back-btn" (click)="goBack()">
+          <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        </ion-button>
+
+        <div class="header-text">
+          <h1>{{ 'verify.title' | translate }}</h1>
+          <p>{{ 'payment.subtitle' | translate }}</p>
+        </div>
+
+        <div class="lang-dropdown-wrapper">
+          <button
+            type="button"
+            class="lang-toggle-btn"
+            (click)="showLangMenu = !showLangMenu"
+          >
+            <ion-icon name="language-outline"></ion-icon>
+          </button>
+          <div class="lang-dropdown" *ngIf="showLangMenu" (click)="showLangMenu = false">
+            <button
+              type="button"
+              class="lang-dropdown-item"
+              *ngFor="let l of translation.supportedLanguages"
+              [class.lang-dropdown-item--active]="translation.current === l"
+              (click)="translation.setLanguage(l)"
+            >{{ l | uppercase }} — {{ langLabel(l) }}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADING -->
+    <div class="loading-state" *ngIf="!loaded">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>{{ 'verify.loading' | translate }}</p>
+    </div>
+
+    <!-- RESULT -->
+    <section class="validation-card" *ngIf="loaded && result">
+      <div class="validation-icon" [class.valid]="result.valid" [class.invalid]="!result.valid">
+        <ion-icon [name]="result.valid ? 'checkmark-circle-outline' : 'close-circle-outline'"></ion-icon>
+      </div>
+
+      <h2 [class.valid-text]="result.valid" [class.invalid-text]="!result.valid">
+        {{ result.message }}
+      </h2>
+
+      <div class="validation-details">
+        <p><strong>{{ 'verify.code' | translate }}:</strong> {{ result.code }}</p>
+        <p><strong>{{ 'verify.document' | translate }}:</strong> {{ result.document | slice:0:-4 }}****</p>
+        <p><strong>{{ 'receipt.entry_date' | translate }}:</strong> {{ result.entry_date | date:'shortDate' }}</p>
+        <p><strong>{{ 'receipt.return_date' | translate }}:</strong> {{ result.return_date | date:'shortDate' }}</p>
+
+        <ion-badge [color]="result.valid ? 'success' : 'danger'">
+          {{ result.status }}
+        </ion-badge>
+
+        <p class="validity-info">
+          <ion-icon name="qr-code-outline"></ion-icon>
+          {{ result.valid ? ('verify.valid' | translate) : ('verify.invalid' | translate) }}
+        </p>
+      </div>
+    </section>
+
+    <!-- ERROR -->
+    <p class="form-error" *ngIf="loaded && error">{{ error }}</p>
+
+    <!-- AYUDA -->
+    <section class="help-section">
+      <ion-icon name="headset-outline"></ion-icon>
+
+      <div>
+        <h3>{{ 'tourism.help.title' | translate }}</h3>
+        <p>{{ 'tourism.help.text' | translate }}</p>
+      </div>
+    </section>
+
+    <img src="assets/images/login_screen.png" alt="" class="bottom-decoration" />
+  </main>
+</ion-content>

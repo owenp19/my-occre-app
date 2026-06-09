@@ -1,0 +1,726 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.login-page {
+  --background: var(--app-background);
+  position: relative;
+  overflow: hidden;
+}
+
+.status-space {
+  height: 28px;
+}
+
+.login-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 28px 34px 0;
+}
+
+/* ===== BRAND / HEADER ===== */
+
+.brand-section {
+  text-align: center;
+  margin-bottom: 24px;
+
+  .settings-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 0 0 14px;
+    border: 0;
+    border-radius: 50px;
+    background: var(--app-primary-soft);
+    color: var(--app-primary);
+    font-size: 26px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--app-text);
+    font-family: var(--app-font-title);
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: -0.8px;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: var(--app-text-soft);
+    font-size: 19px;
+    font-weight: 500;
+  }
+}
+
+/* ===== HEADER ROW ===== */
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  .settings-back-btn {
+    margin: 0;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    color: var(--app-text);
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+  }
+}
+
+.header-text {
+  flex: 1;
+  text-align: left;
+
+  h1 {
+    margin: 0;
+    color: var(--app-text);
+    font-family: var(--app-font-title);
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.6px;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--app-text-soft);
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+/* ===== RECEIPT CARD ===== */
+
+.receipt-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 10px 26px rgba(var(--app-dark-rgb), 0.06);
+  border: 1px solid var(--app-primary-border);
+  margin-bottom: 24px;
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.receipt-logo {
+  img {
+    width: 160px;
+    margin: 0 auto 14px;
+    display: block;
+  }
+}
+
+.receipt-title {
+  margin: 0;
+  color: var(--app-text);
+  font-family: var(--app-font-title);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.receipt-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: var(--app-primary-soft);
+  border-radius: 12px;
+
+  ion-icon {
+    color: var(--app-primary);
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .receipt-code {
+    color: var(--app-primary);
+    font-family: var(--app-font-text);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+}
+
+.receipt-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.meta-item {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  color: var(--app-text-soft);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.meta-value {
+  color: var(--app-text);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.receipt-divider {
+  height: 1px;
+  background: var(--app-primary-border);
+  margin: 16px 0;
+}
+
+/* ===== SECTIONS ===== */
+
+.receipt-section {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  margin: 0 0 10px;
+  color: var(--app-primary);
+  font-family: var(--app-font-title);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  text-transform: uppercase;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.info-label {
+  color: var(--app-text-soft);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.info-value {
+  color: var(--app-text);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: right;
+  max-width: 55%;
+}
+
+/* ===== AMOUNT ===== */
+
+.receipt-amount-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.amount-label {
+  color: var(--app-text);
+  font-family: var(--app-font-title);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.amount-value {
+  color: var(--app-primary);
+  font-family: var(--app-font-title);
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+}
+
+/* ===== STATUS ===== */
+
+.receipt-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+
+  ion-icon {
+    font-size: 26px;
+  }
+}
+
+.status-badge {
+  font-family: var(--app-font-text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.status-paid {
+  color: #2e7d32;
+}
+
+.status-pending {
+  color: var(--app-text-soft);
+}
+
+/* ===== QR ===== */
+
+.qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  margin-top: 20px;
+  border: 2px dashed var(--app-primary-border);
+  border-radius: 16px;
+  background: var(--app-primary-soft);
+
+  ion-icon {
+    color: var(--app-primary);
+    font-size: 56px;
+    margin-bottom: 10px;
+  }
+}
+
+.qr-empty {
+  opacity: 0.6;
+}
+
+.qr-text {
+  margin: 0;
+  color: var(--app-primary);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ===== LOADING / ERROR ===== */
+
+.loading-card,
+.error-card {
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.loading-text {
+  color: var(--app-text-soft);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.error-text {
+  color: var(--app-text-soft);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 20px;
+}
+
+/* ===== ACTION BUTTONS ===== */
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.link-btn {
+  border: 0;
+  background: transparent;
+  color: var(--app-primary);
+  font-family: var(--app-font-text);
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+/* ===== BUTTON CLASSES (reuse login styles) ===== */
+
+.login-btn {
+  height: 72px;
+  --border-radius: 50px;
+  --background: var(--app-primary-gradient);
+  --box-shadow: 0 10px 22px rgba(var(--app-primary-rgb), 0.25);
+  --ion-font-family: var(--app-font-text);
+
+  text-transform: none;
+  font-size: 23px;
+  font-weight: 850;
+
+  ion-spinner {
+    color: #ffffff;
+  }
+}
+
+.register-btn {
+  height: 66px;
+  --border-radius: 50px;
+  --background: var(--app-background);
+  --color: var(--app-primary);
+  --border-color: var(--app-primary);
+  --border-width: 2px;
+  --ion-font-family: var(--app-font-text);
+
+  text-transform: none;
+  font-size: 21px;
+  font-weight: 850;
+
+  ion-icon {
+    font-size: 28px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+/* ===== HELP ===== */
+
+.help-section {
+  margin-top: 40px;
+  padding-top: 34px;
+  border-top: 1px solid var(--app-primary-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+
+  ion-icon {
+    color: var(--app-primary);
+    font-size: 40px;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--app-primary);
+    font-size: 20px;
+    font-weight: 850;
+  }
+
+  p {
+    margin: 3px 0 0;
+    color: var(--app-text-soft);
+    font-size: 18px;
+  }
+}
+
+/* ===== BOTTOM DECORATION ===== */
+
+.bottom-decoration {
+  width: 100%;
+  height: auto;
+  margin-top: 5px;
+  display: block;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 600px) {
+  .login-wrapper {
+    padding: 24px 22px 0;
+  }
+
+  .brand-section {
+    h1 {
+      font-size: 32px;
+    }
+
+    p {
+      font-size: 17px;
+    }
+  }
+
+  .receipt-card {
+    padding: 22px 18px;
+  }
+
+  .receipt-title {
+    font-size: 20px;
+  }
+
+  .receipt-code-row {
+    .receipt-code {
+      font-size: 16px;
+    }
+  }
+
+  .amount-value {
+    font-size: 22px;
+  }
+
+  .login-btn {
+    height: 66px;
+    font-size: 20px;
+  }
+
+  .register-btn {
+    height: 60px;
+    font-size: 18px;
+  }
+
+  .help-section {
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-height: 700px) {
+  .login-wrapper {
+    padding-top: 16px;
+    padding-bottom: 0;
+  }
+}
+
+/* ===== REMINDER SECTION ===== */
+
+.reminder-section,
+.location-section {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 26px rgba(var(--app-dark-rgb), 0.06);
+  border: 1px solid var(--app-primary-border);
+  margin-bottom: 24px;
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px;
+    color: var(--app-primary);
+    font-family: var(--app-font-title);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+
+    ion-icon {
+      font-size: 22px;
+    }
+  }
+}
+
+.reminder-days-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.reminder-label {
+  color: var(--app-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.reminder-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stepper-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--app-primary);
+  background: transparent;
+  color: var(--app-primary);
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+
+  &:hover {
+    background: var(--app-primary-soft);
+  }
+}
+
+.stepper-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--app-text);
+  min-width: 28px;
+  text-align: center;
+}
+
+.reminder-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+
+  span {
+    color: var(--app-text);
+    font-size: 15px;
+    font-weight: 500;
+  }
+}
+
+.reminder-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reminder-btn {
+  height: 54px;
+  --border-radius: 50px;
+  --background: var(--app-background);
+  --color: var(--app-primary);
+  --border-color: var(--app-primary);
+  --border-width: 2px;
+  --ion-font-family: var(--app-font-text);
+
+  text-transform: none;
+  font-size: 16px;
+  font-weight: 800;
+
+  ion-icon {
+    font-size: 22px;
+  }
+}
+
+.location-text {
+  color: var(--app-text-soft);
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 16px;
+  line-height: 1.4;
+}
+
+.location-btn {
+  height: 54px;
+  --border-radius: 50px;
+  --ion-font-family: var(--app-font-text);
+  text-transform: none;
+  font-size: 16px;
+  font-weight: 800;
+
+  &.location-active {
+    --background: var(--app-primary-gradient);
+    --box-shadow: 0 8px 18px rgba(var(--app-primary-rgb), 0.25);
+    --color: #fff;
+    --border-color: transparent;
+  }
+}
+
+/* ===== LANG DROPDOWN ===== */
+
+.lang-dropdown-wrapper {
+  position: relative;
+  margin-left: auto;
+}
+
+.lang-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: var(--app-text, #fff);
+  font-size: 24px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--app-surface, #252538);
+  border: 1px solid var(--app-border, rgba(255,255,255,0.12));
+  border-radius: 12px;
+  padding: 4px;
+  min-width: 180px;
+  z-index: 100;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+.lang-dropdown-item {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--app-text, #e0e0e0);
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.lang-dropdown-item--active {
+  background: var(--app-primary, #0057b3);
+  color: #fff;
+
+  &:hover {
+    background: var(--app-primary, #0057b3);
+  }
+}

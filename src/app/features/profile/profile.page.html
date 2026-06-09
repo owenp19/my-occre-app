@@ -10,9 +10,35 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
 
-      <div class="profile-avatar" aria-hidden="true">
-        {{ userInitials }}
-      </div>
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        class="profile-file-input"
+        (change)="onFileSelected($event)"
+      />
+
+      <button
+        type="button"
+        class="profile-avatar"
+        (click)="triggerFileInput()"
+        [class.is-loading]="isUploadingPhoto"
+        aria-label="Cambiar foto de perfil"
+      >
+        <ng-container *ngIf="!hasPhoto; else avatarPhoto">
+          {{ userInitials }}
+        </ng-container>
+        <ng-template #avatarPhoto>
+          <img
+            class="profile-avatar-img"
+            [src]="profile.photoUrl"
+            alt="Foto de perfil"
+          />
+        </ng-template>
+        <div class="profile-avatar-overlay">
+          <ion-icon name="camera-outline"></ion-icon>
+        </div>
+      </button>
 
       <h1 class="profile-name">{{ profile.firstName }} {{ profile.lastName }}</h1>
       <p class="profile-email">{{ profile.email }}</p>
@@ -210,7 +236,7 @@
 
       <ng-template #loadingTemplate>
         <div class="profile-loading">
-          <div class="profile-loading-spinner"></div>
+          <div class="occre-spinner"></div>
           <p>{{ 'profile.loading' | translate }}</p>
         </div>
       </ng-template>

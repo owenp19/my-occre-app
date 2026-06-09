@@ -45,7 +45,7 @@ ion-content.notifications-page {
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -66,7 +66,7 @@ ion-content.notifications-page {
   font-family: var(--app-font-title);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   letter-spacing: 0.02em;
 }
 
@@ -84,7 +84,7 @@ ion-content.notifications-page {
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -170,7 +170,7 @@ ion-content.notifications-page {
   align-items: center;
   gap: 14px;
 
-  border: 1px solid rgba(7, 26, 47, 0.06);
+  border: 1px solid rgba(var(--app-color-dark-rgb), 0.06);
   border-radius: 16px;
   background: var(--occre-white);
   color: var(--app-color-text);
@@ -188,7 +188,7 @@ ion-content.notifications-page {
 }
 
 .notifications-item:active {
-  background: rgba(7, 26, 47, 0.03);
+  background: rgba(var(--app-color-dark-rgb), 0.03);
 }
 
 .notifications-item-icon {

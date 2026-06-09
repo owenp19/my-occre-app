@@ -18,16 +18,14 @@ ion-content.profile-page {
   position: relative;
   width: 100%;
   padding: calc(env(safe-area-inset-top) + 20px) 24px 32px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background:
     linear-gradient(
       135deg,
       var(--app-color-primary) 0%,
-      var(--app-color-dark) 100%
+      var(--app-color-bg-dark) 100%
     );
 }
 
@@ -35,21 +33,16 @@ ion-content.profile-page {
   position: absolute;
   top: calc(env(safe-area-inset-top) + 8px);
   left: 8px;
-
   width: 42px;
   height: 42px;
-
   display: grid;
   place-items: center;
-
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
-  color: var(--occre-white);
-
+  color: var(--app-color-text-inverse);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-
   transition: background 160ms ease;
 }
 
@@ -61,25 +54,75 @@ ion-content.profile-page {
   font-size: 24px;
 }
 
-.profile-avatar {
-  width: 80px;
-  height: 80px;
+.profile-file-input {
+  display: none;
+}
 
+.profile-avatar {
+  position: relative;
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 50%;
   background: var(--app-color-secondary);
-  color: var(--occre-white);
-
+  color: var(--app-color-text-inverse);
   font-family: var(--app-font-title);
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-
-  box-shadow: 0 10px 24px rgba(7, 26, 47, 0.24);
+  box-shadow: 0 10px 24px rgba(var(--app-color-dark-rgb), 0.24);
   margin-bottom: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  overflow: hidden;
+  transition: opacity 160ms ease;
+}
+
+.profile-avatar:active {
+  opacity: 0.85;
+}
+
+.profile-avatar.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.profile-avatar-overlay ion-icon {
+  font-size: 28px;
+  color: var(--app-color-text-inverse);
+}
+
+.profile-avatar:hover .profile-avatar-overlay,
+.profile-avatar:focus-visible .profile-avatar-overlay {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .profile-avatar-overlay {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 .profile-name {
@@ -87,7 +130,7 @@ ion-content.profile-page {
   font-size: clamp(1.5rem, 6vw, 2rem);
   font-weight: 700;
   line-height: 1;
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   margin-bottom: 6px;
 }
 
@@ -110,8 +153,6 @@ ion-content.profile-page {
 
 .profile-card {
   width: 100%;
-  background: var(--occre-white);
-  border: 1px solid rgba(7, 26, 47, 0.06);
   border-radius: 16px;
   padding: 20px 16px;
 }
@@ -173,7 +214,7 @@ ion-content.profile-page {
 .profile-divider {
   width: 100%;
   height: 1px;
-  background: rgba(7, 26, 47, 0.06);
+  background: rgba(var(--app-color-dark-rgb), 0.06);
   margin: 2px 0;
 }
 
@@ -186,26 +227,27 @@ ion-content.profile-page {
 .profile-actions {
   display: flex;
   flex-direction: column;
+  background: var(--occre-white);
+  border: 1px solid rgba(var(--app-color-dark-rgb), 0.06);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .profile-action-row {
   width: 100%;
   min-height: 52px;
-  padding: 0 4px;
-
+  padding: 0 16px;
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr) 22px;
   align-items: center;
   gap: 14px;
-
   border: 0;
-  border-bottom: 1px solid rgba(7, 26, 47, 0.05);
+  border-bottom: 1px solid rgba(var(--app-color-dark-rgb), 0.05);
   background: transparent;
   color: var(--app-color-text);
   text-align: left;
-
   cursor: pointer;
-  transition: opacity 160ms ease;
+  transition: background 160ms ease;
 }
 
 .profile-action-row:last-of-type {
@@ -213,7 +255,7 @@ ion-content.profile-page {
 }
 
 .profile-action-row:active {
-  opacity: 0.6;
+  background: rgba(var(--app-color-dark-rgb), 0.03);
 }
 
 .profile-action-row ion-icon:first-child {
@@ -243,7 +285,7 @@ ion-content.profile-page {
   border: 0;
   border-radius: 10px;
   background: var(--app-color-primary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   font-family: var(--app-font-text);
   font-size: 0.78rem;
   font-weight: 700;
@@ -280,7 +322,7 @@ ion-content.profile-page {
   --padding-top: 12px;
   --padding-bottom: 12px;
   --border-radius: 10px;
-  --border-color: rgba(7, 26, 47, 0.1);
+  --border-color: rgba(var(--app-color-dark-rgb), 0.1);
   --border-width: 1px;
   --border-style: solid;
   --highlight-height: 0;
@@ -309,7 +351,7 @@ ion-content.profile-page {
   --padding-top: 12px;
   --padding-bottom: 12px;
   --border-radius: 10px;
-  --border-color: rgba(7, 26, 47, 0.1);
+  --border-color: rgba(var(--app-color-dark-rgb), 0.1);
   --border-width: 1px;
   --border-style: solid;
   --highlight-height: 0;
@@ -366,26 +408,11 @@ ion-content.profile-page {
   padding: 48px 0;
 }
 
-.profile-loading-spinner {
-  width: 36px;
-  height: 36px;
-  border: 4px solid rgba(7, 26, 47, 0.1);
-  border-top-color: var(--app-color-primary);
-  border-radius: 50%;
-  animation: profileSpin 780ms linear infinite;
-}
-
 .profile-loading p {
   margin: 0;
   font-family: var(--app-font-text);
   font-size: 0.9rem;
   color: var(--app-color-text-soft);
-}
-
-@keyframes profileSpin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .profile-logout {
@@ -403,8 +430,8 @@ ion-content.profile-page {
   }
 
   .profile-avatar {
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
     font-size: 1.6rem;
   }
 

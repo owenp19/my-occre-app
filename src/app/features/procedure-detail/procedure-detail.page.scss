@@ -1,0 +1,343 @@
+.detail-content {
+  --background: var(--app-surface);
+}
+
+.loading-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.skeleton-block {
+  background: var(--app-background);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 16px;
+  border: 1px solid var(--app-primary-border);
+}
+
+.error-state {
+  text-align: center;
+  padding: 48px 20px;
+
+  ion-icon {
+    font-size: 48px;
+    color: #d32f2f;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--app-text);
+    margin: 0 0 16px;
+  }
+}
+
+.retry-btn {
+  --color: var(--app-primary);
+  font-weight: 600;
+}
+
+.detail-page {
+  padding: 0 16px 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.hero-section {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+
+  ion-icon { font-size: 18px; }
+
+  &.status-submitted { background: #e3f2fd; color: #1565c0; }
+  &.status-review { background: #fff3e0; color: #e65100; }
+  &.status-observed { background: #fff8e1; color: #f57f17; }
+  &.status-approved { background: #e8f5e9; color: #2e7d32; }
+  &.status-rejected { background: #fbe9e7; color: #c62828; }
+  &.status-finished { background: #e8f5e9; color: #1b5e20; }
+  &.status-draft { background: #f3e5f5; color: #6a1b9a; }
+}
+
+.hero-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--app-text);
+  margin: 0 0 6px;
+}
+
+.hero-record {
+  font-size: 13px;
+  color: var(--app-text-soft);
+  font-family: 'Courier New', monospace;
+  margin: 0;
+}
+
+/* Info card */
+.info-card {
+  background: var(--app-background);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--app-primary-border);
+  box-shadow: 0 2px 10px rgba(var(--app-dark-rgb), 0.04);
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--app-primary-border);
+
+    &:last-child { border-bottom: none; }
+
+    .info-label {
+      font-size: 12px;
+      color: var(--app-text-soft);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .info-value {
+      font-size: 14px;
+      color: var(--app-text);
+      font-weight: 500;
+      text-align: right;
+      max-width: 60%;
+    }
+  }
+}
+
+/* Section card */
+.section-card {
+  background: var(--app-background);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--app-primary-border);
+  box-shadow: 0 2px 10px rgba(var(--app-dark-rgb), 0.04);
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+
+    ion-icon {
+      font-size: 22px;
+      color: var(--app-primary);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--app-text);
+      margin: 0;
+    }
+  }
+}
+
+.observations-text {
+  font-size: 14px;
+  color: var(--app-text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+
+  .timeline-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 20px;
+    position: relative;
+
+    &:last-child { padding-bottom: 0; }
+
+    .timeline-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+
+      .marker-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--app-primary-border);
+        border: 2px solid var(--app-primary);
+        flex-shrink: 0;
+        z-index: 1;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 16px;
+        width: 2px;
+        height: calc(100% - 4px);
+        background: var(--app-primary-border);
+      }
+
+      &.active .marker-dot {
+        background: var(--app-primary);
+        box-shadow: 0 0 0 4px var(--app-primary-soft);
+      }
+    }
+
+    &:last-child .timeline-marker::after { display: none; }
+
+    .timeline-content {
+      flex: 1;
+      padding-top: 1px;
+
+      .timeline-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+
+        ion-icon { font-size: 16px; color: var(--app-primary); }
+        strong { font-size: 14px; color: var(--app-text); }
+      }
+
+      .timeline-desc {
+        font-size: 13px;
+        color: var(--app-text-soft);
+        margin: 0 0 4px;
+        line-height: 1.4;
+      }
+
+      .timeline-meta {
+        font-size: 11px;
+        color: var(--app-text-soft);
+        span + span { margin-left: 4px; }
+      }
+    }
+  }
+}
+
+/* Documents */
+.document-list {
+  .document-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--app-primary-border);
+
+    &:last-child { border-bottom: none; }
+
+    .doc-icon ion-icon { font-size: 24px; color: var(--app-primary); }
+
+    .doc-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .doc-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--app-text);
+      }
+
+      .doc-status {
+        font-size: 12px;
+        font-weight: 500;
+        &.received { color: #2e7d32; }
+        &.pending { color: #e65100; }
+      }
+    }
+
+    .doc-action ion-button { --color: var(--app-primary); }
+  }
+}
+
+/* Appointments */
+.appointment-list {
+  .appointment-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--app-primary-border);
+
+    &:last-child { border-bottom: none; }
+
+    .apt-icon ion-icon { font-size: 24px; color: var(--app-primary); }
+
+    .apt-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .apt-date {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--app-text);
+      }
+
+      .apt-office,
+      .apt-status {
+        font-size: 12px;
+        color: var(--app-text-soft);
+      }
+    }
+
+    .apt-code small {
+      font-size: 11px;
+      color: var(--app-text-soft);
+      font-family: 'Courier New', monospace;
+    }
+  }
+}
+
+/* Actions */
+.actions-section {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
+.action-btn-row {
+  margin-bottom: 10px;
+}
+
+.action-btn {
+  height: 50px;
+  --border-radius: 12px;
+  text-transform: none;
+  font-size: 15px;
+  font-weight: 600;
+
+  &.outline-btn {
+    --background: var(--app-background);
+    --color: var(--app-primary);
+    --border-color: var(--app-primary);
+    --border-width: 1.5px;
+  }
+
+  &.primary-btn {
+    --background: var(--app-primary-gradient);
+    --box-shadow: 0 4px 12px rgba(var(--app-primary-rgb), 0.3);
+    color: var(--app-primary-contrast);
+  }
+
+  ion-icon { font-size: 20px; }
+}

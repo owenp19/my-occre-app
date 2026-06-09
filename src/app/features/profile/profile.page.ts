@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { NavController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { addIcons } from 'ionicons';
 import {
   personOutline,
@@ -17,6 +18,11 @@ import {
   createOutline,
   checkmarkOutline,
   closeOutline,
+  cameraOutline,
+  folderOpenOutline,
+  timeOutline,
+  calendarOutline,
+  peopleOutline,
 } from 'ionicons/icons';
 import { AuthService, User } from '../../services/auth.service';
 
@@ -33,47 +39,29 @@ interface ProfileAction {
   standalone: false,
 })
 export class ProfilePage implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
   public profile: User = {
-    id: 0,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    documentType: '',
-    documentNumber: '',
+    id: 0, firstName: '', lastName: '', email: '',
+    phone: '', documentType: '', documentNumber: '', photoUrl: '', roles: [],
   };
 
   public editForm: User = {
-    id: 0,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    documentType: '',
-    documentNumber: '',
+    id: 0, firstName: '', lastName: '', email: '',
+    phone: '', documentType: '', documentNumber: '', photoUrl: '',
   };
 
   public isEditing = false;
   public isSaving = false;
   public isLoading = true;
+  public isUploadingPhoto = false;
   public errorMessage = '';
 
   public readonly quickActions: ProfileAction[] = [
-    {
-      label: 'profile.actions.mytramites',
-      icon: 'document-text-outline',
-      route: '/procedures',
-    },
-    {
-      label: 'profile.actions.dataprotection',
-      icon: 'shield-checkmark-outline',
-      route: '/legal',
-    },
-    {
-      label: 'profile.actions.help',
-      icon: 'help-circle-outline',
-      route: '/help-contact',
-    },
+    { label: 'Mis solicitudes', icon: 'document-text-outline', route: '/request-tracking' },
+    { label: 'Mis citas', icon: 'calendar-outline', route: '/appointments' },
+    { label: 'Protección de datos', icon: 'shield-checkmark-outline', route: '/legal' },
+    { label: 'Ayuda y contacto', icon: 'help-circle-outline', route: '/help-contact' },
   ];
 
   public readonly documentTypes = [
@@ -83,25 +71,28 @@ export class ProfilePage implements OnInit {
     { value: 'PA', label: 'Pasaporte' },
   ];
 
+  public get userRoles(): string[] {
+    return this.profile.roles || [];
+  }
+
+  public get roleLabels(): string {
+    const labels: Record<string, string> = {
+      funcionario: 'Funcionario',
+      ciudadano: 'Ciudadano',
+    };
+    return this.userRoles.map(r => labels[r] || r).join(', ');
+  }
+
   constructor(
     private readonly navCtrl: NavController,
     private readonly authService: AuthService,
   ) {
     addIcons({
-      personOutline,
-      mailOutline,
-      cardOutline,
-      callOutline,
-      idCardOutline,
-      documentTextOutline,
-      helpCircleOutline,
-      logOutOutline,
-      chevronForwardOutline,
-      shieldCheckmarkOutline,
-      arrowBackOutline,
-      createOutline,
-      checkmarkOutline,
-      closeOutline,
+      personOutline, mailOutline, cardOutline, callOutline,
+      idCardOutline, documentTextOutline, helpCircleOutline,
+      logOutOutline, chevronForwardOutline, shieldCheckmarkOutline,
+      arrowBackOutline, createOutline, checkmarkOutline, closeOutline,
+      cameraOutline, folderOpenOutline, timeOutline, calendarOutline, peopleOutline,
     });
   }
 
@@ -112,7 +103,6 @@ export class ProfilePage implements OnInit {
   private async loadProfile(): Promise<void> {
     this.isLoading = true;
     this.errorMessage = '';
-
     try {
       const res = await firstValueFrom(this.authService.getProfile());
       if (res?.user) {
@@ -120,9 +110,7 @@ export class ProfilePage implements OnInit {
       }
     } catch {
       const localUser = this.authService.getUser();
-      if (localUser) {
-        this.profile = localUser;
-      }
+      if (localUser) this.profile = localUser;
     } finally {
       this.isLoading = false;
     }
@@ -132,6 +120,91 @@ export class ProfilePage implements OnInit {
     const first = this.profile.firstName?.trim().charAt(0) || '';
     const last = this.profile.lastName?.trim().charAt(0) || '';
     return `${first}${last}`.toUpperCase();
+  }
+
+  public get hasPhoto(): boolean {
+    return !!this.profile.photoUrl;
+  }
+
+  public async takePhoto(): Promise<void> {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 80,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+        width: 1024,
+      });
+
+      if (image?.dataUrl) {
+        await this.uploadPhoto(image.dataUrl);
+      }
+    } catch {
+      console.log('Camera cancelled or failed');
+    }
+  }
+
+  public triggerFileInput(): void {
+    void this.pickFromGallery();
+  }
+
+  public async onFileSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    if (!file.type.startsWith('image/')) {
+      this.errorMessage = 'Selecciona una imagen válida';
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      this.errorMessage = 'La imagen no debe superar 2MB';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      await this.uploadPhoto(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+    input.value = '';
+  }
+
+  public async pickFromGallery(): Promise<void> {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 80,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Photos,
+        width: 1024,
+      });
+
+      if (image?.dataUrl) {
+        await this.uploadPhoto(image.dataUrl);
+      }
+    } catch {
+      console.log('Gallery pick cancelled');
+    }
+  }
+
+  private async uploadPhoto(dataUrl: string): Promise<void> {
+    this.isUploadingPhoto = true;
+    this.errorMessage = '';
+
+    try {
+      const res = await firstValueFrom(this.authService.updatePhoto(dataUrl));
+      if (res?.photoUrl) {
+        this.profile.photoUrl = res.photoUrl;
+        const token = this.authService.getToken();
+        if (token) {
+          await this.authService.saveSession(token, this.profile);
+        }
+      }
+    } catch (error: any) {
+      this.errorMessage = error.error?.error || 'Error al subir la foto';
+    } finally {
+      this.isUploadingPhoto = false;
+    }
   }
 
   public startEditing(): void {
@@ -145,10 +218,7 @@ export class ProfilePage implements OnInit {
   }
 
   public get isFormValid(): boolean {
-    return (
-      this.editForm.firstName.trim().length >= 2 &&
-      this.editForm.lastName.trim().length >= 2
-    );
+    return this.editForm.firstName.trim().length >= 2 && this.editForm.lastName.trim().length >= 2;
   }
 
   public async saveProfile(): Promise<void> {
@@ -169,19 +239,11 @@ export class ProfilePage implements OnInit {
       if (res?.user) {
         this.profile = res.user;
         const token = this.authService.getToken();
-        if (token) {
-          this.authService.saveSession(token, res.user);
-        }
+        if (token) await this.authService.saveSession(token, res.user);
       }
       this.isEditing = false;
     } catch (error: any) {
-      if (error.status === 401 || error.status === 403) {
-        this.errorMessage = 'Sesión expirada. Inicia sesión nuevamente.';
-      } else if (error.status === 0) {
-        this.errorMessage = 'No se puede conectar con el servidor. Verifica tu conexión.';
-      } else {
-        this.errorMessage = error.error?.error || 'Error al guardar los cambios. Intenta de nuevo.';
-      }
+      this.errorMessage = error.error?.error || 'Error al guardar los cambios';
     } finally {
       this.isSaving = false;
     }

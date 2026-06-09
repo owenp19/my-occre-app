@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SecureStorageService } from './secure-storage.service';
 import { environment } from '../../environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 export interface User {
   id: number;
@@ -11,16 +13,13 @@ export interface User {
   phone?: string;
   documentType?: string;
   documentNumber?: string;
+  photoUrl?: string;
+  roles?: string[];
 }
 
 interface AuthResponse {
   message: string;
   token: string;
-  user: User;
-}
-
-interface ProfileResponse {
-  message?: string;
   user: User;
 }
 
@@ -33,15 +32,16 @@ export class AuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-  ) {}
+    private readonly secureStorage: SecureStorageService,
+  ) { }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return this.secureStorage.getToken();
   }
 
   getUser(): User | null {
-    const raw = localStorage.getItem(this.USER_KEY);
-    return raw ? JSON.parse(raw) : null;
+    const json = this.secureStorage.getUserJson();
+    return json ? JSON.parse(json) : null;
   }
 
   getInitials(): string {
@@ -53,7 +53,15 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    return !!this.secureStorage.getToken();
+  }
+
+  hasRole(role: string): boolean {
+    return this.getUser()?.roles?.includes(role) ?? false;
+  }
+
+  hasAnyRole(...roles: string[]): boolean {
+    return roles.some(role => this.hasRole(role));
   }
 
   login(email: string, password: string) {
@@ -72,16 +80,13 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data);
   }
 
-  saveSession(token: string, user: User): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+  async saveSession(token: string, user: User): Promise<void> {
+    await this.secureStorage.save(this.TOKEN_KEY, token);
+    await this.secureStorage.save(this.USER_KEY, JSON.stringify(user));
   }
 
   getProfile() {
-    const token = this.getToken();
-    return this.http.get<ProfileResponse>(`${this.apiUrl}/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    return this.http.get<{ user: User }>(`${this.apiUrl}/profile`);
   }
 
   updateProfile(data: {
@@ -91,15 +96,32 @@ export class AuthService {
     documentNumber?: string;
     phone?: string;
   }) {
-    const token = this.getToken();
-    return this.http.put<ProfileResponse>(`${this.apiUrl}/profile`, data, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    return this.http.put<{ message: string; user: User }>(`${this.apiUrl}/profile`, data);
   }
 
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
-    void this.router.navigate(['/login']);
+  updatePhoto(photoUrl: string) {
+    return this.http.put<{ message: string; photoUrl: string }>(`${this.apiUrl}/photo`, { photoUrl });
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, password: string) {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, { token, password });
+  }
+
+  async logout(): Promise<void> {
+    await this.secureStorage.remove(this.TOKEN_KEY);
+    await this.secureStorage.remove(this.USER_KEY);
+    await this.router.navigate(['/login']);
+  }
+
+  getBiometricPreference() {
+    return this.http.get<{ biometricEnabled: boolean }>(`${this.apiUrl}/biometric-preference`);
+  }
+
+  setBiometricPreference(enabled: boolean) {
+    return this.http.put<{ message: string; biometricEnabled: boolean }>(`${this.apiUrl}/biometric-preference`, { enabled });
   }
 }

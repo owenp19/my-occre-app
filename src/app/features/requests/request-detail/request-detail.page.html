@@ -1,0 +1,136 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/request-tracking" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de Solicitud</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="!isLoading; else loadingTpl">
+    <ng-container *ngIf="!error && request; else errorTpl">
+      <!-- Tracking header -->
+      <div class="detail-header">
+        <h1 class="tracking-number">{{ request.trackingNumber }}</h1>
+        <ion-badge [color]="getStatusColor(request.status)" class="status-badge-lg">
+          {{ getStatusLabel(request.status) }}
+        </ion-badge>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="detail-actions">
+        <ion-button fill="outline" (click)="shareRequest()">
+          <ion-icon name="share-outline" slot="start"></ion-icon>
+          Compartir
+        </ion-button>
+        <ion-button fill="outline" (click)="downloadCertificate()">
+          <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+          Constancia PDF
+        </ion-button>
+      </div>
+
+      <!-- Info card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Información General</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label>
+              <h3>Trámite</h3>
+              <p>{{ request.procedureName }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>
+              <h3>Prioridad</h3>
+              <p>{{ request.priority }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>
+              <h3>Fecha de radicación</h3>
+              <p>{{ formatDate(request.submittedAt) }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none" *ngIf="request.resolvedAt">
+            <ion-label>
+              <h3>Fecha de resolución</h3>
+              <p>{{ formatDate(request.resolvedAt) }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none" *ngIf="request.notes">
+            <ion-label>
+              <h3>Notas del solicitante</h3>
+              <p>{{ request.notes }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Timeline -->
+      <ion-card *ngIf="request.history && request.history.length > 0">
+        <ion-card-header>
+          <ion-card-title>Historial</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="timeline">
+            <div
+              class="timeline-item"
+              *ngFor="let h of request.history"
+            >
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="timeline-action">{{ h.action }}</p>
+                <p class="timeline-comment" *ngIf="h.comment">{{ h.comment }}</p>
+                <p class="timeline-meta">
+                  {{ h.userName ? h.userName + ' — ' : '' }}{{ formatDate(h.createdAt) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Documents -->
+      <ion-card *ngIf="request.documents && request.documents.length > 0">
+        <ion-card-header>
+          <ion-card-title>Documentos</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item *ngFor="let doc of request.documents">
+              <ion-icon name="document-outline" slot="start"></ion-icon>
+              <ion-label>
+                <h3>{{ doc.name }}</h3>
+                <p>{{ formatFileSize(doc.size) }}</p>
+              </ion-label>
+              <ion-button
+                slot="end"
+                fill="clear"
+                (click)="downloadDocument(doc)"
+              >
+                <ion-icon name="download-outline"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <ng-template #errorTpl>
+      <div class="ion-text-center ion-padding">
+        <ion-icon name="alert-circle-outline" color="danger" size="large"></ion-icon>
+        <p>{{ error }}</p>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <div class="ion-text-center ion-padding">
+      <ion-spinner></ion-spinner>
+      <p>Cargando información...</p>
+    </div>
+  </ng-template>
+</ion-content>

@@ -1,0 +1,416 @@
+<ion-content class="tourism-page" [fullscreen]="true">
+  <div class="status-space"></div>
+
+  <main class="login-wrapper">
+    <!-- HEADER -->
+    <section class="brand-section">
+      <div class="header-row">
+        <ion-button fill="clear" class="settings-back-btn" (click)="goBack()">
+          <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <div class="header-text">
+          <h1>{{ 'tourism.title' | translate }}</h1>
+          <p>{{ 'tourism.subtitle' | translate }}</p>
+        </div>
+
+        <div class="lang-dropdown-wrapper">
+          <button
+            type="button"
+            class="lang-toggle-btn"
+            (click)="showLangMenu = !showLangMenu"
+          >
+            <ion-icon name="language-outline"></ion-icon>
+          </button>
+          <div class="lang-dropdown" *ngIf="showLangMenu" (click)="showLangMenu = false">
+            <button
+              type="button"
+              class="lang-dropdown-item"
+              *ngFor="let l of translation.supportedLanguages"
+              [class.lang-dropdown-item--active]="translation.current === l"
+              (click)="translation.setLanguage(l)"
+            >{{ l | uppercase }} — {{ langLabel(l) }}</button>
+          </div>
+        </div>
+      </div>
+      <span class="badge-guest">{{ 'tourism.badge.guest' | translate }}</span>
+    </section>
+
+    <!-- STEPPER -->
+    <div class="stepper">
+      <div
+        class="step-item"
+        *ngFor="let s of [1,2,3,4,5]; let i = index"
+        [class.active]="s <= step"
+        [class.current]="s === step"
+      >
+        <div class="step-circle">{{ s }}</div>
+        <div class="step-line" *ngIf="i < 4"></div>
+      </div>
+    </div>
+
+    <!-- STEP 1: DATOS PERSONALES -->
+    <section class="step-content" *ngIf="step === 1">
+      <h2 class="step-title">{{ 'tourism.step1.title' | translate }}</h2>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.first_name' | translate }}"
+          [value]="form.first_name"
+          (ionInput)="onInput($event, 'first_name')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.last_name' | translate }}"
+          [value]="form.last_name"
+          (ionInput)="onInput($event, 'last_name')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-select
+          placeholder="{{ 'tourism.step1.doctype' | translate }}"
+          [value]="form.document_type"
+          (ionChange)="onSelect($event, 'document_type')"
+          interface="action-sheet"
+        >
+          <ion-select-option *ngFor="let dt of documentTypes" [value]="dt.value">{{ dt.label }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.docnumber' | translate }}"
+          [value]="form.document_number"
+          (ionInput)="onInput($event, 'document_number')"
+        ></ion-input>
+      </ion-item>
+
+      <span class="field-label">{{ 'tourism.step1.birth_date' | translate }}</span>
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-input
+          type="date"
+          placeholder="{{ 'tourism.step1.birth_date' | translate }}"
+          [value]="form.birth_date"
+          (ionInput)="onInput($event, 'birth_date')"
+          [max]="today"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="globe-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.nationality' | translate }}"
+          [value]="form.nationality"
+          (ionInput)="onInput($event, 'nationality')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.country' | translate }}"
+          [value]="form.country_residence"
+          (ionInput)="onInput($event, 'country_residence')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.city' | translate }}"
+          [value]="form.city_residence"
+          (ionInput)="onInput($event, 'city_residence')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input
+          type="email"
+          inputmode="email"
+          placeholder="{{ 'tourism.step1.email' | translate }}"
+          [value]="form.email"
+          (ionInput)="onInput($event, 'email')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        <ion-input
+          type="tel"
+          inputmode="tel"
+          placeholder="{{ 'tourism.step1.phone' | translate }}"
+          [value]="form.phone"
+          (ionInput)="onInput($event, 'phone')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step1.emergency' | translate }}"
+          [value]="form.emergency_contact_name"
+          (ionInput)="onInput($event, 'emergency_contact_name')"
+        ></ion-input>
+      </ion-item>
+    </section>
+
+    <!-- STEP 2: VIAJE -->
+    <section class="step-content" *ngIf="step === 2">
+      <h2 class="step-title">{{ 'tourism.step2.title' | translate }}</h2>
+
+      <span class="field-label">{{ 'tourism.step2.entry_date' | translate }}</span>
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-input
+          type="date"
+          placeholder="{{ 'tourism.step2.entry_date' | translate }}"
+          [value]="form.entry_date"
+          (ionInput)="onInput($event, 'entry_date')"
+          [min]="today"
+        ></ion-input>
+      </ion-item>
+
+      <span class="field-label">{{ 'tourism.step2.return_date' | translate }}</span>
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-input
+          type="date"
+          placeholder="{{ 'tourism.step2.return_date' | translate }}"
+          [value]="form.return_date"
+          (ionInput)="onInput($event, 'return_date')"
+          [min]="form.entry_date || today"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="airplane-outline" slot="start"></ion-icon>
+        <ion-select
+          placeholder="{{ 'tourism.step2.transport' | translate }}"
+          [value]="form.transport_type"
+          (ionChange)="onSelect($event, 'transport_type')"
+          interface="action-sheet"
+        >
+          <ion-select-option *ngFor="let t of transportTypes" [value]="t.value">{{ t.label }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="airplane-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step2.airline' | translate }}"
+          [value]="form.airline_or_company"
+          (ionInput)="onInput($event, 'airline_or_company')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step2.flight' | translate }}"
+          [value]="form.flight_number"
+          (ionInput)="onInput($event, 'flight_number')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step2.origin' | translate }}"
+          [value]="form.origin_city"
+          (ionInput)="onInput($event, 'origin_city')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-select
+          placeholder="{{ 'tourism.step2.reason' | translate }}"
+          [value]="form.travel_reason"
+          (ionChange)="onSelect($event, 'travel_reason')"
+          interface="action-sheet"
+        >
+          <ion-select-option *ngFor="let r of travelReasons" [value]="r.value">{{ r.label }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </section>
+
+    <!-- STEP 3: HOSPEDAJE -->
+    <section class="step-content" *ngIf="step === 3">
+      <h2 class="step-title">{{ 'tourism.step3.title' | translate }}</h2>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-select
+          placeholder="{{ 'tourism.step3.type' | translate }}"
+          [value]="form.lodging_type"
+          (ionChange)="onSelect($event, 'lodging_type')"
+          interface="action-sheet"
+        >
+          <ion-select-option *ngFor="let l of lodgingTypes" [value]="l.value">{{ l.label }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step3.name' | translate }}"
+          [value]="form.lodging_name"
+          (ionInput)="onInput($event, 'lodging_name')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step3.address' | translate }}"
+          [value]="form.lodging_address"
+          (ionInput)="onInput($event, 'lodging_address')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step3.sector' | translate }}"
+          [value]="form.lodging_sector"
+          (ionInput)="onInput($event, 'lodging_sector')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        <ion-input
+          type="tel"
+          inputmode="tel"
+          placeholder="{{ 'tourism.step3.phone' | translate }}"
+          [value]="form.lodging_phone"
+          (ionInput)="onInput($event, 'lodging_phone')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="{{ 'tourism.step3.responsible' | translate }}"
+          [value]="form.lodging_responsible_name"
+          (ionInput)="onInput($event, 'lodging_responsible_name')"
+        ></ion-input>
+      </ion-item>
+    </section>
+
+    <!-- STEP 4: TÉRMINOS Y ENVÍO -->
+    <section class="step-content" *ngIf="step === 4">
+      <h2 class="step-title">{{ 'tourism.step4.title' | translate }}</h2>
+
+      <div class="terms-card">
+        <p class="terms-summary">
+          {{ 'tourism.step4.summary' | translate }}
+        </p>
+
+        <ion-item lines="none" class="checkbox-item">
+          <ion-checkbox slot="start" [(ngModel)]="accepted_terms"></ion-checkbox>
+          <ion-label>
+            {{ 'tourism.step4.terms' | translate }}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none" class="checkbox-item">
+          <ion-checkbox slot="start" [(ngModel)]="accepted_location_consent"></ion-checkbox>
+          <ion-label>
+            {{ 'tourism.step4.location_consent' | translate }}
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <p class="form-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <ion-button
+        expand="block"
+        class="login-btn"
+        [disabled]="!isStepValid(4) || isSubmitting"
+        (click)="submitForm()"
+      >
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">{{ 'tourism.step4.submit' | translate }}</span>
+      </ion-button>
+    </section>
+
+    <!-- STEP 5: CONFIRMACIÓN -->
+    <section class="step-content" *ngIf="step === 5">
+      <div class="confirmation-card">
+        <ion-icon name="shield-checkmark-outline" class="confirmation-icon"></ion-icon>
+        <h2 class="step-title">{{ 'tourism.step5.title' | translate }}</h2>
+        <p class="confirmation-text">
+          {{ 'tourism.step5.text' | translate }}
+        </p>
+        <div class="code-display">{{ createdCode }}</div>
+        <p class="confirmation-hint">
+          {{ 'tourism.step5.hint' | translate }}
+        </p>
+        <ion-button
+          expand="block"
+          class="login-btn"
+          (click)="goToPayment()"
+        >
+          {{ 'tourism.step5.pay' | translate }}
+        </ion-button>
+      </div>
+    </section>
+
+    <!-- NAVEGACIÓN -->
+    <div class="nav-row" *ngIf="step < 5">
+      <ion-button
+        fill="outline"
+        class="nav-btn nav-prev"
+        [disabled]="step === 1"
+        (click)="prevStep()"
+      >
+        <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+        {{ 'tourism.prev' | translate }}
+      </ion-button>
+
+      <ion-button
+        class="nav-btn nav-next"
+        [disabled]="!isStepValid(step)"
+        (click)="nextStep()"
+        *ngIf="step < 4"
+      >
+        {{ 'tourism.next' | translate }}
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- AYUDA -->
+    <section class="help-section">
+      <ion-icon name="headset-outline"></ion-icon>
+      <div>
+        <h3>{{ 'tourism.help.title' | translate }}</h3>
+        <p>{{ 'tourism.help.text' | translate }}</p>
+      </div>
+    </section>
+
+    <img src="assets/images/login_screen.png" alt="" class="bottom-decoration" />
+  </main>
+</ion-content>

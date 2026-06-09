@@ -1,0 +1,197 @@
+<ion-content class="login-page" [fullscreen]="true">
+  <div class="status-space"></div>
+
+  <main class="login-wrapper">
+    <!-- HEADER -->
+    <section class="brand-section">
+      <div class="header-row">
+        <ion-button fill="clear" class="settings-back-btn" (click)="goBack()">
+          <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        </ion-button>
+
+        <div class="header-text">
+          <h1>{{ 'payment.title' | translate }}</h1>
+          <p>{{ 'payment.subtitle' | translate }}</p>
+        </div>
+
+        <div class="lang-dropdown-wrapper">
+          <button
+            type="button"
+            class="lang-toggle-btn"
+            (click)="showLangMenu = !showLangMenu"
+          >
+            <ion-icon name="language-outline"></ion-icon>
+          </button>
+          <div class="lang-dropdown" *ngIf="showLangMenu" (click)="showLangMenu = false">
+            <button
+              type="button"
+              class="lang-dropdown-item"
+              *ngFor="let l of translation.supportedLanguages"
+              [class.lang-dropdown-item--active]="translation.current === l"
+              (click)="translation.setLanguage(l)"
+            >{{ l | uppercase }} — {{ langLabel(l) }}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADING -->
+    <div class="loading-center" *ngIf="!loaded">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <!-- ERROR -->
+    <p class="form-error" *ngIf="error && loaded">{{ error }}</p>
+
+    <!-- PAYMENT SUMMARY -->
+    <section class="visitor-card" *ngIf="loaded && !error">
+      <div class="visitor-info">
+        <span class="card-title">{{ 'payment.summary' | translate }}</span>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.code' | translate }}</span>
+          <span class="info-value">{{ code }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.concept' | translate }}</span>
+          <span class="info-value">{{ 'payment.subtitle' | translate }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.amount' | translate }}</span>
+          <span class="info-value amount">{{ amount | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.status' | translate }}</span>
+          <span class="badge" [ngClass]="statusBadgeClass">{{ status }}</span>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.visitor' | translate }}</span>
+          <span class="info-value">{{ firstName }} {{ lastName }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.document' | translate }}</span>
+          <span class="info-value">{{ documentType }} {{ documentNumber }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.entry_date' | translate }}</span>
+          <span class="info-value">{{ entryDate | date:'shortDate' }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">{{ 'payment.return_date' | translate }}</span>
+          <span class="info-value">{{ returnDate | date:'shortDate' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PENDING: PAY SECTION -->
+    <ng-container *ngIf="status === 'pending' && loaded">
+      <section class="payment-methods">
+        <h2 class="section-title">{{ 'payment.select_method' | translate }}</h2>
+
+        <div class="method-grid">
+          <button
+            type="button"
+            class="method-card"
+            [class.selected]="selectedMethod === 'bancolombia'"
+            (click)="selectMethod('bancolombia')"
+          >
+            <ion-icon name="business-outline"></ion-icon>
+            <span class="method-name">Bancolombia</span>
+            <span class="method-desc">{{ 'payment.methods.bancolombia_desc' | translate }}</span>
+          </button>
+
+          <button
+            type="button"
+            class="method-card"
+            [class.selected]="selectedMethod === 'nequi'"
+            (click)="selectMethod('nequi')"
+          >
+            <ion-icon name="phone-portrait-outline"></ion-icon>
+            <span class="method-name">Nequi</span>
+            <span class="method-desc">{{ 'payment.methods.nequi_desc' | translate }}</span>
+          </button>
+
+          <button
+            type="button"
+            class="method-card"
+            [class.selected]="selectedMethod === 'card'"
+            (click)="selectMethod('card')"
+          >
+            <ion-icon name="card-outline"></ion-icon>
+            <span class="method-name">{{ 'payment.methods.card' | translate }}</span>
+            <span class="method-desc">{{ 'payment.methods.card_desc' | translate }}</span>
+          </button>
+
+          <button
+            type="button"
+            class="method-card"
+            [class.selected]="selectedMethod === 'pse'"
+            (click)="selectMethod('pse')"
+          >
+            <ion-icon name="globe-outline"></ion-icon>
+            <span class="method-name">PSE</span>
+            <span class="method-desc">{{ 'payment.methods.pse_desc' | translate }}</span>
+          </button>
+        </div>
+      </section>
+
+      <ion-button
+        expand="block"
+        class="login-btn"
+        [disabled]="!selectedMethod || isPaying"
+        (click)="goToPayment()"
+      >
+        <ion-spinner *ngIf="isPaying" name="crescent"></ion-spinner>
+        <span *ngIf="!isPaying">
+          <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
+          {{ 'payment.pay' | translate }} {{ amount | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </span>
+      </ion-button>
+
+      <div class="security-message">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <p>{{ 'payment.security_message' | translate }}</p>
+      </div>
+    </ng-container>
+
+    <!-- PAID: SUCCESS -->
+    <div class="status-message success" *ngIf="status === 'paid' && loaded">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      <p>{{ 'payment.success' | translate }}</p>
+      <ion-button expand="block" class="login-btn" (click)="goToReceipt()">
+        <ion-icon name="arrow-forward-outline" slot="start"></ion-icon>
+        {{ 'payment.view_receipt' | translate }}
+      </ion-button>
+    </div>
+
+    <!-- REJECTED: ERROR -->
+    <div class="status-message error" *ngIf="status === 'rejected' && loaded">
+      <ion-icon name="close-circle-outline"></ion-icon>
+      <p>{{ 'payment.rejected' | translate }}</p>
+      <ion-button expand="block" class="login-btn" (click)="goToPayment()">
+        {{ 'payment.retry' | translate }}
+      </ion-button>
+    </div>
+
+    <!-- HELP -->
+    <section class="help-section">
+      <ion-icon name="headset-outline"></ion-icon>
+
+      <div>
+        <h3>{{ 'tourism.help.title' | translate }}</h3>
+        <p>{{ 'tourism.help.text' | translate }}</p>
+      </div>
+    </section>
+
+    <img src="assets/images/login_screen.png" alt="" class="bottom-decoration" />
+  </main>
+</ion-content>

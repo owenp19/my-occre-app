@@ -1,118 +1,129 @@
-<ion-content [fullscreen]="true" class="login-page">
-  <main class="login-screen">
-    <section class="login-card" aria-labelledby="login-title">
-      <header class="login-top">
-        <div class="login-brand">
-          <img
-            src="assets/images/logo-occre.png"
-            alt="Logo OCCRE"
-            class="login-logo"
-          />
+<ion-content class="login-page" [fullscreen]="true">
+  <div class="status-space"></div>
 
-          <div class="login-brand-text">
-            <span>Plataforma digital</span>
-            <strong>San Andrés Islas</strong>
-          </div>
-        </div>
+  <main class="login-wrapper">
+    <!-- LOGO -->
+    <section class="brand-section">
+      <img src="assets/images/logo-occre.png" alt="Logo OCCRE" class="brand-logo" />
 
-        <div class="login-avatar" aria-hidden="true">
-          <ion-icon name="person-outline"></ion-icon>
-        </div>
-
-        <h1 id="login-title">Iniciar sesión</h1>
-
-        <p>Accede a tus trámites de manera digital.</p>
-      </header>
-
-      <form class="login-form" (submit)="$event.preventDefault(); login()">
-        <div class="field-group">
-          <div class="input-wrapper">
-            <ion-icon name="mail-outline" class="input-icon"></ion-icon>
-
-            <ion-input
-              id="email"
-              type="email"
-              inputmode="email"
-              autocomplete="email"
-              placeholder="Correo electrónico"
-              [value]="email"
-              (ionInput)="onEmailInput($event)"
-            ></ion-input>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <div class="input-wrapper">
-            <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
-
-            <ion-input
-              id="password"
-              [type]="showPassword ? 'text' : 'password'"
-              autocomplete="current-password"
-              placeholder="Contraseña"
-              [value]="password"
-              (ionInput)="onPasswordInput($event)"
-            ></ion-input>
-
-            <button
-              type="button"
-              class="password-toggle occre-btn occre-btn--icon"
-              aria-label="Mostrar u ocultar contraseña"
-              (click)="togglePasswordVisibility()"
-            >
-              <ion-icon
-                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-              ></ion-icon>
-            </button>
-          </div>
-        </div>
-
-        <div class="login-actions">
-          <button
-            type="button"
-            class="forgot-button occre-btn occre-btn--link"
-            [disabled]="isRecoveringPassword"
-            (click)="recoverPassword()"
-          >
-            <span *ngIf="!isRecoveringPassword">¿Olvidaste tu contraseña?</span>
-            <span *ngIf="isRecoveringPassword">Cargando...</span>
-          </button>
-        </div>
-
-        <p class="form-error" *ngIf="errorMessage">
-          {{ errorMessage }}
-        </p>
-
-        <button
-          type="submit"
-          class="login-button occre-btn occre-btn--primary occre-btn--full"
-          [disabled]="!isFormValid || isSubmitting"
-          [class.is-loading]="isSubmitting"
-        >
-          <span class="login-button__content">
-            <span *ngIf="!isSubmitting">Ingresar</span>
-            <span class="loading-content" *ngIf="isSubmitting">
-              <span class="btn-spinner"></span>
-              <span>Validando datos...</span>
-            </span>
-          </span>
-        </button>
-      </form>
-
-      <footer class="login-footer">
-        <p>¿Aún no tienes cuenta?</p>
-
-        <button
-          type="button"
-          class="register-link occre-btn occre-btn--link"
-          [disabled]="isGoingToRegister"
-          (click)="goToRegister()"
-        >
-          <span *ngIf="!isGoingToRegister">Crear cuenta</span>
-          <span *ngIf="isGoingToRegister">Cargando...</span>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-      </footer>
+      <h1>Bienvenido</h1>
+      <p>Inicia sesión para continuar</p>
     </section>
+
+    <!-- FORMULARIO LOGIN -->
+    <section class="login-form">
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+
+        <ion-input
+          type="text"
+          inputmode="email"
+          autocomplete="email"
+          placeholder="Correo electrónico"
+          [value]="email"
+          (ionInput)="onEmailInput($event)"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+
+        <ion-input
+          [type]="showPassword ? 'text' : 'password'"
+          autocomplete="current-password"
+          placeholder="Contraseña"
+          [value]="password"
+          (ionInput)="onPasswordInput($event)"
+        ></ion-input>
+
+        <ion-button fill="clear" slot="end" class="eye-btn" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <div class="forgot-row">
+        <button type="button" [disabled]="isRecoveringPassword" (click)="recoverPassword()">
+          <span *ngIf="!isRecoveringPassword">¿Olvidaste tu contraseña?</span>
+          <span *ngIf="isRecoveringPassword">Cargando...</span>
+        </button>
+      </div>
+
+      <ion-button
+        expand="block"
+        class="login-btn"
+        [disabled]="!isFormValid || isSubmitting"
+        (click)="login()"
+      >
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">Iniciar sesión</span>
+      </ion-button>
+    </section>
+
+    <!-- ERROR -->
+    <p class="form-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <!-- BIOMÉTRICO -->
+    <div class="biometric-section" *ngIf="biometricAvailable">
+      <div class="divider">
+        <span></span>
+        <p>o</p>
+        <span></span>
+      </div>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="biometric-btn"
+        (click)="biometricLogin()"
+      >
+        <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+        Ingresar con {{ biometryLabel }}
+      </ion-button>
+    </div>
+
+    <!-- DIVISOR -->
+    <div class="divider">
+      <span></span>
+      <p>o también puedes</p>
+      <span></span>
+    </div>
+
+    <!-- CREAR CUENTA -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="register-btn"
+      [disabled]="isGoingToRegister"
+      (click)="goToRegister()"
+    >
+      <ion-icon name="person-add-outline" slot="start"></ion-icon>
+      <span *ngIf="!isGoingToRegister">Crear una cuenta</span>
+      <span *ngIf="isGoingToRegister">Cargando...</span>
+    </ion-button>
+
+    <!-- TARJETA VISITANTE -->
+    <section class="visitor-card">
+      <div class="visitor-info">
+        <span>¿Vienes de visita?</span>
+
+        <p>Paga tu tarjeta digital de turismo</p>
+
+        <ion-button expand="block" class="visitor-access-btn" (click)="goToTourismCard()">
+          Acceder como visitante
+        </ion-button>
+      </div>
+    </section>
+
+    <!-- AYUDA -->
+    <section class="help-section">
+      <ion-icon name="headset-outline"></ion-icon>
+
+      <div>
+        <h3>¿Necesitas ayuda?</h3>
+        <p>Contáctanos 24/7</p>
+      </div>
+    </section>
+
+    <img src="assets/images/login_screen.png" alt="" class="bottom-decoration" />
   </main>
 </ion-content>

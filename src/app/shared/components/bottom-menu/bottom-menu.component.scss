@@ -20,7 +20,7 @@
   border-radius: 24px 24px 0 0;
   background: var(--occre-white, #ffffff);
   border: 1px solid rgba(var(--occre-primary-rgb, 15, 76, 154), 0.1);
-  box-shadow: 0 -10px 30px rgba(7, 26, 47, 0.1);
+  box-shadow: 0 -10px 30px rgba(var(--app-color-dark-rgb), 0.1);
 }
 
 .bottom-menu-item {

@@ -1197,6 +1197,269 @@ export class OccreChatbotComponent implements AfterViewChecked {
       ],
     },
     {
+      id: 'tarjeta-turismo-formulario',
+      question: '¿Cómo lleno el formulario de tarjeta de turismo?',
+      priority: 9,
+      keywords: [
+        'llenar formulario tarjeta turismo',
+        'diligenciar tarjeta turismo',
+        'completar tarjeta turismo',
+        'pasos tarjeta turismo',
+        'formulario turismo',
+        'registro turista',
+        'datos personales turismo',
+        'informacion viaje',
+        'hospedaje turismo',
+        'como sacar tarjeta turismo app',
+        'llenar tarjeta turismo',
+        'que datos pedir',
+        'campos formulario turismo',
+      ],
+      answer:
+        'La tarjeta de turismo se diligencia en 4 pasos desde la app: 1) Datos personales: nombres, documento, fecha de nacimiento, nacionalidad, correo y teléfono. 2) Datos del viaje: fecha de entrada y salida, transporte, aerolínea, número de vuelo y ciudad de origen. 3) Hospedaje: tipo de alojamiento, nombre, dirección, sector, teléfono y responsable. 4) Resumen: verifica tus datos, acepta términos y confirma. Al enviar recibirás un código para continuar al pago.',
+      sourceLabel: 'Tarjeta de turismo',
+      sourceUrl: 'https://ventanilla.sanandres.gov.co/tramites/160/tarjeta-de-turismo/',
+      suggestions: [
+        { label: 'Pago turismo', value: '¿Cómo pago la tarjeta de turismo en línea?' },
+        { label: 'Buscar tarjeta', value: '¿Cómo busco una tarjeta de turismo?' },
+        { label: 'Costo', value: '¿Cuánto cuesta la tarjeta de turismo?' },
+      ],
+    },
+    {
+      id: 'tarjeta-turismo-pago',
+      question: '¿Cómo pago la tarjeta de turismo en línea?',
+      priority: 9,
+      keywords: [
+        'pagar tarjeta turismo',
+        'pago en linea turismo',
+        'pago online turismo',
+        'pasarela pago turismo',
+        'pagar con tarjeta',
+        'pago pendiente turismo',
+        'completar pago turismo',
+        'pagar tarjeta turismo app',
+        'boton pago',
+        'pagar ahora turismo',
+        'metodo pago turismo',
+      ],
+      answer:
+        'Una vez registrada tu tarjeta de turismo, ve a la página de pago. El valor se calcula automáticamente según la tarifa vigente. Presiona "Pagar ahora" para abrir la pasarela de pago segura en tu navegador. Una vez aprobado el pago, recibirás un comprobante con número de recibo y código QR. Puedes descargar el recibo desde la aplicación.',
+      sourceLabel: 'Tarjeta de turismo',
+      sourceUrl: 'https://ventanilla.sanandres.gov.co/tramites/160/tarjeta-de-turismo/',
+      suggestions: [
+        { label: 'Formulario', value: '¿Cómo lleno el formulario de tarjeta de turismo?' },
+        { label: 'Validar QR', value: '¿Cómo valido una tarjeta de turismo con QR?' },
+        { label: 'Recordatorio', value: '¿Cómo activo recordatorios en mi recibo?' },
+      ],
+    },
+    {
+      id: 'tarjeta-turismo-consulta',
+      question: '¿Cómo busco una tarjeta de turismo ya registrada?',
+      priority: 8,
+      keywords: [
+        'buscar tarjeta turismo',
+        'consultar tarjeta turismo',
+        'como buscar tarjeta',
+        'buscar por codigo',
+        'buscar por documento',
+        'consultar estado turismo',
+        'buscar mi tarjeta',
+        'encontrar tarjeta',
+        'codigo tarjeta turismo',
+        'donde veo mi tarjeta',
+        'ver mi tarjeta turismo',
+      ],
+      answer:
+        'Ve a "Buscar tarjeta" en la sección de turismo. Puedes buscar por el código de la tarjeta (OCCRE-TT-AAAA-NNNNNN) o por tu número de documento. El sistema mostrará los datos de la tarjeta, estado de pago y validez. Si tu tarjeta está pagada, podrás ver el recibo, el código QR y gestionar recordatorios.',
+      sourceLabel: 'Tarjeta de turismo',
+      suggestions: [
+        { label: 'Validar QR', value: '¿Cómo valido una tarjeta de turismo con QR?' },
+        { label: 'Pago', value: '¿Cómo pago la tarjeta de turismo en línea?' },
+        { label: 'Formulario', value: '¿Cómo lleno el formulario de tarjeta de turismo?' },
+      ],
+    },
+    {
+      id: 'tarjeta-turismo-validacion',
+      question: '¿Cómo valido una tarjeta de turismo con QR?',
+      priority: 8,
+      keywords: [
+        'validar tarjeta turismo',
+        'verificar tarjeta turismo',
+        'codigo qr turismo',
+        'qr turismo',
+        'escanear qr turismo',
+        'validar qr',
+        'verificar autenticidad',
+        'tarjeta valida',
+        'comprobar tarjeta',
+        'qr validation',
+        'escanear codigo',
+        'verificar vigencia',
+      ],
+      answer:
+        'Para validar una tarjeta de turismo, ingresa a "Validar tarjeta" desde la app. Puedes escanear el código QR del recibo usando la cámara, o ingresar el código de la tarjeta manualmente. El sistema verificará contra la base de datos y te indicará si la tarjeta está activa, vencida o si el código no es válido.',
+      sourceLabel: 'Tarjeta de turismo',
+      suggestions: [
+        { label: 'Buscar tarjeta', value: '¿Cómo busco una tarjeta de turismo ya registrada?' },
+        { label: 'Pago', value: '¿Cómo pago la tarjeta de turismo en línea?' },
+        { label: 'Contacto', value: '¿Dónde queda la OCCRE?' },
+      ],
+    },
+    {
+      id: 'tarjeta-turismo-recordatorio',
+      question: '¿Cómo activo recordatorios en mi recibo?',
+      priority: 7,
+      keywords: [
+        'recordatorio regreso',
+        'notificar regreso turismo',
+        'compartir ubicacion turismo',
+        'localizacion turismo',
+        'recordatorio salida',
+        'notificar salida',
+        'fecha regreso turismo',
+        'activar recordatorio',
+        'calendario turismo',
+        'notificacion push turismo',
+        'notificar email turismo',
+        'recordatorio dias',
+        'compartir localizacion',
+      ],
+      answer:
+        'En la página del recibo puedes configurar recordatorios de regreso. Elige cuántos días antes deseas ser notificado (1 a 14), activa notificación por correo o push, y programa el recordatorio. También puedes añadirlo a tu calendario del teléfono. Opcionalmente, activa "Compartir ubicación" para que las autoridades conozcan tu paradero durante tu estadía en la isla.',
+      sourceLabel: 'Tarjeta de turismo',
+      suggestions: [
+        { label: 'Validar QR', value: '¿Cómo valido una tarjeta de turismo con QR?' },
+        { label: 'Buscar tarjeta', value: '¿Cómo busco una tarjeta de turismo ya registrada?' },
+      ],
+    },
+    {
+      id: 'agendar-cita',
+      question: '¿Cómo agendo una cita en la OCCRE?',
+      priority: 9,
+      keywords: [
+        'agendar cita',
+        'sacar cita',
+        'cita occre',
+        'reservar cita',
+        'programar cita',
+        'pedir cita',
+        'solicitar cita',
+        'turno occre',
+        'cita presencial',
+        'cita virtual',
+        'reservar turno',
+        'agendar occre',
+      ],
+      answer:
+        'Para agendar una cita, inicia sesión y ve a "Agendar cita" en la sección de citas. Selecciona el tipo de servicio, elige una fecha disponible y un horario, completa tus datos personales (nombre, documento, correo y teléfono) y confirma la cita. Recibirás una confirmación con el código único de tu cita. Puedes ver tus citas programadas en "Mis citas".',
+      sourceLabel: 'Plataforma OCCRE',
+      suggestions: [
+        { label: 'Cancelar cita', value: '¿Cómo veo o cancelo mis citas?' },
+        { label: 'Trámites', value: '¿Qué trámites puedo hacer en la OCCRE?' },
+        { label: 'Contacto', value: '¿Dónde queda la OCCRE?' },
+      ],
+    },
+    {
+      id: 'citas-ver-cancelar',
+      question: '¿Cómo veo o cancelo mis citas?',
+      priority: 8,
+      keywords: [
+        'ver citas',
+        'cancelar cita',
+        'modificar cita',
+        'mis citas',
+        'citas programadas',
+        'reagendar cita',
+        'reprogramar cita',
+        'lista citas',
+        'citas agendadas',
+        'cancelar',
+      ],
+      answer:
+        'Tus citas programadas aparecen en "Mis citas" dentro de la app. Allí ves la fecha, hora, servicio y estado de cada cita. Para cancelar, selecciona la cita y presiona "Cancelar". Las citas canceladas se pueden reagendar agendando una nueva. Si necesitas modificar la fecha u hora, cancela la actual y agenda una nueva.',
+      sourceLabel: 'Plataforma OCCRE',
+      suggestions: [
+        { label: 'Agendar cita', value: '¿Cómo agendo una cita en la OCCRE?' },
+        { label: 'Contacto', value: '¿Dónde queda la OCCRE?' },
+      ],
+    },
+    {
+      id: 'radicar-tramite',
+      question: '¿Cómo radico un trámite en la plataforma?',
+      priority: 9,
+      keywords: [
+        'radicar tramite',
+        'presentar solicitud',
+        'enviar documentos',
+        'subir documentos',
+        'iniciar tramite',
+        'nuevo tramite',
+        'crear solicitud',
+        'radicar',
+        'solicitud occre',
+        'tramite en linea',
+        'remitir documentos',
+      ],
+      answer:
+        'Para radicar un trámite, inicia sesión y ve a "Nuevo trámite". Selecciona el tipo de procedimiento, completa el formulario con la información requerida, adjunta los documentos solicitados en formato PDF o imagen, y envía la solicitud. Recibirás un número de radicado único para hacer seguimiento. Guarda este número para consultar el estado posteriormente.',
+      sourceLabel: 'Plataforma OCCRE',
+      suggestions: [
+        { label: 'Estado trámite', value: '¿Cómo consulto el estado de mi trámite?' },
+        { label: 'Requisitos', value: '¿Qué documentos necesito para radicar un trámite?' },
+        { label: 'Agendar cita', value: '¿Cómo agendo una cita en la OCCRE?' },
+      ],
+    },
+    {
+      id: 'requisitos-procedimiento',
+      question: '¿Qué documentos necesito para radicar un trámite?',
+      priority: 9,
+      keywords: [
+        'requisitos procedimiento',
+        'documentos necesarios tramite',
+        'que necesito para tramite',
+        'requisitos por tramite',
+        'documentos solicitud',
+        'que documentos subir',
+        'archivos requeridos',
+        'adjuntar documentos',
+        'requisitos radicar',
+        'que papeles necesito',
+      ],
+      answer:
+        'Cada tipo de trámite tiene requisitos específicos que se muestran al iniciar la solicitud. En general puedes necesitar: documento de identidad (escaneado o foto), fotos 3x4 fondo azul, comprobante de pago, carta de solicitud firmada y soportes adicionales según el procedimiento. Al crear un nuevo trámite, el sistema te indicará exactamente qué documentos debes adjuntar antes de enviar.',
+      sourceLabel: 'Plataforma OCCRE',
+      suggestions: [
+        { label: 'Radicar', value: '¿Cómo radico un trámite en la plataforma?' },
+        { label: 'Estado', value: '¿Cómo consulto el estado de mi trámite?' },
+        { label: 'Primera tarjeta', value: '¿Qué necesito para mi primera tarjeta OCCRE?' },
+      ],
+    },
+    {
+      id: 'solicitar-certificado',
+      question: '¿Cómo solicito un certificado desde la app?',
+      priority: 8,
+      keywords: [
+        'solicitar certificado app',
+        'certificado residencia app',
+        'constancia residencia app',
+        'certificado permanencia',
+        'certificado occre app',
+        'descargar certificado',
+        'certificado digital',
+        'obtener certificado',
+        'pedir certificado',
+        'certificado en linea',
+      ],
+      answer:
+        'Para solicitar un certificado desde la app, ve a la sección "Certificados". Allí podrás ver los tipos de certificados disponibles, como certificado de residencia o constancia de la OCCRE. Selecciona el que necesitas, verifica la tarifa asociada si aplica, y confirma la solicitud. Una vez emitido, podrás visualizarlo y descargarlo desde la misma sección.',
+      sourceLabel: 'Ventanilla San Andrés',
+      sourceUrl: 'https://ventanilla.sanandres.gov.co/',
+      suggestions: [
+        { label: 'Estado trámite', value: '¿Cómo consulto el estado de mi trámite?' },
+        { label: 'Contacto', value: '¿Dónde queda la OCCRE?' },
+      ],
+    },
+    {
       id: 'proteccion-datos',
       question: '¿Cómo se protegen mis datos personales?',
       priority: 7,
@@ -1589,6 +1852,56 @@ export class OccreChatbotComponent implements AfterViewChecked {
       case 'proteccion-datos':
         return hasAny(['proteccion', 'privacidad', 'datos personales', 'habeas data', 'privacy'])
           ? 26
+          : 0;
+
+      case 'tarjeta-turismo-formulario':
+        return hasAny(['llenar formulario', 'diligenciar', 'pasos turismo', 'registro turista', 'datos viaje'])
+          ? 30
+          : 0;
+
+      case 'tarjeta-turismo-pago':
+        return hasAny(['pago turismo', 'pagar tarjeta', 'pasarela pago', 'completar pago', 'pago en linea'])
+          ? 30
+          : 0;
+
+      case 'tarjeta-turismo-consulta':
+        return hasAny(['buscar tarjeta', 'consultar tarjeta', 'buscar codigo', 'buscar documento'])
+          ? 28
+          : 0;
+
+      case 'tarjeta-turismo-validacion':
+        return hasAny(['validar tarjeta', 'verificar tarjeta', 'qr turismo', 'escanear qr', 'validar qr'])
+          ? 28
+          : 0;
+
+      case 'tarjeta-turismo-recordatorio':
+        return hasAny(['recordatorio', 'notificar regreso', 'compartir ubicacion', 'localizacion', 'calendario'])
+          ? 26
+          : 0;
+
+      case 'agendar-cita':
+        return hasAny(['agendar cita', 'sacar cita', 'reservar cita', 'programar cita', 'turno occre'])
+          ? 30
+          : 0;
+
+      case 'citas-ver-cancelar':
+        return hasAny(['ver citas', 'cancelar cita', 'mis citas', 'reagendar', 'reprogramar'])
+          ? 28
+          : 0;
+
+      case 'radicar-tramite':
+        return hasAny(['radicar', 'presentar solicitud', 'subir documentos', 'nuevo tramite', 'crear solicitud'])
+          ? 30
+          : 0;
+
+      case 'requisitos-procedimiento':
+        return hasAny(['requisitos procedimiento', 'documentos tramite', 'que necesito para', 'adjuntar documentos'])
+          ? 28
+          : 0;
+
+      case 'solicitar-certificado':
+        return hasAny(['solicitar certificado', 'certificado app', 'descargar certificado', 'certificado digital'])
+          ? 28
           : 0;
 
       default:

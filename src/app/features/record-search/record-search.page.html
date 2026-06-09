@@ -1,0 +1,234 @@
+<ion-header class="page-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Consulta de radicado</ion-title>
+    <ion-icon slot="end" name="search-outline" class="header-icon"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="record-search-content">
+  <main class="search-page">
+    <!-- Main search card -->
+    <section class="main-card">
+      <div class="card-header">
+        <ion-icon name="document-text-outline"></ion-icon>
+        <h2>Consulta el estado de tu trámite</h2>
+      </div>
+
+      <p class="card-description">
+        Ingresa el número de radicado y tu documento para conocer el estado actualizado de tu solicitud.
+      </p>
+
+      <div class="search-form">
+        <ion-item lines="none" class="form-item">
+          <ion-label position="stacked">Número de radicado</ion-label>
+          <ion-input
+            type="text"
+            placeholder="Ej: OCC20260608XXXXXX"
+            [(ngModel)]="recordNumber"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="form-item">
+          <ion-label position="stacked">Tipo de documento</ion-label>
+          <ion-select [(ngModel)]="documentType" interface="popover">
+            <ion-select-option *ngFor="let dt of documentTypes" [value]="dt">
+              {{ dt }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none" class="form-item">
+          <ion-label position="stacked">Número de documento</ion-label>
+          <ion-input
+            type="text"
+            placeholder="Ingresa tu número de documento"
+            [(ngModel)]="documentNumber"
+          ></ion-input>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          class="search-btn"
+          [disabled]="!isFormValid || isSearching"
+          (click)="search()"
+        >
+          <ion-spinner *ngIf="isSearching" name="crescent"></ion-spinner>
+          <span *ngIf="!isSearching">
+            <ion-icon name="search-outline" slot="start"></ion-icon>
+            Consultar radicado
+          </span>
+        </ion-button>
+      </div>
+    </section>
+
+    <!-- Info note -->
+    <section class="info-card">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <p>
+        El número de radicado se entrega al momento de registrar tu solicitud. También puedes encontrarlo en el comprobante del trámite.
+      </p>
+    </section>
+
+    <!-- Loading skeleton -->
+    <ng-container *ngIf="isSearching">
+      <div class="skeleton-card">
+        <ion-skeleton-text animated style="height: 24px; width: 60%; margin-bottom: 16px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 16px; width: 100%; margin-bottom: 8px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 16px; width: 80%; margin-bottom: 8px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 100px; width: 100%; border-radius: 12px"></ion-skeleton-text>
+      </div>
+    </ng-container>
+
+    <!-- Error message -->
+    <div class="error-box" *ngIf="errorMessage && !isSearching">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>{{ errorMessage }}</p>
+      <ion-button fill="clear" class="retry-btn" (click)="search()">
+        <ion-icon name="reload-outline" slot="start"></ion-icon>
+        Intentar de nuevo
+      </ion-button>
+    </div>
+
+    <!-- Search result -->
+    <section class="result-section" *ngIf="result && !isSearching">
+      <!-- Status badge -->
+      <div class="result-header">
+        <div class="status-badge" [ngClass]="statusService.getStatusClass(result.status)">
+          <ion-icon [name]="statusService.getStatusIcon(result.status)"></ion-icon>
+          <span>{{ result.status_label }}</span>
+        </div>
+        <span class="result-date">Actualizado: {{ result.updated_at | date:'dd/MM/yyyy' }}</span>
+      </div>
+
+      <!-- Main result card -->
+      <div class="result-card">
+        <div class="result-row">
+          <span class="result-label">Número de radicado</span>
+          <span class="result-value mono">{{ result.record_number }}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Trámite</span>
+          <span class="result-value">{{ result.procedure_name }}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Solicitante</span>
+          <span class="result-value">{{ result.applicant_name }}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Documento</span>
+          <span class="result-value">{{ result.document_type }} {{ result.document_number }}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Fecha de radicación</span>
+          <span class="result-value">{{ result.submitted_at | date:'dd/MM/yyyy hh:mm a' }}</span>
+        </div>
+        <div class="result-row" *ngIf="result.office">
+          <span class="result-label">Sede</span>
+          <span class="result-value">{{ result.office }}</span>
+        </div>
+        <div class="result-row" *ngIf="result.next_step">
+          <span class="result-label">Próximo paso</span>
+          <span class="result-value next-step">{{ result.next_step }}</span>
+        </div>
+        <div class="result-row observations" *ngIf="result.observations">
+          <span class="result-label">Observaciones</span>
+          <p class="result-value">{{ result.observations }}</p>
+        </div>
+      </div>
+
+      <!-- Appointment info -->
+      <div class="appointment-card" *ngIf="result.appointment">
+        <div class="appointment-header">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <h3>Cita agendada</h3>
+        </div>
+        <div class="appointment-info">
+          <div class="appt-item">
+            <span>Fecha</span>
+            <strong>{{ result.appointment.date | date:'dd/MM/yyyy' }}</strong>
+          </div>
+          <div class="appt-item">
+            <span>Hora</span>
+            <strong>{{ result.appointment.time }}</strong>
+          </div>
+          <div class="appt-item" *ngIf="result.appointment.office">
+            <span>Sede</span>
+            <strong>{{ result.appointment.office }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="section-card" *ngIf="result.timeline.length > 0">
+        <div class="section-title">
+          <ion-icon name="time-outline"></ion-icon>
+          <h3>Historial del trámite</h3>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item" *ngFor="let event of result.timeline">
+            <div class="timeline-marker" [class.active]="event === result.timeline[result.timeline.length - 1]">
+              <div class="marker-dot"></div>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-status">
+                <ion-icon [name]="statusService.getStatusIcon(event.status)"></ion-icon>
+                <strong>{{ statusService.getStatusLabel(event.status) || event.status }}</strong>
+              </div>
+              <p class="timeline-desc" *ngIf="event.description">{{ event.description }}</p>
+              <div class="timeline-meta">
+                <span>{{ event.created_at | date:'dd/MM/yyyy' }}</span>
+                <span *ngIf="event.user_name">— {{ event.user_name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documents -->
+      <div class="section-card" *ngIf="result.documents.length > 0">
+        <div class="section-title">
+          <ion-icon name="folder-open-outline"></ion-icon>
+          <h3>Documentos</h3>
+        </div>
+        <div class="document-list">
+          <div class="document-item" *ngFor="let doc of result.documents">
+            <div class="doc-icon">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <div class="doc-info">
+              <span class="doc-name">{{ doc.name }}</span>
+              <span class="doc-status" [class.received]="doc.status === 'Recibido'" [class.pending]="doc.status !== 'Recibido'">
+                {{ doc.status }}
+              </span>
+            </div>
+            <div class="doc-action" *ngIf="doc.can_download">
+              <ion-button fill="clear" size="small" (click)="goToDetail()">
+                <ion-icon name="download-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-row">
+        <ion-button expand="block" class="detail-btn" (click)="goToDetail()">
+          <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          Ver detalle completo
+        </ion-button>
+      </div>
+    </section>
+
+    <!-- Empty state after search -->
+    <div class="empty-state" *ngIf="hasSearched && !result && !isSearching && !errorMessage">
+      <ion-icon name="search-outline"></ion-icon>
+      <h3>No se encontraron resultados</h3>
+      <p>Verifica el número de radicado y documento e intenta de nuevo.</p>
+    </div>
+  </main>
+</ion-content>

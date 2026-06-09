@@ -1,0 +1,109 @@
+<ion-content class="login-page" [fullscreen]="true">
+  <div class="status-space"></div>
+
+  <main class="login-wrapper">
+    <!-- HEADER -->
+    <section class="brand-section">
+      <div class="header-row">
+        <ion-button fill="clear" class="settings-back-btn" (click)="goBack()">
+          <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        </ion-button>
+
+        <div class="header-text">
+          <h1>{{ 'search.title' | translate }}</h1>
+          <p>{{ 'payment.subtitle' | translate }}</p>
+        </div>
+
+        <div class="lang-dropdown-wrapper">
+          <button
+            type="button"
+            class="lang-toggle-btn"
+            (click)="showLangMenu = !showLangMenu"
+          >
+            <ion-icon name="language-outline"></ion-icon>
+          </button>
+          <div class="lang-dropdown" *ngIf="showLangMenu" (click)="showLangMenu = false">
+            <button
+              type="button"
+              class="lang-dropdown-item"
+              *ngFor="let l of translation.supportedLanguages"
+              [class.lang-dropdown-item--active]="translation.current === l"
+              (click)="translation.setLanguage(l)"
+            >{{ l | uppercase }} — {{ langLabel(l) }}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="login-form">
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+
+        <ion-input
+          type="text"
+          inputmode="text"
+          placeholder="{{ 'search.code_placeholder' | translate }}"
+          [value]="code"
+          (ionInput)="code = $event.detail.value ?? ''"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-card">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+
+        <ion-input
+          type="text"
+          inputmode="numeric"
+          placeholder="{{ 'search.doc_placeholder' | translate }}"
+          [value]="documentNumber"
+          (ionInput)="documentNumber = $event.detail.value ?? ''"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="login-btn"
+        [disabled]="!code || !documentNumber || isSearching"
+        (click)="search()"
+      >
+        <ion-spinner *ngIf="isSearching" name="crescent"></ion-spinner>
+        <span *ngIf="!isSearching">{{ 'search.search_btn' | translate }}</span>
+      </ion-button>
+    </section>
+
+    <!-- ERROR -->
+    <p class="form-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <!-- RESULT -->
+    <section class="visitor-card" *ngIf="result">
+      <div class="visitor-info">
+        <span>{{ 'search.code_label' | translate }} {{ result.code }}</span>
+
+        <p><strong>{{ result.first_name }} {{ result.last_name }}</strong></p>
+        <p>{{ result.document_type }}: {{ result.document_number }}</p>
+        <p>{{ 'payment.entry_date' | translate }}: {{ result.entry_date | date:'shortDate' }}</p>
+        <p>{{ 'payment.return_date' | translate }}: {{ result.return_date | date:'shortDate' }}</p>
+        <p>{{ 'payment.status' | translate }}: {{ result.payment_status }}</p>
+        <p>{{ 'payment.amount' | translate }}: {{ result.amount }} {{ result.currency }}</p>
+
+        <ion-button expand="block" class="visitor-access-btn" (click)="viewReceipt(result.code)">
+          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+          {{ 'search.view_receipt' | translate }}
+        </ion-button>
+      </div>
+    </section>
+
+    <!-- AYUDA -->
+    <section class="help-section">
+      <ion-icon name="headset-outline"></ion-icon>
+
+      <div>
+        <h3>{{ 'tourism.help.title' | translate }}</h3>
+        <p>{{ 'tourism.help.text' | translate }}</p>
+      </div>
+    </section>
+
+    <img src="assets/images/login_screen.png" alt="" class="bottom-decoration" />
+  </main>
+</ion-content>

@@ -1,0 +1,271 @@
+<ion-content class="login-page" [fullscreen]="true">
+  <div class="status-space"></div>
+
+  <main class="login-wrapper">
+    <!-- HEADER -->
+    <section class="brand-section">
+      <div class="header-row">
+        <button type="button" class="settings-back-btn" aria-label="Volver" (click)="goBack()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+
+        <div class="header-text">
+          <h1>{{ 'receipt.title' | translate }}</h1>
+          <p>{{ 'payment.subtitle' | translate }}</p>
+        </div>
+
+        <div class="lang-dropdown-wrapper">
+          <button
+            type="button"
+            class="lang-toggle-btn"
+            (click)="showLangMenu = !showLangMenu"
+          >
+            <ion-icon name="language-outline"></ion-icon>
+          </button>
+          <div class="lang-dropdown" *ngIf="showLangMenu" (click)="showLangMenu = false">
+            <button
+              type="button"
+              class="lang-dropdown-item"
+              *ngFor="let l of translation.supportedLanguages"
+              [class.lang-dropdown-item--active]="translation.current === l"
+              (click)="translation.setLanguage(l)"
+            >{{ l | uppercase }} — {{ langLabel(l) }}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECEIPT CARD -->
+    <section class="receipt-card" *ngIf="receipt">
+      <div class="receipt-header">
+        <div class="receipt-logo">
+          <img src="assets/images/logo-occre.png" alt="OCCRE" />
+        </div>
+        <h2 class="receipt-title">{{ 'receipt.title' | translate }}</h2>
+      </div>
+
+      <div class="receipt-code-row">
+        <ion-icon name="document-text-outline"></ion-icon>
+        <span class="receipt-code">{{ receipt.code }}</span>
+      </div>
+
+      <div class="receipt-meta">
+        <div class="meta-item" *ngIf="receipt.receipt_number">
+          <span class="meta-label">{{ 'receipt.number' | translate }}</span>
+          <span class="meta-value">{{ receipt.receipt_number }}</span>
+        </div>
+        <div class="meta-item" *ngIf="receipt.created_at">
+          <span class="meta-label">{{ 'receipt.issue_date' | translate }}</span>
+          <span class="meta-value">{{ receipt.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-section">
+        <h3 class="section-title">{{ 'receipt.visitor_data' | translate }}</h3>
+        <div class="info-row">
+          <span class="info-label">{{ 'receipt.name' | translate }}</span>
+          <span class="info-value">{{ receipt.first_name }} {{ receipt.last_name }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'receipt.document' | translate }}</span>
+          <span class="info-value">{{ receipt.document_type }} {{ receipt.document_number }}</span>
+        </div>
+        <div class="info-row" *ngIf="receipt.nationality">
+          <span class="info-label">{{ 'tourism.step2.nationality' | translate }}</span>
+          <span class="info-value">{{ receipt.nationality }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-section">
+        <h3 class="section-title">{{ 'receipt.travel_data' | translate }}</h3>
+        <div class="info-row">
+          <span class="info-label">{{ 'receipt.entry_date' | translate }}</span>
+          <span class="info-value">{{ receipt.entry_date | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'receipt.return_date' | translate }}</span>
+          <span class="info-value">{{ receipt.return_date | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-section">
+        <h3 class="section-title">{{ 'receipt.lodging' | translate }}</h3>
+        <div class="info-row" *ngIf="receipt.lodging_name">
+          <span class="info-label">{{ 'receipt.name' | translate }}</span>
+          <span class="info-value">{{ receipt.lodging_name }}</span>
+        </div>
+        <div class="info-row" *ngIf="receipt.lodging_sector">
+          <span class="info-label">{{ 'tourism.step3.sector' | translate }}</span>
+          <span class="info-value">{{ receipt.lodging_sector }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-amount-row">
+        <span class="amount-label">{{ 'receipt.total_paid' | translate }}</span>
+        <span class="amount-value">{{ receipt.amount | number:'1.2-2' }} {{ receipt.currency }}</span>
+      </div>
+
+      <div class="receipt-status-row">
+        <ion-icon
+          [name]="receipt.payment_status === 'paid' ? 'checkmark-circle-outline' : 'time-outline'"
+          [class.status-paid]="receipt.payment_status === 'paid'"
+          [class.status-pending]="receipt.payment_status !== 'paid'"
+        ></ion-icon>
+        <span
+          class="status-badge"
+          [class.status-paid]="receipt.payment_status === 'paid'"
+          [class.status-pending]="receipt.payment_status !== 'paid'"
+        >
+          {{ receipt.payment_status === 'paid' ? ('receipt.paid' | translate) : ('receipt.issued' | translate) }}
+        </span>
+      </div>
+
+      <!-- QR PLACEHOLDER -->
+      <div class="qr-placeholder" *ngIf="receipt.qr_payload; else noQr">
+        <ion-icon name="qr-code-outline"></ion-icon>
+        <p class="qr-text">{{ 'receipt.qr_generated' | translate }}</p>
+      </div>
+      <ng-template #noQr>
+        <div class="qr-placeholder qr-empty">
+          <ion-icon name="qr-code-outline"></ion-icon>
+          <p class="qr-text">{{ 'receipt.qr_unavailable' | translate }}</p>
+        </div>
+      </ng-template>
+    </section>
+
+    <!-- LOADING -->
+    <section class="receipt-card loading-card" *ngIf="!loaded">
+      <p class="loading-text">{{ 'receipt.loading' | translate }}</p>
+    </section>
+
+    <!-- NOT FOUND -->
+    <section class="receipt-card error-card" *ngIf="loaded && !receipt && !code">
+      <p class="error-text">{{ 'receipt.not_found' | translate }}</p>
+      <ion-button expand="block" class="login-btn" (click)="goToLogin()">
+        {{ 'receipt.back_home' | translate }}
+      </ion-button>
+    </section>
+
+    <!-- REMINDER SETTINGS -->
+    <section class="reminder-section" *ngIf="receipt">
+      <h3 class="section-title">
+        <ion-icon name="notifications-outline"></ion-icon>
+        {{ 'reminder.settings' | translate }}
+      </h3>
+
+      <div class="reminder-days-row">
+        <span class="reminder-label">{{ 'reminder.days_before' | translate }}</span>
+        <div class="reminder-stepper">
+          <button type="button" class="stepper-btn" (click)="reminderDays = Math.max(1, reminderDays - 1)">-</button>
+          <span class="stepper-value">{{ reminderDays }}</span>
+          <button type="button" class="stepper-btn" (click)="reminderDays = Math.min(14, reminderDays + 1)">+</button>
+        </div>
+      </div>
+
+      <div class="reminder-toggles">
+        <label class="toggle-row">
+          <span>{{ 'reminder.notify_email' | translate }}</span>
+          <ion-toggle [(ngModel)]="notifyEmail" mode="md"></ion-toggle>
+        </label>
+        <label class="toggle-row">
+          <span>{{ 'reminder.notify_push' | translate }}</span>
+          <ion-toggle [(ngModel)]="notifyPush" mode="md"></ion-toggle>
+        </label>
+      </div>
+
+      <div class="reminder-actions">
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="reminder-btn"
+          (click)="setReminder()"
+          [disabled]="reminderSet"
+        >
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+          {{ reminderSet ? ('reminder.added' | translate) : ('reminder.settings' | translate) }}
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="reminder-btn"
+          (click)="addToCalendar()"
+        >
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          {{ 'reminder.add_calendar' | translate }}
+        </ion-button>
+      </div>
+    </section>
+
+    <!-- LOCATION SHARING -->
+    <section class="location-section" *ngIf="receipt">
+      <h3 class="section-title">
+        <ion-icon name="locate-outline"></ion-icon>
+        {{ 'location.consent_title' | translate }}
+      </h3>
+
+      <p class="location-text">{{ 'location.consent_text' | translate }}</p>
+
+      <ion-button
+        expand="block"
+        [fill]="locationSharing ? 'solid' : 'outline'"
+        class="location-btn"
+        [class.location-active]="locationSharing"
+        (click)="toggleLocation()"
+      >
+        <ion-icon name="locate-outline" slot="start"></ion-icon>
+        {{ locationSharing ? ('location.active' | translate) : ('location.enable' | translate) }}
+      </ion-button>
+    </section>
+
+    <!-- ACTION BUTTONS -->
+    <section class="action-buttons" *ngIf="receipt">
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="register-btn"
+        (click)="downloadPdf()"
+      >
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        {{ 'receipt.download_pdf' | translate }}
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="register-btn"
+        (click)="shareReceipt()"
+      >
+        <ion-icon name="share-outline" slot="start"></ion-icon>
+        {{ 'receipt.share' | translate }}
+      </ion-button>
+
+      <button type="button" class="link-btn" (click)="consultarEstado()">
+        {{ 'receipt.consult_status' | translate }}
+      </button>
+
+      <ion-button
+        expand="block"
+        class="login-btn"
+        (click)="goToLogin()"
+      >
+        {{ 'receipt.back_home' | translate }}
+      </ion-button>
+    </section>
+
+    <!-- HELP -->
+    <section class="help-section">
+      <ion-icon name="headset-outline"></ion-icon>
+      <div>
+        <h3>{{ 'tourism.help.title' | translate }}</h3>
+        <p>{{ 'tourism.help.text' | translate }}</p>
+      </div>
+    </section>
+
+    <img src="assets/images/login_screen.png" alt="" class="bottom-decoration" />
+  </main>
+</ion-content>

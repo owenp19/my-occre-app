@@ -1,0 +1,135 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/procedures" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nueva Solicitud</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Success overlay -->
+  <div class="success-overlay" *ngIf="successData">
+    <div class="success-card">
+      <ion-icon name="checkmark-circle-outline" color="success" class="success-icon"></ion-icon>
+      <h2>Solicitud Enviada</h2>
+      <p>Tu solicitud ha sido radicada exitosamente.</p>
+      <div class="tracking-number-card">
+        <span class="tracking-label">Número de radicado</span>
+        <span class="tracking-value">{{ successData.trackingNumber }}</span>
+      </div>
+      <ion-button expand="block" (click)="goToTracking()">
+        Ver seguimiento
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="goBack()">
+        Volver a trámites
+      </ion-button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!successData">
+    <ng-container *ngIf="!isLoading; else loadingTpl">
+      <ng-container *ngIf="!error && procedure; else errorTpl">
+        <!-- Procedure info -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ procedure.name }}</ion-card-title>
+            <ion-card-subtitle>
+              <ion-icon name="time-outline"></ion-icon>
+              {{ procedure.estimatedDays }} días hábiles
+            </ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+
+        <!-- Requirements checklist -->
+        <ion-card *ngIf="procedure.requirements.length > 0">
+          <ion-card-header>
+            <ion-card-title>Requisitos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item *ngFor="let req of procedure.requirements">
+                <ion-icon name="checkmark-circle-outline" color="success" slot="start"></ion-icon>
+                <ion-label>{{ req }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Notes -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Notas</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-textarea
+              [(ngModel)]="notes"
+              placeholder="Agrega notas o comentarios adicionales para tu solicitud..."
+              rows="4"
+              auto-grow
+            ></ion-textarea>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Document upload -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Subir documentos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="upload-actions">
+              <ion-button fill="outline" (click)="addFile()">
+                <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+                Agregar archivos
+              </ion-button>
+            </div>
+
+            <ion-list lines="none" *ngIf="selectedFiles.length > 0">
+              <ion-item *ngFor="let item of selectedFiles; let i = index">
+                <ion-icon name="document-outline" slot="start"></ion-icon>
+                <ion-label>{{ item.name }}</ion-label>
+                <ion-button slot="end" fill="clear" color="danger" (click)="removeFile(i)">
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Error -->
+        <div class="ion-text-center ion-padding" *ngIf="error">
+          <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+          <p color="danger">{{ error }}</p>
+        </div>
+      </ng-container>
+
+      <ng-template #errorTpl>
+        <div class="ion-text-center ion-padding">
+          <ion-icon name="alert-circle-outline" color="danger" size="large"></ion-icon>
+          <p>{{ error }}</p>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loadingTpl>
+      <div class="ion-text-center ion-padding">
+        <ion-spinner></ion-spinner>
+        <p>Cargando información del trámite...</p>
+      </div>
+    </ng-template>
+  </ng-container>
+</ion-content>
+
+<ion-footer *ngIf="!successData && procedure">
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      class="ion-margin"
+      (click)="submitRequest()"
+      [disabled]="isSubmitting"
+    >
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      {{ isSubmitting ? 'Enviando...' : 'Enviar solicitud' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

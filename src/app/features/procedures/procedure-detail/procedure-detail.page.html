@@ -1,0 +1,367 @@
+<ion-content class="procedure-page" fullscreen>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <button type="button" class="page-back-btn" aria-label="Atrás" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+
+    <h1 class="page-title">Trámite OCCRE</h1>
+
+    <button type="button" class="page-notif-btn">
+      <ion-icon name="notifications-outline"></ion-icon>
+      <span class="notif-dot">1</span>
+    </button>
+
+    <div class="location-row">
+      <ion-icon name="location-outline"></ion-icon>
+      <span>San Andrés Islas</span>
+    </div>
+  </header>
+
+  <main class="page-container" *ngIf="selectedProcedure; else loadingTpl">
+
+    <!-- HERO DINÁMICO -->
+    <section class="hero-card">
+      <div class="hero-icon">
+        <ion-icon [name]="selectedProcedure.icon || 'document-text-outline'"></ion-icon>
+      </div>
+
+      <div class="hero-info">
+        <h2>{{ selectedProcedure.title || selectedProcedure.name }}</h2>
+        <p>{{ selectedProcedure.shortDescription }}</p>
+
+        <div class="status-pill" *ngIf="selectedProcedure.allowAppointment">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          Trámite disponible para agendar
+        </div>
+
+        <div class="status-pill warning" *ngIf="!selectedProcedure.allowAppointment">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          Solo información del trámite
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <div class="building">
+          <span>OCCRE</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASOS -->
+    <section class="steps-card">
+      <div
+        class="step"
+        *ngFor="let step of steps; let i = index"
+        [class.active]="currentStep === i + 1"
+        [class.done]="currentStep > i + 1"
+      >
+        <div class="step-number">{{ i + 1 }}</div>
+        <p>{{ step }}</p>
+      </div>
+    </section>
+
+    <!-- INFORMACIÓN DEL TRÁMITE -->
+    <section class="content-card">
+      <div class="section-title">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <h3>Información del trámite</h3>
+      </div>
+
+      <p class="main-description">
+        {{ selectedProcedure.description }}
+      </p>
+
+      <div class="info-box" *ngIf="selectedProcedure.importantInfo">
+        <ion-icon name="information-outline"></ion-icon>
+        <div>
+          <strong>Ten en cuenta</strong>
+          <p>{{ selectedProcedure.importantInfo }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUISITOS -->
+    <section class="content-card requirements-card" *ngIf="selectedProcedure.requirements?.length">
+      <div class="requirements-text">
+        <h3>Requisitos del trámite</h3>
+
+        <ul>
+          <li *ngFor="let requirement of selectedProcedure.requirements; let i = index">
+            <span>{{ i + 1 }}</span>
+            {{ requirement }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="check-illustration">
+        <ion-icon name="clipboard-outline"></ion-icon>
+      </div>
+    </section>
+
+    <!-- DOCUMENTOS DINÁMICOS -->
+    <section class="content-card" *ngIf="selectedProcedure.documents?.length">
+      <div class="documents-header">
+        <div class="section-title">
+          <ion-icon name="folder-open-outline"></ion-icon>
+          <h3>Documentos requeridos</h3>
+        </div>
+
+        <span class="required-note">
+          Los documentos marcados con * son obligatorios
+        </span>
+      </div>
+
+      <div class="documents-list">
+
+        <div
+          class="document-row"
+          *ngFor="let doc of selectedProcedure.documents"
+          [class.uploaded]="uploadedDocuments[doc.key]"
+        >
+          <div class="document-icon">
+            <ion-icon [name]="doc.icon || 'document-text-outline'"></ion-icon>
+          </div>
+
+          <div class="document-info">
+            <h4>
+              {{ doc.label }}
+              <span *ngIf="doc.required">*</span>
+            </h4>
+            <p>{{ doc.description }}</p>
+
+            <small>
+              Formatos: {{ doc.acceptedText }} · Máx. {{ doc.maxSizeMb }} MB
+            </small>
+
+            <div class="uploaded-file" *ngIf="uploadedDocuments[doc.key]">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              <span>{{ uploadedDocuments[doc.key].name }}</span>
+            </div>
+          </div>
+
+          <div class="document-actions">
+            <button
+              type="button"
+              class="doc-btn"
+              *ngIf="doc.allowCamera"
+              (click)="captureDocument(doc)"
+            >
+              <ion-icon name="camera-outline"></ion-icon>
+              Cámara
+            </button>
+
+            <button
+              type="button"
+              class="doc-btn"
+              (click)="triggerFileInput(doc.key)"
+            >
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+              Subir
+            </button>
+
+            <input
+              type="file"
+              hidden
+              [id]="'file-' + doc.key"
+              [accept]="doc.accept"
+              (change)="onFileSelected($event, doc)"
+            />
+
+            <button
+              type="button"
+              class="remove-btn"
+              *ngIf="uploadedDocuments[doc.key]"
+              (click)="removeDocument(doc.key)"
+            >
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+
+            <span
+              class="doc-status"
+              [class.pending]="!uploadedDocuments[doc.key]"
+              [class.success]="uploadedDocuments[doc.key]"
+            >
+              {{ uploadedDocuments[doc.key] ? 'Subido' : doc.required ? 'Pendiente' : 'Opcional' }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- AGENDAR CITA -->
+    <section class="content-card" *ngIf="selectedProcedure.allowAppointment">
+      <div class="section-title">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <h3>Agendar cita</h3>
+      </div>
+
+      <div class="appointment-grid">
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Sede de atención</ion-label>
+          <ion-select [(ngModel)]="appointment.office" interface="popover">
+            <ion-select-option *ngFor="let office of offices" [value]="office">
+              {{ office }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Fecha</ion-label>
+          <ion-input type="date" [(ngModel)]="appointment.date"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Hora disponible</ion-label>
+          <ion-select [(ngModel)]="appointment.hour" interface="popover">
+            <ion-select-option *ngFor="let hour of availableHours" [value]="hour">
+              {{ hour }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </div>
+
+      <div class="info-box appointment-note">
+        <ion-icon name="information-outline"></ion-icon>
+        <p>La duración aproximada de la cita es de 15 minutos.</p>
+      </div>
+    </section>
+
+    <!-- DATOS DEL SOLICITANTE -->
+    <section class="content-card">
+      <div class="section-title">
+        <ion-icon name="person-outline"></ion-icon>
+        <h3>Datos del solicitante</h3>
+      </div>
+
+      <div class="citizen-grid">
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Tipo de documento</ion-label>
+          <ion-select [(ngModel)]="citizen.documentType" interface="popover">
+            <ion-select-option value="Cédula de ciudadanía">Cédula de ciudadanía</ion-select-option>
+            <ion-select-option value="Tarjeta de identidad">Tarjeta de identidad</ion-select-option>
+            <ion-select-option value="Cédula de extranjería">Cédula de extranjería</ion-select-option>
+            <ion-select-option value="Pasaporte">Pasaporte</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Número de documento</ion-label>
+          <ion-input [(ngModel)]="citizen.documentNumber"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Nombres y apellidos</ion-label>
+          <ion-input [(ngModel)]="citizen.fullName"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Correo electrónico</ion-label>
+          <ion-input type="email" [(ngModel)]="citizen.email"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="form-control">
+          <ion-label position="stacked">Celular</ion-label>
+          <ion-input type="tel" [(ngModel)]="citizen.phone"></ion-input>
+        </ion-item>
+
+      </div>
+    </section>
+
+    <!-- RESUMEN -->
+    <section class="summary-layout">
+      <div class="summary-card">
+        <h3>Resumen de tu cita</h3>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <div>
+              <span>Trámite</span>
+              <strong>{{ selectedProcedure.title || selectedProcedure.name }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <span>Sede</span>
+              <strong>{{ appointment.office || 'Pendiente' }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <div>
+              <span>Fecha</span>
+              <strong>{{ appointment.date || 'Pendiente' }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="time-outline"></ion-icon>
+            <div>
+              <span>Hora</span>
+              <strong>{{ appointment.hour || 'Pendiente' }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <div>
+              <span>Estado</span>
+              <strong class="orange">Pendiente de confirmación</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warning-card">
+        <div class="warning-title">
+          <ion-icon name="information-outline"></ion-icon>
+          <h3>Ten en cuenta</h3>
+        </div>
+
+        <ul>
+          <li>Llega 10 minutos antes de tu cita.</li>
+          <li>Presenta tu documento de identidad original.</li>
+          <li>Lleva los soportes requeridos según tu trámite.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- BOTONES -->
+    <section class="action-buttons">
+      <ion-button expand="block" fill="outline" class="draft-btn" (click)="saveDraft()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Guardar borrador
+      </ion-button>
+
+      <ion-button expand="block" class="primary-btn" (click)="submitProcedure()">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        Agendar cita
+      </ion-button>
+    </section>
+
+  </main>
+
+  <ng-template #loadingTpl>
+    <div class="loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando información del trámite...</p>
+    </div>
+  </ng-template>
+
+  <ng-template #errorTpl>
+    <div class="loading-state">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>{{ error }}</p>
+    </div>
+  </ng-template>
+
+</ion-content>

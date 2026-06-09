@@ -67,10 +67,10 @@ ion-content.welcome-page {
   background:
     linear-gradient(
       to bottom,
-      rgba(23, 79, 145, 0.38) 0%,
-      rgba(23, 79, 145, 0.48) 34%,
-      rgba(7, 26, 47, 0.74) 72%,
-      rgba(7, 26, 47, 0.93) 100%
+      rgba(var(--app-color-primary-rgb), 0.38) 0%,
+      rgba(var(--app-color-primary-rgb), 0.48) 34%,
+      rgba(var(--app-color-dark-rgb), 0.74) 72%,
+      rgba(var(--app-color-dark-rgb), 0.93) 100%
     );
 }
 
@@ -95,7 +95,7 @@ ion-content.welcome-page {
   border-radius: 16px;
 
   background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 14px 32px rgba(7, 26, 47, 0.22);
+  box-shadow: 0 14px 32px rgba(var(--app-color-dark-rgb), 0.22);
 
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -107,7 +107,7 @@ ion-content.welcome-page {
   right: 28px;
   bottom: 150px;
   z-index: 3;
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 }
 
 .welcome-content h1 span {
@@ -125,8 +125,8 @@ ion-content.welcome-page {
   letter-spacing: -0.035em;
   text-transform: uppercase;
 
-  color: var(--occre-white);
-  text-shadow: 0 8px 22px rgba(7, 26, 47, 0.52);
+  color: var(--app-color-text-inverse);
+  text-shadow: 0 8px 22px rgba(var(--app-color-dark-rgb), 0.52);
 }
 
 .welcome-title-line span {
@@ -146,7 +146,7 @@ ion-content.welcome-page {
   line-height: 1.48;
 
   color: rgba(255, 255, 255, 0.96);
-  text-shadow: 0 5px 16px rgba(7, 26, 47, 0.52);
+  text-shadow: 0 5px 16px rgba(var(--app-color-dark-rgb), 0.52);
 }
 
 .welcome-button {
@@ -167,7 +167,7 @@ ion-content.welcome-page {
   justify-content: center;
 
   background: var(--app-color-dark);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   font-family: var(--app-font-text);
   font-size: 1.1rem;
@@ -175,7 +175,7 @@ ion-content.welcome-page {
   line-height: 1;
 
   box-shadow:
-    0 16px 34px rgba(7, 26, 47, 0.42),
+    0 16px 34px rgba(var(--app-color-dark-rgb), 0.42),
     0 0 0 5px rgba(255, 255, 255, 0.22);
 
   cursor: pointer;
@@ -198,7 +198,7 @@ ion-content.welcome-page {
   z-index: -1;
 
   border-radius: 50px;
-  border: 2px solid rgba(243, 146, 24, 0.62);
+  border: 2px solid rgba(var(--occre-secondary-rgb), 0.62);
 
   opacity: 0;
   transform: scale(0.82);
@@ -271,14 +271,14 @@ ion-content.welcome-page {
   0%,
   100% {
     box-shadow:
-      0 16px 34px rgba(7, 26, 47, 0.42),
+      0 16px 34px rgba(var(--app-color-dark-rgb), 0.42),
       0 0 0 5px rgba(255, 255, 255, 0.22);
   }
 
   50% {
     box-shadow:
-      0 18px 38px rgba(7, 26, 47, 0.48),
-      0 0 0 7px rgba(243, 146, 24, 0.18);
+      0 18px 38px rgba(var(--app-color-dark-rgb), 0.48),
+      0 0 0 7px rgba(var(--occre-secondary-rgb), 0.18);
   }
 }
 

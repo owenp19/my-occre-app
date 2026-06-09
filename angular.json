@@ -44,8 +44,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "30kb",
+                  "maximumError": "50kb"
                 }
               ],
               "fileReplacements": [
@@ -64,6 +64,20 @@
               "sourceMap": true,
               "namedChunks": true
             },
+            "tunnel": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.tunnel.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "ci": {
               "progress": false
             }
@@ -72,12 +86,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "allowedHosts": ["all"]
+          },
           "configurations": {
             "production": {
               "buildTarget": "app:build:production"
             },
             "development": {
               "buildTarget": "app:build:development"
+            },
+            "tunnel": {
+              "buildTarget": "app:build:tunnel"
             },
             "ci": {
               "progress": false
@@ -136,7 +156,8 @@
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
-    ]
+    ],
+    "analytics": false
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

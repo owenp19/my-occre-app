@@ -1,0 +1,124 @@
+<ion-header [translucent]="true" class="occre-header">
+  <ion-toolbar>
+    <ion-title>Mis Solicitudes</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar
+      placeholder="Buscar por radicado..."
+      (ionInput)="onSearch($event)"
+      (ionClear)="clearSearch()"
+      class="occre-searchbar"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="tracking-content">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="!isLoading; else loadingTpl">
+    <ng-container *ngIf="!error; else errorTpl">
+      <!-- Stats bar -->
+      <div class="stats-row" *ngIf="filteredRequests.length > 0">
+        <div class="stat-chip">
+          <span class="stat-chip-value">{{ filteredRequests.length }}</span>
+          <span class="stat-chip-label">Solicitudes</span>
+        </div>
+        <div class="stat-chip stat-chip--warning">
+          <span class="stat-chip-value">{{ pendingCount }}</span>
+          <span class="stat-chip-label">Pendientes</span>
+        </div>
+        <div class="stat-chip stat-chip--success">
+          <span class="stat-chip-value">{{ resolvedCount }}</span>
+          <span class="stat-chip-label">Finalizadas</span>
+        </div>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="filter-pills" *ngIf="filteredRequests.length > 0">
+        <button
+          class="pill"
+          [class.pill--active]="activeFilter === 'todas'"
+          (click)="setFilter('todas')"
+        >Todas</button>
+        <button
+          class="pill"
+          [class.pill--active]="activeFilter === 'pendiente'"
+          (click)="setFilter('pendiente')"
+        >Pendiente</button>
+        <button
+          class="pill"
+          [class.pill--active]="activeFilter === 'en_revision'"
+          (click)="setFilter('en_revision')"
+        >Revisión</button>
+        <button
+          class="pill"
+          [class.pill--active]="activeFilter === 'aprobado'"
+          (click)="setFilter('aprobado')"
+        >Aprobado</button>
+        <button
+          class="pill"
+          [class.pill--active]="activeFilter === 'finalizado'"
+          (click)="setFilter('finalizado')"
+        >Finalizado</button>
+      </div>
+
+      <!-- Requests list -->
+      <div class="requests-list" *ngIf="filteredRequests.length > 0; else emptyTpl">
+        <div
+          class="request-card"
+          *ngFor="let req of filteredRequests"
+          (click)="goToDetail(req.trackingNumber)"
+          role="button"
+          tabindex="0"
+        >
+          <div class="request-card-top">
+            <div class="request-icon-wrapper" [class]="'icon-' + req.status">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <div class="request-info">
+              <span class="request-tracking">{{ req.trackingNumber }}</span>
+              <span class="request-procedure">{{ req.procedureName }}</span>
+            </div>
+            <ion-icon name="chevron-forward-outline" class="request-chevron"></ion-icon>
+          </div>
+          <div class="request-card-bottom">
+            <span class="status-badge" [class]="'status-badge--' + req.status">
+              <span class="status-dot" [style.background]="getStatusColor(req.status)"></span>
+              {{ getStatusLabel(req.status) }}
+            </span>
+            <span class="request-date">{{ formatDate(req.submittedAt) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptyTpl>
+        <div class="empty-state">
+          <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
+          <h3>{{ searchQuery ? 'Sin resultados' : 'No tienes solicitudes' }}</h3>
+          <p>{{ searchQuery ? 'No encontramos solicitudes con ese radicado.' : 'Aún no has realizado ninguna solicitud. Explora los trámites disponibles.' }}</p>
+          <ion-button fill="outline" routerLink="/procedures" *ngIf="!searchQuery">
+            <ion-icon name="search-outline" slot="start"></ion-icon>
+            Ver trámites
+          </ion-button>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #errorTpl>
+      <div class="state-message state-message--error">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>{{ error }}</p>
+        <ion-button fill="outline" (click)="loadRequests()">Reintentar</ion-button>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <div class="state-message">
+      <ion-spinner></ion-spinner>
+      <p>Cargando solicitudes...</p>
+    </div>
+  </ng-template>
+</ion-content>

@@ -51,6 +51,42 @@
             </button>
           </div>
 
+          <div class="settings-row">
+            <div class="settings-row-left">
+              <ion-icon name="color-palette-outline"></ion-icon>
+              <div class="settings-row-info">
+                <span class="settings-row-label">{{ 'settings.colortheme' | translate }}</span>
+                <span class="settings-row-desc">{{ 'settings.colortheme.' + themeService.colorTheme | translate }}</span>
+              </div>
+            </div>
+            <button type="button" class="settings-row-nav" (click)="toggleColorMenu()">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          </div>
+
+          <div class="settings-sync-info" *ngIf="offline.isOfflineMode && offlineQueueCount > 0">
+            <ion-icon name="sync-outline"></ion-icon>
+            <span>{{ offlineQueueCount }} {{ 'settings.offline.pending' | translate }}</span>
+          </div>
+
+          <div class="settings-color-menu" *ngIf="showColorMenu">
+            <button
+              type="button"
+              class="settings-color-option"
+              [class.active]="themeService.colorTheme === color.value"
+              *ngFor="let color of colorOptions"
+              (click)="setColorTheme(color.value)"
+            >
+              <span class="settings-color-swatch" [class]="color.class"></span>
+              <span>{{ color.labelKey | translate }}</span>
+              <ion-icon
+                *ngIf="themeService.colorTheme === color.value"
+                name="checkmark-outline"
+                class="settings-color-check"
+              ></ion-icon>
+            </button>
+          </div>
+
           <div
             class="settings-row"
             *ngFor="let option of options"
@@ -81,6 +117,22 @@
                 <ion-icon name="chevron-forward-outline"></ion-icon>
               </button>
             </ng-container>
+          </div>
+
+          <div class="settings-row" *ngIf="biometricAvailable">
+            <div class="settings-row-left">
+              <ion-icon name="finger-print-outline"></ion-icon>
+              <div class="settings-row-info">
+                <span class="settings-row-label">Ingreso con {{ biometryLabel }}</span>
+                <span class="settings-row-desc">Usa tu huella o Face ID para ingresar</span>
+              </div>
+            </div>
+            <ion-toggle
+              class="settings-toggle"
+              [checked]="biometricEnabled"
+              (ionChange)="onBiometricToggle()"
+              mode="ios"
+            ></ion-toggle>
           </div>
         </div>
       </div>

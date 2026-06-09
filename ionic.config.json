@@ -1,5 +1,7 @@
 {
   "name": "my-occre-app",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

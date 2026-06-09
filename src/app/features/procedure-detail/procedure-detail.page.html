@@ -1,0 +1,199 @@
+<ion-header class="page-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Detalle del trámite</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detail-content">
+  <!-- Loading -->
+  <ng-container *ngIf="isLoading">
+    <div class="loading-container">
+      <div class="skeleton-block">
+        <ion-skeleton-text animated style="height: 24px; width: 50%; margin-bottom: 16px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 16px; width: 100%; margin-bottom: 8px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 16px; width: 80%; margin-bottom: 24px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 100px; width: 100%; border-radius: 12px; margin-bottom: 12px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="height: 100px; width: 100%; border-radius: 12px"></ion-skeleton-text>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Error -->
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>{{ errorMessage }}</p>
+    <ion-button fill="clear" class="retry-btn" (click)="loadDetail()">
+      <ion-icon name="reload-outline" slot="start"></ion-icon>
+      Intentar de nuevo
+    </ion-button>
+  </div>
+
+  <!-- Detail content -->
+  <main class="detail-page" *ngIf="procedure && !isLoading">
+    <!-- Header section -->
+    <section class="hero-section">
+      <div class="hero-badge" [ngClass]="statusService.getStatusClass(procedure.status)">
+        <ion-icon [name]="statusService.getStatusIcon(procedure.status)"></ion-icon>
+        <span>{{ procedure.status_label }}</span>
+      </div>
+      <h1 class="hero-title">{{ procedure.procedure_name }}</h1>
+      <p class="hero-record">{{ procedure.record_number }}</p>
+    </section>
+
+    <!-- Info card -->
+    <section class="info-card">
+      <div class="info-row">
+        <span class="info-label">Solicitante</span>
+        <span class="info-value">{{ procedure.applicant_name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Documento</span>
+        <span class="info-value">{{ procedure.document_type }} {{ procedure.document_number }}</span>
+      </div>
+      <div class="info-row" *ngIf="procedure.email">
+        <span class="info-label">Correo</span>
+        <span class="info-value">{{ procedure.email }}</span>
+      </div>
+      <div class="info-row" *ngIf="procedure.phone">
+        <span class="info-label">Teléfono</span>
+        <span class="info-value">{{ procedure.phone }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Radicado</span>
+        <span class="info-value">{{ procedure.submitted_at | date:'dd/MM/yyyy hh:mm a' }}</span>
+      </div>
+      <div class="info-row" *ngIf="procedure.updated_at">
+        <span class="info-label">Última actualización</span>
+        <span class="info-value">{{ procedure.updated_at | date:'dd/MM/yyyy hh:mm a' }}</span>
+      </div>
+      <div class="info-row" *ngIf="procedure.office">
+        <span class="info-label">Sede</span>
+        <span class="info-value">{{ procedure.office }}</span>
+      </div>
+      <div class="info-row" *ngIf="procedure.assigned_to">
+        <span class="info-label">Funcionario</span>
+        <span class="info-value">{{ procedure.assigned_to }}</span>
+      </div>
+    </section>
+
+    <!-- Observations -->
+    <section class="section-card" *ngIf="procedure.observations">
+      <div class="section-title">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <h3>Observaciones</h3>
+      </div>
+      <p class="observations-text">{{ procedure.observations }}</p>
+    </section>
+
+    <!-- Timeline -->
+    <section class="section-card" *ngIf="procedure.timeline.length > 0">
+      <div class="section-title">
+        <ion-icon name="time-outline"></ion-icon>
+        <h3>Historial del trámite</h3>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item" *ngFor="let event of procedure.timeline">
+          <div class="timeline-marker" [class.active]="event === procedure.timeline[procedure.timeline.length - 1]">
+            <div class="marker-dot"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-status">
+              <ion-icon [name]="statusService.getStatusIcon(event.status)"></ion-icon>
+              <strong>{{ statusService.getStatusLabel(event.status) || event.status }}</strong>
+            </div>
+            <p class="timeline-desc" *ngIf="event.description">{{ event.description }}</p>
+            <div class="timeline-meta">
+              <span>{{ event.created_at | date:'dd/MM/yyyy hh:mm a' }}</span>
+              <span *ngIf="event.user_name">— {{ event.user_name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Documents -->
+    <section class="section-card" *ngIf="procedure.documents.length > 0">
+      <div class="section-title">
+        <ion-icon name="folder-open-outline"></ion-icon>
+        <h3>Documentos</h3>
+      </div>
+      <div class="document-list">
+        <div class="document-item" *ngFor="let doc of procedure.documents">
+          <div class="doc-icon">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <div class="doc-info">
+            <span class="doc-name">{{ doc.name }}</span>
+            <span class="doc-status" [class.received]="doc.is_validated" [class.pending]="!doc.is_validated">
+              {{ doc.is_validated ? 'Recibido' : 'Pendiente' }}
+            </span>
+          </div>
+          <div class="doc-action" *ngIf="doc.is_validated">
+            <ion-button fill="clear" size="small" (click)="downloadDocument(doc.id)">
+              <ion-icon name="download-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Appointments -->
+    <section class="section-card" *ngIf="procedure.appointments.length > 0">
+      <div class="section-title">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <h3>Citas asociadas</h3>
+      </div>
+      <div class="appointment-list">
+        <div class="appointment-item" *ngFor="let apt of procedure.appointments">
+          <div class="apt-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <div class="apt-info">
+            <span class="apt-date">{{ apt.date | date:'dd/MM/yyyy' }} — {{ apt.time }}</span>
+            <span class="apt-office" *ngIf="apt.office">{{ apt.office }}</span>
+            <span class="apt-status">{{ apt.status }}</span>
+          </div>
+          <div class="apt-code" *ngIf="apt.code">
+            <small>{{ apt.code }}</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action buttons -->
+    <section class="actions-section">
+      <div class="action-btn-row" *ngIf="procedure.actions.can_upload_corrections">
+        <ion-button expand="block" fill="outline" class="action-btn outline-btn">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          Corregir documentos
+        </ion-button>
+      </div>
+
+      <div class="action-btn-row" *ngIf="procedure.actions.can_schedule_appointment">
+        <ion-button expand="block" fill="outline" class="action-btn outline-btn" (click)="goToAppointment()">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          Agendar cita
+        </ion-button>
+      </div>
+
+      <div class="action-btn-row" *ngIf="procedure.actions.can_download_receipt">
+        <ion-button expand="block" fill="outline" class="action-btn outline-btn" (click)="downloadReceipt()">
+          <ion-icon name="download-outline" slot="start"></ion-icon>
+          Descargar comprobante
+        </ion-button>
+      </div>
+
+      <div class="action-btn-row">
+        <ion-button expand="block" class="action-btn primary-btn" (click)="contactSupport()">
+          <ion-icon name="call-outline" slot="start"></ion-icon>
+          Contactar soporte
+        </ion-button>
+      </div>
+    </section>
+  </main>
+</ion-content>

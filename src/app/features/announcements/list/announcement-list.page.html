@@ -1,0 +1,63 @@
+<ion-header class="occre-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Comunicados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="announcement-content">
+  <ng-container *ngIf="!isLoading; else loadingTpl">
+    <ng-container *ngIf="!error; else errorTpl">
+      <div class="list-header">
+        <h2>Comunicados oficiales</h2>
+        <p>Mantente informado sobre las novedades de la OCCRE.</p>
+      </div>
+
+      <div class="announcement-list" *ngIf="announcements.length > 0">
+        <div
+          class="announcement-card"
+          *ngFor="let a of announcements"
+          (click)="goToDetail(a.id)"
+          role="button"
+          tabindex="0"
+        >
+          <div class="card-icon" [class]="'icon-' + a.type">
+            <ion-icon [name]="typeIcons[a.type] || 'information-circle-outline'"></ion-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ a.title }}</h3>
+            <span class="card-type" [class]="'type-' + a.type">
+              {{ a.type === 'important' ? 'Importante' : a.type === 'alert' ? 'Alerta' : 'Informativo' }}
+            </span>
+          </div>
+          <ion-icon name="chevron-forward-outline" class="card-chevron"></ion-icon>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="announcements.length === 0">
+        <ion-icon name="megaphone-outline" class="empty-icon"></ion-icon>
+        <h3>No hay comunicados</h3>
+        <p>No hay comunicados activos en este momento.</p>
+      </div>
+    </ng-container>
+
+    <ng-template #errorTpl>
+      <div class="state-message state-message--error">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>{{ error }}</p>
+        <ion-button fill="outline" (click)="load()">Reintentar</ion-button>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <div class="state-message">
+      <ion-spinner></ion-spinner>
+      <p>Cargando comunicados...</p>
+    </div>
+  </ng-template>
+</ion-content>

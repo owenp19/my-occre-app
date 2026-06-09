@@ -1,0 +1,474 @@
+<ion-content class="appointment-page" fullscreen>
+
+  <!-- HEADER -->
+  <section class="top-hero">
+    <div class="hero-overlay"></div>
+
+    <div class="header-content">
+      <div class="header-top">
+        <button class="appointments-back-btn" type="button" (click)="goBack()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+
+        <h1>Agendar cita OCCRE</h1>
+
+        <button class="profile-btn" type="button">
+          <ion-icon name="person-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="location-row">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>San Andrés Islas</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="page-wrapper">
+
+    <!-- OFFLINE BANNER -->
+    <div class="offline-banner" *ngIf="!isOnline">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <span>Sin conexión a internet. No puedes agendar citas.</span>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" *ngIf="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando información...</p>
+    </div>
+
+    <!-- SUCCESS (STEP 5) -->
+    <ng-container *ngIf="currentStep === 5 && appointmentResult">
+      <section class="main-card success-card">
+        <div class="main-icon success-icon">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </div>
+
+        <div class="main-text">
+          <h2>¡Cita agendada!</h2>
+          <p>Tu cita ha sido registrada exitosamente.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="appointment-code-card">
+          <span class="code-label">Código de confirmación</span>
+          <strong class="code-value">{{ appointmentResult.code }}</strong>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <div>
+              <span>Fecha</span>
+              <strong>{{ appointmentResult.date }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="time-outline"></ion-icon>
+            <div>
+              <span>Hora</span>
+              <strong>{{ appointmentResult.time }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <span>Sede</span>
+              <strong>{{ appointmentResult.officeName }}</strong>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <ion-icon name="information-outline"></ion-icon>
+            <div>
+              <span>Estado</span>
+              <strong>Pendiente de confirmación</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="action-buttons">
+        <ion-button expand="block" fill="outline" class="draft-btn" (click)="shareAppointment()">
+          <ion-icon name="share-outline" slot="start"></ion-icon>
+          Compartir cita
+        </ion-button>
+
+        <ion-button expand="block" class="primary-btn" (click)="newAppointment()">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          Agendar otra cita
+        </ion-button>
+      </section>
+    </ng-container>
+
+    <!-- BOOKING FLOW (STEPS 1-4) -->
+    <ng-container *ngIf="currentStep < 5">
+
+      <!-- TARJETA PRINCIPAL -->
+      <section class="main-card">
+        <div class="main-icon">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span class="small-check">
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </span>
+        </div>
+
+        <div class="main-text">
+          <h2>Reserva tu cita</h2>
+          <p>
+            Selecciona el servicio, la fecha y hora que más se ajuste a tu disponibilidad.
+          </p>
+        </div>
+
+        <div class="office-illustration">
+          <div class="cloud cloud-one"></div>
+          <div class="cloud cloud-two"></div>
+          <div class="building">
+            <div class="roof"></div>
+            <div class="building-body">
+              <span>OCCRE</span>
+            </div>
+          </div>
+          <div class="palm palm-left"></div>
+          <div class="palm palm-right"></div>
+        </div>
+      </section>
+
+      <!-- PASOS -->
+      <section class="steps-card">
+        <div
+          class="step-item"
+          *ngFor="let step of steps; let i = index"
+          [class.active]="i + 1 === currentStep"
+          [class.completed]="i + 1 < currentStep"
+        >
+          <div class="step-number">{{ i + 1 }}</div>
+          <span>{{ step }}</span>
+        </div>
+      </section>
+
+      <!-- SERVICIO -->
+      <section class="section-card">
+        <h3>1. ¿Qué servicio necesitas?</h3>
+
+        <div class="services-grid">
+          <button
+            type="button"
+            class="service-card"
+            *ngFor="let service of services"
+            [class.selected]="selectedService?.id === service.id"
+            (click)="selectService(service)"
+          >
+            <span class="selected-badge" *ngIf="selectedService?.id === service.id">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </span>
+
+            <ion-icon [name]="service.icon"></ion-icon>
+
+            <strong>{{ service.name }}</strong>
+            <p>{{ service.description }}</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- FECHA Y HORA -->
+      <section class="section-card">
+        <h3>2. Selecciona fecha y hora</h3>
+
+        <div class="schedule-layout">
+
+          <!-- CALENDARIO -->
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <ion-icon name="calendar-outline"></ion-icon>
+
+              <h4>{{ monthName }} {{ currentYear }}</h4>
+
+              <div class="calendar-actions">
+                <button type="button" (click)="previousMonth()">
+                  <ion-icon name="chevron-back-outline"></ion-icon>
+                </button>
+
+                <button type="button" (click)="nextMonth()">
+                  <ion-icon name="chevron-forward-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="week-days">
+              <span *ngFor="let day of weekDays">{{ day }}</span>
+            </div>
+
+            <div class="calendar-grid">
+              <button
+                type="button"
+                *ngFor="let day of calendarDays"
+                [class.muted]="!day.currentMonth"
+                [class.selected]="day.selected"
+                [class.disabled]="day.disabled"
+                (click)="selectDate(day)"
+              >
+                {{ day.day }}
+              </button>
+            </div>
+          </div>
+
+          <!-- HORARIOS -->
+          <div class="hours-card">
+            <ion-item lines="none" class="office-select">
+              <ion-icon name="location-outline" slot="start"></ion-icon>
+
+              <ion-select
+                label="Sede de atención"
+                label-placement="stacked"
+                interface="popover"
+                [(ngModel)]="selectedOffice"
+                (ionChange)="selectOffice()"
+                [compareWith]="compareOffice"
+              >
+                <ion-select-option
+                  *ngFor="let office of offices"
+                  [value]="office"
+                >
+                  {{ office.name }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <p class="hours-title">
+              Horas disponibles para el {{ selectedDateLabel }}
+            </p>
+
+            <div class="hours-grid" *ngIf="!loadingAvailability">
+              <button
+                type="button"
+                *ngFor="let hour of availableHours"
+                [class.selected]="selectedHour?.time === hour.time"
+                (click)="selectHour(hour)"
+              >
+                <span class="hour-label">{{ hour.label }}</span>
+                <span class="hour-slots">{{ hour.available_count }}/10 cupos</span>
+              </button>
+            </div>
+
+            <div class="hours-loading" *ngIf="loadingAvailability">
+              <ion-spinner name="dots"></ion-spinner>
+            </div>
+
+            <div class="info-note">
+              <ion-icon name="information-outline"></ion-icon>
+              <span>La cita tiene una duración aproximada de 15 minutos.</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- DATOS -->
+      <section class="section-card">
+        <h3>3. Tus datos personales</h3>
+
+        <div class="form-grid">
+
+          <ion-item lines="none" class="input-card">
+            <ion-icon name="card-outline" slot="start"></ion-icon>
+            <ion-select
+              label="Tipo de documento"
+              label-placement="stacked"
+              interface="popover"
+              [(ngModel)]="citizen.documentType"
+            >
+              <ion-select-option value="Cédula de ciudadanía">
+                Cédula de ciudadanía
+              </ion-select-option>
+              <ion-select-option value="Tarjeta de identidad">
+                Tarjeta de identidad
+              </ion-select-option>
+              <ion-select-option value="Cédula de extranjería">
+                Cédula de extranjería
+              </ion-select-option>
+              <ion-select-option value="Pasaporte">
+                Pasaporte
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none" class="input-card">
+            <ion-icon name="reader-outline" slot="start"></ion-icon>
+            <ion-input
+              label="Número de documento"
+              label-placement="stacked"
+              [(ngModel)]="citizen.documentNumber"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-card">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input
+              label="Nombres y apellidos"
+              label-placement="stacked"
+              [(ngModel)]="citizen.fullName"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-card">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input
+              label="Correo electrónico"
+              label-placement="stacked"
+              type="email"
+              [(ngModel)]="citizen.email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-card">
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-input
+              label="Número de celular"
+              label-placement="stacked"
+              type="tel"
+              [(ngModel)]="citizen.phone"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-card">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input
+              label="Confirmar correo (opcional)"
+              label-placement="stacked"
+              type="email"
+              [(ngModel)]="citizen.confirmEmail"
+            ></ion-input>
+          </ion-item>
+
+        </div>
+      </section>
+
+      <!-- DOCUMENTOS (solo si el servicio los requiere) -->
+      <section class="section-card" *ngIf="requiresDocuments">
+        <h3>Documentos de soporte</h3>
+
+        <div class="document-actions">
+          <button type="button" class="doc-btn" (click)="addDocumentCamera()">
+            <ion-icon name="camera-outline"></ion-icon>
+            <span>Cámara</span>
+          </button>
+
+          <button type="button" class="doc-btn" (click)="addDocumentGallery()">
+            <ion-icon name="image-outline"></ion-icon>
+            <span>Galería</span>
+          </button>
+
+          <button type="button" class="doc-btn" (click)="addDocumentFile()">
+            <ion-icon name="document-attach-outline"></ion-icon>
+            <span>Archivos</span>
+          </button>
+        </div>
+
+        <div class="document-list" *ngIf="documentService.selectedDocuments.length > 0">
+          <div class="doc-item" *ngFor="let doc of documentService.selectedDocuments; let i = index">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <span class="doc-name">{{ doc.name }}</span>
+            <button type="button" class="doc-remove" (click)="removeDocument(i)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESUMEN + NOTA -->
+      <section class="bottom-grid">
+
+        <div class="summary-card">
+          <h3>Resumen de tu cita</h3>
+
+          <div class="summary-grid">
+            <div class="summary-item">
+              <ion-icon name="document-text-outline"></ion-icon>
+              <div>
+                <span>Servicio</span>
+                <strong>{{ selectedService?.name }}</strong>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <div>
+                <span>Hora</span>
+                <strong>{{ selectedHour?.label }}</strong>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <ion-icon name="location-outline"></ion-icon>
+              <div>
+                <span>Sede</span>
+                <strong>{{ selectedOffice?.name }}</strong>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <div>
+                <span>Duración</span>
+                <strong>15 minutos aprox.</strong>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <div>
+                <span>Fecha</span>
+                <strong>{{ selectedDateLabel }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning-card">
+          <div class="warning-header">
+            <div class="warning-icon">
+              <ion-icon name="information-outline"></ion-icon>
+            </div>
+
+            <h3>Ten en cuenta</h3>
+          </div>
+
+          <ul>
+            <li>Llega 10 minutos antes de tu cita.</li>
+            <li>Presenta tu documento de identidad original.</li>
+            <li>Lleva los soportes requeridos según tu trámite.</li>
+            <li>Una vez agendada, recibirás un correo de confirmación.</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <!-- BOTONES -->
+      <section class="action-buttons">
+        <ion-button expand="block" fill="outline" class="draft-btn" (click)="saveDraft()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Guardar borrador
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          class="primary-btn"
+          (click)="scheduleAppointment()"
+          [disabled]="submitting || !isOnline"
+        >
+          <ion-spinner name="crescent" slot="start" *ngIf="submitting"></ion-spinner>
+          <ion-icon name="calendar-outline" slot="start" *ngIf="!submitting"></ion-icon>
+          {{ submitting ? 'Agendando...' : 'Agendar cita' }}
+        </ion-button>
+      </section>
+
+    </ng-container>
+
+  </main>
+
+</ion-content>

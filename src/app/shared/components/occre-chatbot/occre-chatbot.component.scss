@@ -28,7 +28,7 @@
   border: 4px solid var(--occre-white);
   border-radius: 50px;
   background: var(--occre-primary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   box-shadow: 0 16px 38px rgba(var(--occre-primary-rgb), 0.36);
 
   cursor: pointer;
@@ -76,7 +76,7 @@
 
   border-radius: 999px;
   background: var(--occre-primary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   box-shadow: 0 10px 24px rgba(var(--occre-primary-rgb), 0.2);
 
   font-size: 0.78rem;
@@ -103,7 +103,7 @@
   border-radius: 28px;
   background: var(--occre-white);
   border: 1px solid rgba(var(--occre-primary-rgb), 0.14);
-  box-shadow: 0 24px 68px rgba(7, 26, 47, 0.24);
+  box-shadow: 0 24px 68px rgba(var(--app-color-dark-rgb), 0.24);
 }
 
 .chatbot-header {
@@ -119,7 +119,7 @@
       var(--occre-primary) 0%,
       #0f3d73 100%
     );
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 }
 
 .chatbot-avatar {
@@ -132,7 +132,7 @@
   overflow: hidden;
   background: var(--occre-light);
   border: 3px solid rgba(255, 255, 255, 0.92);
-  box-shadow: 0 10px 22px rgba(7, 26, 47, 0.18);
+  box-shadow: 0 10px 22px rgba(var(--app-color-dark-rgb), 0.18);
 }
 
 .chatbot-avatar img {
@@ -184,7 +184,7 @@
   border: 0;
   border-radius: 50px;
   background: rgba(255, 255, 255, 0.14);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   cursor: pointer;
 
@@ -259,7 +259,7 @@
   padding: 12px 13px;
 
   border-radius: 19px;
-  box-shadow: 0 8px 18px rgba(7, 26, 47, 0.06);
+  box-shadow: 0 8px 18px rgba(var(--app-color-dark-rgb), 0.06);
 }
 
 .chatbot-message p {
@@ -282,7 +282,7 @@
 
   border-bottom-right-radius: 7px;
   background: var(--occre-primary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 }
 
 .source-button {
@@ -367,7 +367,7 @@
   background: var(--occre-white);
   border-radius: 19px;
   border-bottom-left-radius: 7px;
-  box-shadow: 0 8px 18px rgba(7, 26, 47, 0.06);
+  box-shadow: 0 8px 18px rgba(var(--app-color-dark-rgb), 0.06);
 }
 
 .typing-dot {
@@ -445,7 +445,7 @@
   border: 0;
   border-radius: 50px;
   background: var(--occre-secondary);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   cursor: pointer;
 }

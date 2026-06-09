@@ -19,9 +19,9 @@
   --home-secondary-soft: rgba(var(--occre-secondary-rgb), 0.16);
   --home-secondary-medium: rgba(var(--occre-secondary-rgb), 0.24);
 
-  --home-shadow-soft: 0 10px 24px rgba(7, 26, 47, 0.08);
-  --home-shadow-medium: 0 14px 32px rgba(7, 26, 47, 0.12);
-  --home-shadow-strong: 0 18px 42px rgba(7, 26, 47, 0.18);
+  --home-shadow-soft: 0 10px 24px rgba(var(--app-color-dark-rgb), 0.08);
+  --home-shadow-medium: 0 14px 32px rgba(var(--app-color-dark-rgb), 0.12);
+  --home-shadow-strong: 0 18px 42px rgba(var(--app-color-dark-rgb), 0.18);
 }
 
 *,
@@ -117,7 +117,7 @@ button {
 
 .menu-close-button:hover {
   background: var(--home-primary);
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
 }
 
 .menu-close-button:active {
@@ -218,7 +218,7 @@ button {
 .menu-button {
   --padding-start: 0;
   --padding-end: 0;
-  --color: var(--home-white);
+  --color: var(--app-color-text-inverse);
 
   width: 42px;
   height: 42px;
@@ -258,7 +258,7 @@ button {
 
   border-radius: 50px;
   background: transparent;
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
 
   transition:
     transform 160ms ease,
@@ -292,7 +292,7 @@ button {
 
   border-radius: 999px;
   background: var(--home-secondary);
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
   border: 2px solid var(--home-primary);
 
   font-size: 0.72rem;
@@ -310,7 +310,7 @@ button {
   overflow: hidden;
   border-radius: 50px;
   background: var(--home-dark);
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
 
   font-size: 0.92rem;
   font-weight: 800;
@@ -358,7 +358,7 @@ button {
   border-radius: 22px;
 
   background: var(--home-dark);
-  box-shadow: 0 16px 32px rgba(7, 26, 47, 0.2);
+  box-shadow: 0 16px 32px rgba(var(--app-color-dark-rgb), 0.2);
 
   isolation: isolate;
 }
@@ -393,7 +393,7 @@ button {
   inset: 0;
   z-index: 1;
 
-  background: rgba(7, 26, 47, 0.72);
+  background: rgba(var(--app-color-dark-rgb), 0.72);
 }
 
 .hero-copy {
@@ -404,7 +404,7 @@ button {
   max-width: 315px;
   padding: 32px 22px 58px;
 
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
 }
 
 .hero-kicker {
@@ -427,7 +427,7 @@ button {
   line-height: 0.95;
   letter-spacing: -0.02em;
 
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
 }
 
 .hero-description {
@@ -438,14 +438,14 @@ button {
   font-weight: 400;
   line-height: 1.48;
 
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
 }
 
 .explore-button {
   --background: var(--home-secondary);
   --background-hover: var(--ion-color-secondary-shade);
   --background-activated: var(--ion-color-secondary-shade);
-  --color: var(--home-white);
+  --color: var(--app-color-text-inverse);
   --border-radius: 50px;
   --box-shadow: none;
 
@@ -819,7 +819,7 @@ button {
 
 .procedure-list-card:active {
   transform: scale(0.985);
-  box-shadow: 0 8px 20px rgba(7, 26, 47, 0.1);
+  box-shadow: 0 8px 20px rgba(var(--app-color-dark-rgb), 0.1);
 }
 
 .procedure-list-card:focus-visible {
@@ -937,7 +937,7 @@ button {
 }
 
 .is-green .procedure-list-icon {
-  background: rgba(7, 26, 47, 0.1);
+  background: rgba(var(--app-color-dark-rgb), 0.1);
   color: var(--home-dark);
 }
 
@@ -986,10 +986,28 @@ button {
   grid-template-columns: 62px minmax(0, 1fr);
   align-items: center;
   gap: 14px;
-  overflow: hidden;
+
   border-radius: 20px;
   background: var(--home-primary);
-  color: var(--home-white);
+  color: var(--app-color-text-inverse);
+}
+
+.data-protection-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shield-icon {
+  width: 60px;
+  height: 60px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 18px;
+  background: var(--app-color-text-inverse);
+  color: var(--app-color-primary);
 }
 
 .shield-icon ion-icon {
@@ -1007,7 +1025,7 @@ button {
   font-weight: 900;
   line-height: 1.15;
 
-  color: var(--home-text);
+  color: var(--app-color-text-inverse);
 }
 
 .data-protection-copy p {
@@ -1017,7 +1035,8 @@ button {
   font-weight: 400;
   line-height: 1.45;
 
-  color: var(--home-text-soft);
+  color: var(--app-color-text-inverse);
+  opacity: 0.82;
 }
 
 .data-protection-button {
@@ -1033,9 +1052,9 @@ button {
   gap: 8px;
 
   border-radius: 16px;
-  background: var(--home-white);
-  color: var(--home-primary);
-  border: 1px solid var(--home-primary);
+  border: 0;
+  background: var(--app-color-text-inverse);
+  color: var(--app-color-bg-dark);
 
   font-size: 0.95rem;
   font-weight: 900;
@@ -1052,13 +1071,8 @@ button {
 
 .data-protection-button:active {
   transform: scale(0.98);
-  background: var(--home-primary);
-  color: var(--home-white);
-}
-
-.data-protection-button:focus-visible {
-  outline: 3px solid var(--home-secondary);
-  outline-offset: 3px;
+  background: var(--app-color-bg-dark);
+  color: var(--app-color-text-inverse);
 }
 
 /* =========================================================
@@ -1298,7 +1312,7 @@ button {
 
     border-radius: 50%;
     background: transparent;
-    color: var(--home-white);
+    color: var(--app-color-text-inverse);
   }
 
   .profile-options ion-icon {
@@ -1463,7 +1477,7 @@ button {
   .procedure-list-card:hover {
     transform: translateY(-3px);
     border-color: var(--home-border-medium);
-    box-shadow: 0 18px 38px rgba(7, 26, 47, 0.14);
+    box-shadow: 0 18px 38px rgba(var(--app-color-dark-rgb), 0.14);
   }
 
   .procedure-list-card:hover .procedure-list-icon {
@@ -1481,7 +1495,7 @@ button {
 
   .data-protection-button:hover {
     background: var(--home-primary);
-    color: var(--home-white);
+    color: var(--app-color-text-inverse);
   }
 }
 
@@ -1524,7 +1538,7 @@ button {
   background: var(--occre-white);
   border: 1px solid rgba(var(--occre-primary-rgb), 0.12);
 
-  box-shadow: 0 18px 42px rgba(7, 26, 47, 0.18);
+  box-shadow: 0 18px 42px rgba(var(--app-color-dark-rgb), 0.18);
 }
 
 .quick-search-option {
@@ -1693,7 +1707,7 @@ button {
   text-align: left;
 
   border: 1px solid rgba(var(--occre-primary-rgb), 0.1);
-  box-shadow: 0 10px 24px rgba(7, 26, 47, 0.08);
+  box-shadow: 0 10px 24px rgba(var(--app-color-dark-rgb), 0.08);
 
   transition:
     transform 180ms ease,
@@ -1719,7 +1733,7 @@ button {
 .procedure-list-card:active {
   transform: scale(0.985);
   border-color: rgba(var(--occre-primary-rgb), 0.22);
-  box-shadow: 0 8px 20px rgba(7, 26, 47, 0.1);
+  box-shadow: 0 8px 20px rgba(var(--app-color-dark-rgb), 0.1);
 }
 
 .procedure-list-card:focus-visible {
@@ -1838,7 +1852,7 @@ button {
 }
 
 .is-green .procedure-list-icon {
-  background: rgba(7, 26, 47, 0.1);
+  background: rgba(var(--app-color-dark-rgb), 0.1);
   color: var(--app-color-dark);
 }
 
@@ -1853,266 +1867,25 @@ button {
 }
 
 /* =========================================================
-   BANNER PROTECCIÓN DE DATOS
+   DARK MODE — iconos visibles en fondo oscuro
 ========================================================= */
 
-.data-protection-card {
-  width: 100%;
-  padding: 18px;
-
-  display: grid;
-  grid-template-columns: 62px minmax(0, 1fr);
-  align-items: center;
-  gap: 14px;
-
-  border-radius: 22px;
-  background: var(--app-color-surface);
-  border: 1px solid rgba(var(--occre-primary-rgb), 0.1);
-}
-
-.data-protection-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.shield-icon {
-  width: 60px;
-  height: 60px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 20px;
-  background: var(--app-color-primary);
-  color: var(--occre-white);
-}
-
-.shield-icon ion-icon {
-  font-size: 32px;
-}
-
-.data-protection-copy {
-  min-width: 0;
-}
-
-.data-protection-copy h2 {
-  margin: 0 0 6px;
-
-  font-size: 1rem;
-  font-weight: 900;
-  line-height: 1.15;
-
-  color: var(--app-color-text);
-}
-
-.data-protection-copy p {
-  margin: 0;
-
-  font-size: 0.82rem;
-  font-weight: 400;
-  line-height: 1.45;
-
-  color: var(--app-color-text-soft);
-}
-
-.data-protection-button {
-  grid-column: 1 / -1;
-
-  min-height: 48px;
-  padding: 0 18px;
-  margin-top: 2px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  border-radius: 16px;
-  background: var(--occre-white);
-  color: var(--app-color-primary);
-  border: 1px solid var(--app-color-primary);
-
-  font-size: 0.95rem;
-  font-weight: 900;
-
-  transition:
-    transform 160ms ease,
-    background-color 160ms ease,
-    color 160ms ease;
-}
-
-.data-protection-button ion-icon {
-  font-size: 22px;
-}
-
-.data-protection-button:active {
-  transform: scale(0.98);
-  background: var(--app-color-primary);
-  color: var(--occre-white);
-}
-
-.data-protection-button:focus-visible {
-  outline: 3px solid var(--app-color-secondary);
-  outline-offset: 3px;
-}
-
-/* =========================================================
-   MÓVIL PEQUEÑO
-========================================================= */
-
-@media (max-width: 360px) {
-  .hero-section {
-    padding:
-      calc(env(safe-area-inset-top) + 12px)
-      12px
-      78px;
+:host-context(html.dark-mode) {
+  .is-blue .procedure-list-icon {
+    background: rgba(var(--occre-primary-rgb), 0.25);
   }
 
-  .home-header {
-    grid-template-columns: 40px minmax(0, 1fr) auto;
-    gap: 6px;
+  .is-green .procedure-list-icon {
+    background: rgba(var(--occre-primary-rgb), 0.22);
+    color: var(--app-color-primary);
   }
 
-  .menu-button {
-    width: 40px;
-    height: 40px;
+  .is-orange .procedure-list-icon {
+    background: rgba(var(--occre-secondary-rgb), 0.35);
   }
 
-  .menu-button ion-icon {
-    font-size: 29px;
-  }
-
-  .notification-button {
-    width: 40px;
-    height: 40px;
-  }
-
-  .notification-button ion-icon {
-    font-size: 26px;
-  }
-
-  .profile-button {
-    width: 40px;
-    height: 40px;
-    font-size: 0.88rem;
-  }
-
-  .hero-card {
-    min-height: 370px;
-    border-radius: 20px;
-  }
-
-  .hero-copy {
-    max-width: 286px;
-    padding: 30px 20px 54px;
-  }
-
-  .hero-copy h2 {
-    font-size: 2.15rem;
-  }
-
-  .hero-description {
-    font-size: 0.9rem;
-  }
-
-  .search-section {
-    margin-top: -48px;
-    padding: 0 12px;
-    grid-template-columns: minmax(0, 1fr) 42px;
-  }
-
-  .search-box {
-    min-height: 56px;
-    padding: 0 12px;
-    border-radius: 16px;
-  }
-
-  .search-box input {
-    font-size: 0.78rem;
-  }
-
-  .filter-button {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    border-radius: 14px;
-  }
-
-  .filter-button ion-icon {
-    font-size: 25px;
-  }
-
-  .quick-search-panel {
-    right: 12px;
-    width: min(250px, calc(100vw - 24px));
-  }
-
-  .home-body {
-    margin-top: 22px;
-    padding: 0 12px 30px;
-    gap: 26px;
-  }
-
-  .section-header h2 {
-    font-size: 1.16rem;
-  }
-
-  .section-kicker {
-    font-size: 0.7rem;
-  }
-
-  .procedure-list-card {
-    min-height: 108px;
-    padding: 14px 40px 14px 12px;
-
-    grid-template-columns: 52px minmax(0, 1fr);
-    gap: 12px;
-
-    border-radius: 18px;
-  }
-
-  .procedure-list-card::before {
-    top: 12px;
-    bottom: 12px;
-  }
-
-  .procedure-list-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-  }
-
-  .procedure-list-icon ion-icon {
-    font-size: 27px;
-  }
-
-  .procedure-list-category {
-    font-size: 0.62rem;
-  }
-
-  .procedure-list-title {
-    font-size: 0.92rem;
-  }
-
-  .procedure-list-description {
-    font-size: 0.76rem;
-  }
-
-  .data-protection-card {
-    grid-template-columns: 56px minmax(0, 1fr);
-    padding: 15px;
-    border-radius: 20px;
-  }
-
-  .shield-icon {
-    width: 54px;
-    height: 54px;
-    border-radius: 18px;
-  }
-
-  .shield-icon ion-icon {
-    font-size: 30px;
+  .is-purple .procedure-list-icon {
+    background: rgba(var(--occre-primary-rgb), 0.25);
   }
 }
 
@@ -2194,7 +1967,7 @@ button {
 
     border-radius: 50%;
     background: transparent;
-    color: var(--occre-white);
+    color: var(--app-color-text-inverse);
   }
 
   .profile-options ion-icon {
@@ -2359,7 +2132,7 @@ button {
   .procedure-list-card:hover {
     transform: translateY(-3px);
     border-color: rgba(var(--occre-primary-rgb), 0.2);
-    box-shadow: 0 18px 38px rgba(7, 26, 47, 0.14);
+    box-shadow: 0 18px 38px rgba(var(--app-color-dark-rgb), 0.14);
   }
 
   .procedure-list-card:hover .procedure-list-icon {
@@ -2372,12 +2145,12 @@ button {
   }
 
   .filter-button:hover {
-    box-shadow: 0 14px 28px rgba(7, 26, 47, 0.14);
+    box-shadow: 0 14px 28px rgba(var(--app-color-dark-rgb), 0.14);
   }
 
   .data-protection-button:hover {
     background: var(--app-color-primary);
-    color: var(--occre-white);
+    color: var(--app-color-text-inverse);
   }
 }
 

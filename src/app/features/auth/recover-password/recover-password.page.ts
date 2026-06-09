@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 import { addIcons } from 'ionicons';
 import {
   arrowBackOutline,
   mailOutline,
   lockClosedOutline,
   checkmarkCircleOutline,
+  alertCircleOutline,
 } from 'ionicons/icons';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-recover-password',
@@ -18,13 +21,19 @@ export class RecoverPasswordPage {
   public email = '';
   public step: 'form' | 'sent' = 'form';
   public isSubmitting = false;
+  public errorMessage = '';
+  public successMessage = '';
 
-  constructor(private readonly navCtrl: NavController) {
+  constructor(
+    private readonly navCtrl: NavController,
+    private readonly authService: AuthService,
+  ) {
     addIcons({
       arrowBackOutline,
       mailOutline,
       lockClosedOutline,
       checkmarkCircleOutline,
+      alertCircleOutline,
     });
   }
 
@@ -37,8 +46,7 @@ export class RecoverPasswordPage {
   }
 
   public onEmailInput(event: Event): void {
-    const value =
-      (event as CustomEvent<{ value: string | null }>).detail?.value ?? '';
+    const value = (event as CustomEvent<{ value: string | null }>).detail?.value ?? '';
     this.email = value.trim();
   }
 
@@ -50,18 +58,20 @@ export class RecoverPasswordPage {
     if (!this.isEmailValid || this.isSubmitting) return;
 
     this.isSubmitting = true;
+    this.errorMessage = '';
 
-    await this.delay(1200);
-
-    this.isSubmitting = false;
-    this.step = 'sent';
+    try {
+      const res = await firstValueFrom(this.authService.forgotPassword(this.email));
+      this.step = 'sent';
+      this.successMessage = res.message;
+    } catch (error: any) {
+      this.errorMessage = error.error?.error || 'Error al enviar la solicitud. Intenta de nuevo.';
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 
   public goToLogin(): void {
     void this.navCtrl.navigateRoot('/login');
-  }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => window.setTimeout(resolve, ms));
   }
 }

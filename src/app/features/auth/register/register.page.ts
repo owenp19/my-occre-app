@@ -10,10 +10,12 @@ import {
   lockClosedOutline,
   eyeOutline,
   eyeOffOutline,
-  chevronBackOutline,
+  arrowBackOutline,
   chevronForwardOutline,
+  headsetOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../../../services/auth.service';
+import { LoadingService } from '../../../services/loading.service';
 
 interface RegisterForm {
   firstName: string;
@@ -63,6 +65,7 @@ export class RegisterPage {
   constructor(
     private readonly navCtrl: NavController,
     private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
   ) {
     addIcons({
       personOutline,
@@ -72,8 +75,9 @@ export class RegisterPage {
       lockClosedOutline,
       eyeOutline,
       eyeOffOutline,
-      chevronBackOutline,
+      arrowBackOutline,
       chevronForwardOutline,
+      headsetOutline,
     });
   }
 
@@ -141,6 +145,8 @@ export class RegisterPage {
     this.isSubmitting = true;
 
     try {
+      this.loadingService.show();
+
       const res = await firstValueFrom(
         this.authService.register({
           firstName: this.form.firstName,
@@ -161,6 +167,7 @@ export class RegisterPage {
       this.errorMessage = error.error?.error || 'Error al registrar usuario';
     } finally {
       this.isSubmitting = false;
+      this.loadingService.hide();
     }
   }
 

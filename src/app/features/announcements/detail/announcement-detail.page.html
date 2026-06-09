@@ -1,0 +1,48 @@
+<ion-header class="occre-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Comunicado</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="detail-content">
+  <ng-container *ngIf="!isLoading; else loadingTpl">
+    <ng-container *ngIf="!error && announcement; else errorTpl">
+      <div class="detail-card">
+        <div class="detail-type-badge" [class]="'type-' + announcement.type">
+          <ion-icon [name]="typeIcons[announcement.type] || 'information-circle-outline'"></ion-icon>
+          <span>{{ typeLabels[announcement.type] || announcement.type }}</span>
+        </div>
+
+        <h1 class="detail-title">{{ announcement.title }}</h1>
+
+        <div class="detail-date">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ formatDate(announcement.publishedAt) }}</span>
+        </div>
+
+        <div class="detail-body">
+          <p>{{ announcement.body }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #errorTpl>
+      <div class="state-message state-message--error">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>{{ error }}</p>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <div class="state-message">
+      <ion-spinner></ion-spinner>
+      <p>Cargando comunicado...</p>
+    </div>
+  </ng-template>
+</ion-content>

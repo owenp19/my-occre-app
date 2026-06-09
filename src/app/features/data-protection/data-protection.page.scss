@@ -45,7 +45,7 @@ ion-content.protection-page {
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
 
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -66,7 +66,7 @@ ion-content.protection-page {
   font-family: var(--app-font-title);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--occre-white);
+  color: var(--app-color-text-inverse);
   letter-spacing: 0.02em;
 }
 
@@ -134,7 +134,7 @@ ion-content.protection-page {
   gap: 16px;
   padding: 16px;
   background: var(--occre-white);
-  border: 1px solid rgba(7, 26, 47, 0.06);
+  border: 1px solid rgba(var(--app-color-dark-rgb), 0.06);
   border-radius: 16px;
 }
 

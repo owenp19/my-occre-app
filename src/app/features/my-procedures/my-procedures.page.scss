@@ -1,0 +1,307 @@
+.my-procedures-content {
+  --background: var(--app-surface);
+}
+
+.header-icon {
+  font-size: 24px;
+  color: var(--app-primary);
+  margin-right: 16px;
+}
+
+.procedures-page {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Summary row */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.summary-card {
+  background: var(--app-background);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--app-primary-border);
+  box-shadow: 0 2px 8px rgba(var(--app-dark-rgb), 0.04);
+
+  .summary-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--app-text);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .summary-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    ion-icon {
+      font-size: 14px;
+    }
+
+    span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--app-text-soft);
+    }
+  }
+
+  &.summary-review .summary-value { color: #e65100; }
+  &.summary-approved .summary-value { color: #2e7d32; }
+  &.summary-pending .summary-value { color: #1565c0; }
+  &.summary-observed .summary-value { color: #f57f17; }
+}
+
+/* Skeleton */
+.skeleton-list {
+  .skeleton-item {
+    background: var(--app-background);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid var(--app-primary-border);
+  }
+}
+
+/* Error */
+.error-box {
+  text-align: center;
+  padding: 32px 16px;
+
+  ion-icon {
+    font-size: 40px;
+    color: #d32f2f;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--app-text);
+    margin: 0 0 12px;
+  }
+}
+
+.retry-btn {
+  --color: var(--app-primary);
+  font-weight: 600;
+}
+
+/* Filter chips */
+.filter-row {
+  margin-bottom: 12px;
+}
+
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.filter-chip {
+  white-space: nowrap;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--app-background);
+  color: var(--app-text-soft);
+  border: 1px solid var(--app-primary-border);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+
+  &.active {
+    background: var(--app-primary);
+    color: var(--app-primary-contrast);
+    border-color: var(--app-primary);
+  }
+}
+
+/* Search */
+.search-section {
+  margin-bottom: 12px;
+
+  ion-searchbar {
+    --background: var(--app-background);
+    --border-radius: 12px;
+    --box-shadow: none;
+    --color: var(--app-text);
+    --placeholder-color: var(--app-text-soft);
+    --placeholder-opacity: 0.7;
+    padding: 0;
+    border: 1px solid var(--app-primary-border);
+    border-radius: 12px;
+  }
+}
+
+/* Procedure cards */
+.list-section {
+  margin-bottom: 24px;
+}
+
+.procedure-card {
+  background: var(--app-background);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--app-primary-border);
+  box-shadow: 0 2px 10px rgba(var(--app-dark-rgb), 0.04);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--app-primary-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 22px;
+      color: var(--app-primary);
+    }
+  }
+
+  .card-info {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--app-text);
+      margin: 0 0 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-record {
+      font-size: 12px;
+      color: var(--app-text-soft);
+      font-family: 'Courier New', monospace;
+    }
+  }
+
+  .card-arrow {
+    font-size: 18px;
+    color: var(--app-text-soft);
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+
+    ion-icon { font-size: 14px; }
+
+    &.status-submitted { background: #e3f2fd; color: #1565c0; }
+    &.status-review { background: #fff3e0; color: #e65100; }
+    &.status-observed { background: #fff8e1; color: #f57f17; }
+    &.status-approved { background: #e8f5e9; color: #2e7d32; }
+    &.status-rejected { background: #fbe9e7; color: #c62828; }
+    &.status-finished { background: #e8f5e9; color: #1b5e20; }
+    &.status-draft { background: #f3e5f5; color: #6a1b9a; }
+  }
+
+  .card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+
+    .meta-date,
+    .meta-update {
+      font-size: 11px;
+      color: var(--app-text-soft);
+    }
+  }
+
+  .card-footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--app-primary-border);
+
+    .next-step {
+      font-size: 12px;
+      color: var(--app-primary);
+      font-weight: 600;
+    }
+  }
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+
+  ion-icon {
+    font-size: 64px;
+    color: var(--app-text-soft);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--app-text);
+    margin: 0 0 8px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--app-text-soft);
+    margin: 0 0 24px;
+    line-height: 1.5;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.start-btn {
+  height: 48px;
+  --border-radius: 12px;
+  --background: var(--app-primary-gradient);
+  --box-shadow: 0 4px 12px rgba(var(--app-primary-rgb), 0.3);
+  text-transform: none;
+  font-size: 15px;
+  font-weight: 700;
+}

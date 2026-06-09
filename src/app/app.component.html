@@ -1,4 +1,8 @@
 <ion-app>
+  <div class="offline-banner" *ngIf="offline.isOfflineMode && !network.isOnline()">
+    <ion-icon name="cloud-offline-outline"></ion-icon>
+    <span>Modo offline — mostrando datos en caché</span>
+  </div>
   <ion-router-outlet></ion-router-outlet>
 
   <app-occre-chatbot *ngIf="showChatbot"></app-occre-chatbot>
@@ -6,7 +10,14 @@
   <div class="app-loader" *ngIf="isLoading">
     <div class="app-loader-backdrop"></div>
     <div class="app-loader-content">
-      <div class="app-loader-spinner"></div>
+      <img
+        class="app-loader-logo"
+        src="assets/images/logo-occre-blanco.png"
+        alt="OCCRE"
+      />
+      <div class="app-loader-track">
+        <div class="app-loader-bar"></div>
+      </div>
       <p class="app-loader-text">Cargando...</p>
     </div>
   </div>
